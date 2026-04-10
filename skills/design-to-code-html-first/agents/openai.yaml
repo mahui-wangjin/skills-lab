@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design To Code HTML First"
+  short_description: "Choose the strongest design artifact first and preserve structure before rewriting."
+  default_prompt: "Apply the design-to-code-html-first rules before implementing this design-to-code task."
