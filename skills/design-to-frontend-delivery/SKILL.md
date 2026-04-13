@@ -15,6 +15,16 @@ Route by [mode-routing.md](./references/mode-routing.md):
 - Auto enter `polish-existing-project` when an accepted existing frontend project is the main baseline and the task is to keep polishing interactions, validation, states, modals, animation, or acceptance quality.
 - If both existing project and new design/HTML are present but intent is unclear, stop and ask which path is primary before implementation.
 
+## Mandatory Reference Loading Rules
+
+Reference loading is required, not optional:
+
+- When there are multiple fact sources, source conflicts, or visual-only inputs, you must read [source-priority.md](./references/source-priority.md) before implementation decisions.
+- After mode is locked, you must read exactly one mode reference before implementation details:
+  - `convert-and-polish` -> [convert-and-polish.md](./references/convert-and-polish.md)
+  - `polish-existing-project` -> [polish-existing-project.md](./references/polish-existing-project.md)
+- For all gate checks and final closeout output, you must read [delivery-checklists.md](./references/delivery-checklists.md) and follow its required artifacts.
+
 ## Three Gates
 
 Canonical gate checks and closeout outputs are defined in [delivery-checklists.md](./references/delivery-checklists.md).
@@ -58,10 +68,10 @@ Can decide without asking:
 In `polish-existing-project`, run scope-gap detection after current-state audit:
 
 - If named scope is not enough for a demo-ready result, report:
-- named scope
-- uncovered layers
-- expected completion level if only named scope is done
-- recommended minimum-closure expansion set
+  - named scope
+  - uncovered layers
+  - expected completion level if only named scope is done
+  - recommended minimum-closure expansion set
 - Recommend minimum closure by default, not full polish by default.
 - Do not expand scope without user confirmation.
 
