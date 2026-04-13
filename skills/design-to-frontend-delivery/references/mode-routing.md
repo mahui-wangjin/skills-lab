@@ -1,5 +1,47 @@
 # Mode Routing
 
-Placeholder for routing between convert-and-polish and polish-existing-project.
-Detailed branch conditions and clarification prompts will be added in later tasks.
-This placeholder keeps the reference map complete for Task 1.
+## 1. 先判任务主语
+
+按输入主语分流，而不是按“工作量大小”分流：
+
+- 设计产物主语（新设计稿、导出 HTML、设计工具代码）  
+  -> `convert-and-polish`
+- 现有工程主语（已有代码基线，目标是继续补齐完成度）  
+  -> `polish-existing-project`
+
+## 2. 自动分流条件
+
+自动进入 `convert-and-polish`：
+
+- 已提供设计稿/截图 + 导出 HTML，且目标是落成目标前端。
+- 已提供设计工具生成代码，目标是迁移到指定前端栈。
+
+自动进入 `polish-existing-project`：
+
+- 用户明确“在当前工程继续补交互/补状态/补校验/补弹框/补动画/补验收”。
+- 当前工程已有可用结构，任务目标是精修而不是重建主结构。
+
+## 3. 必须停下来确认的路由冲突
+
+同时存在“现有工程”与“新设计/HTML”且意图不清时，必须暂停并仅提一个路由问题：
+
+> 当前同时有现有工程和新设计/HTML。请确认这次以哪种目标为主：  
+> A. 以新设计/HTML 为主重建页面内容区（convert-and-polish）  
+> B. 以现有工程为主做精修补齐（polish-existing-project）
+
+用户未选择前，不进入实现。
+
+## 4. 目标端未明确时的默认建议
+
+先问目标端，默认推荐 React，但不强制：
+
+> 你希望本轮交付到哪种前端目标（React / Vue / 静态 HTML-H5 / 小程序 / 其他）？  
+> 如果你没有强约束，默认建议 React。
+
+默认推荐 React 的原因：
+
+- 组件化与状态管理路径成熟，适合“结构复刻后精修”的连续流程。
+- 对交互、校验、状态和演示级页面整合成本更低。
+- 在未指定约束时，最容易形成稳定、单目标可验收交付。
+
+若仓库已有明确技术栈，则优先沿用该栈，不再重复推荐。
