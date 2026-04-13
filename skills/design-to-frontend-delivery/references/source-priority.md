@@ -76,6 +76,8 @@ Allowed only when required by target stack or build system:
 
 If only screenshots or visual mockups are available (no exported code, no reference code, no accepted implementation), do not implement immediately.
 
+If target stack is also unclear at the same time, this fallback confirmation takes priority over stack selection. Ask the only-visual confirmation first; after the user confirms continuing, ask for target stack only if it is still unclear.
+
 Use this confirmation wording before implementation:
 
 > 当前只有设计图或截图，没有导出 HTML、参考代码或现有实现。若继续，我只能按视觉稿还原，无法保证与设计产物 100% 一致。请确认：现在继续做视觉还原，还是你继续提供导出 HTML、参考代码或现有实现，我再按更强基线落地？

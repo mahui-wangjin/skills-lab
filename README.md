@@ -52,6 +52,12 @@ skills-lab/
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/design-to-frontend-delivery"
 ```
 
+### Manual Smoke Checks
+
+- `设计稿 + 导出 HTML -> React`：应进入 `convert-and-polish`。
+- `已有 React 工程，只说补交互但实际缺校验`：应进入 `polish-existing-project`，并触发范围缺口检测，给出最小闭环扩围建议（如补校验与反馈态）。
+- `只有截图，没有 HTML`：应先做仅视觉降级确认，确认后再问目标端，默认推荐 React。
+
 ## Publish This Repository
 
 ```bash
