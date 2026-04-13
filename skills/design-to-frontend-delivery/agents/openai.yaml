@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design to Frontend Delivery"
+  short_description: "Single-target frontend delivery with explicit source-of-truth and shell-boundary discipline."
+  default_prompt: "Use $design-to-frontend-delivery to turn design artifacts into a frontend deliverable or to polish an existing frontend project."

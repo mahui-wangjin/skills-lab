@@ -1,6 +1,6 @@
 # skills-lab
 
-个人 skills 仓库，当前用于沉淀“设计转代码”类规则型 skill。
+个人 skills 仓库，当前定位为“前端设计落地与精修” skill 仓库。
 
 ## Installation & Discovery
 
@@ -13,50 +13,50 @@ npx skills add mahui-wangjin/skills-lab --list
 安装指定 skill：
 
 ```bash
-npx skills add mahui-wangjin/skills-lab --skill design-to-code-html-first
+npx skills add mahui-wangjin/skills-lab --skill design-to-frontend-delivery
 ```
 
 全局安装并跳过确认：
 
 ```bash
-npx skills add mahui-wangjin/skills-lab --skill design-to-code-html-first -g -y
+npx skills add mahui-wangjin/skills-lab --skill design-to-frontend-delivery -g -y
 ```
 
 安装完成后重启 Codex，让新 skill 生效。
 
 ## Available Skills
 
-### `design-to-code-html-first`
+### `design-to-frontend-delivery`
 
-设计转代码时，优先复用最强实现基线，而不是直接按视觉稿重写。
+覆盖从设计输入解析、基线选择、工程转换到还原验收与精修交付的完整前端设计落地流程。
 
-- 第一优先级是导出 HTML、导出代码、设计工具生成代码
-- 第二优先级是用户提供的参考代码和现有实现
-- 视觉稿、截图、mockup 仅作为校验和兜底
-- 如果只有视觉稿，必须先明确降级说明，并询问用户是继续视觉还原，还是继续提供导出 HTML、参考代码或现有实现
-
-适用场景：
-
-- Stitch、Figma、Framer、Webflow 等设计产物转 React、Vue、静态 HTML、小程序
-- 设计图、导出 HTML、现有工程三者并存且可能互相冲突
-- 用户强调“最大化保证设计和实现一致性”
+`design-to-code-html-first` 已并入 `design-to-frontend-delivery` 的 reference 层，不再作为独立 skill 维护。
+旧名已不再可安装，请改用 `design-to-frontend-delivery`。
 
 ## Repository Layout
 
 ```text
 skills-lab/
   skills/
-    design-to-code-html-first/
+    design-to-frontend-delivery/
       SKILL.md
       agents/openai.yaml
-      references/source-priority.md
+      references/
 ```
 
 ## Local Validation
 
+在仓库根目录执行（将 `<your-codex-home>` 替换为你本机实际路径）：
+
 ```bash
-python "C:\Users\97227\.codex\skills\.system\skill-creator\scripts\quick_validate.py" "E:\develop\code\my-project\skills-lab\skills\design-to-code-html-first"
+python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/design-to-frontend-delivery"
 ```
+
+### Manual Smoke Checks
+
+- `设计稿 + 导出 HTML -> React`：应进入 `convert-and-polish`。
+- `已有 React 工程，只说补交互但实际缺校验`：应进入 `polish-existing-project`，并触发范围缺口检测，给出最小闭环扩围建议（如补校验与反馈态）。
+- `只有截图，没有 HTML`：应先做仅视觉降级确认，确认后再问目标端，默认推荐 React。
 
 ## Publish This Repository
 
@@ -64,6 +64,6 @@ python "C:\Users\97227\.codex\skills\.system\skill-creator\scripts\quick_validat
 git remote add origin git@github.com:mahui-wangjin/skills-lab.git
 git branch -M main
 git add .
-git commit -m "feat: add design-to-code-html-first skill"
+git commit -m "feat: update design-to-frontend-delivery skill docs"
 git push -u origin main
 ```
