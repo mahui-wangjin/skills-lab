@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design to Frontend Delivery"
+  short_description: "Deliver design to frontend and polish existing projects."
+  default_prompt: "Use $design-to-frontend-delivery to turn design artifacts into a frontend deliverable or to polish an existing frontend project."
