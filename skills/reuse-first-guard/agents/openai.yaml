@@ -1,0 +1,4 @@
+interface:
+  display_name: "Reuse First Guard"
+  short_description: "Gate major build decisions before exploration or implementation."
+  default_prompt: "Use $reuse-first-guard to emit a reuse-first decision before exploring, planning, or building when a task introduces a new technical decision."
