@@ -1,4 +1,4 @@
 interface:
   display_name: "Reuse First Guard"
-  short_description: "Gate major build decisions before exploration or implementation."
-  default_prompt: "Use $reuse-first-guard to emit a reuse-first decision before exploring, planning, or building when a task introduces a new technical decision."
+  short_description: "Gate major build decisions before exploration or implementation, including UI behavior vs custom state decisions."
+  default_prompt: "Use $reuse-first-guard to emit a reuse-first decision before exploring, planning, or building when a task introduces a new technical decision, especially for commodity capabilities such as forms, upload, and interaction behavior where UI can stay custom but behavior should prefer native, official, headless, or mature library paths."

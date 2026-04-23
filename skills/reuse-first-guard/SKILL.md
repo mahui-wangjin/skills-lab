@@ -39,6 +39,7 @@ Treat these as default hot spots:
 - storage and file handling
 - messaging and notifications
 - forms and validation
+- file upload and file handling
 - CMS and content workflows
 - analytics, logging, and monitoring
 - workflow and orchestration tooling
@@ -54,6 +55,27 @@ Check options in this order:
 3. Mature open-source library, template, or starter
 4. Code generation or AI-assisted generation
 5. Custom build
+
+For UI-heavy commodity capabilities, separate visual layer from behavior layer:
+
+- Keep custom UI when it is mainly presentation.
+- Prefer native browser capability or headless / unstyled primitives for behavior, accessibility, focus management, validation, and state transitions.
+- Do not jump from "we want custom visuals" to "we should also custom-build the state machine".
+
+For forms, pickers, dialogs, uploads, and similar interaction controls, apply this sub-order:
+
+1. Native browser capability
+2. Existing framework primitive or official capability
+3. Mature headless / unstyled library
+4. Mature domain library for the capability
+5. Thin adapter around the chosen path
+6. Custom build
+
+Special rule for upload and file handling:
+
+- If there is no confirmed backend upload contract yet, stop at native file selection plus the thinnest possible local state shell.
+- Do not continue expanding a demo shell into a custom upload queue, dedupe engine, retry flow, progress system, or validation matrix by default.
+- If real upload behavior is required, prefer a mature upload library or proven platform integration before extending local custom logic.
 
 If a lower-cost or lower-maintenance reuse path is clearly viable, do not default to custom build.
 

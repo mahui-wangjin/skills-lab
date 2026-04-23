@@ -24,6 +24,23 @@ Check options in this order and stop when one path is clearly strong enough:
 
 Use the strongest viable path as the baseline recommendation.
 
+## Visual Layer vs Behavior Layer
+
+When the user wants custom UI, do not assume the behavior must also be custom-built.
+
+Use this split by default:
+
+- Visual layer: layout, styling, tokens, motion, branding, copy presentation
+- Behavior layer: accessibility semantics, focus management, keyboard behavior, validation state, file selection, queue state, retries, async lifecycle
+
+Decision rule:
+
+1. Keep custom UI if needed for product fit.
+2. Reuse native browser capability or headless primitives for behavior first.
+3. Only allow custom behavior when reuse options clearly fail a real constraint.
+
+If the task is drifting from custom visuals into custom commodity state management, stop and re-run the reuse-first decision.
+
 ## Decision Questions
 
 Use the smallest useful question set:
@@ -87,6 +104,13 @@ Do not turn this into a full procurement memo unless the user explicitly asks.
 - Default bias: mature validation library or form framework
 - Custom build bias: low
 - Typical reasons against custom build: repeated edge cases, UX drift, inconsistent validation behavior
+
+### File Upload and File Handling
+
+- Default bias: native file input for selection, then proven upload library or platform integration for real upload workflows
+- Custom build bias: very low once requirements include dedupe, queueing, retries, progress, validation, or async upload lifecycle
+- Typical reasons against custom build: duplicate state bugs, edge-case explosion, accessibility drift, retry/error complexity, backend coupling
+- Special note: if backend upload is not defined yet, stop at the thinnest local shell and do not grow a demo chooser into a custom uploader
 
 ### Workflow or Orchestration
 
