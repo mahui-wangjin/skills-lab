@@ -4,25 +4,47 @@
 
 Use this checklist before recommending custom build:
 
-1. Does the framework or hosting platform already solve most of the need?
-2. Is there a managed service that removes operational burden?
-3. Is there a mature open-source option with acceptable maintenance cost?
-4. Can code generation cover the non-differentiated glue work?
-5. Does custom build create long-term ownership that the team actually wants?
+1. Does the current codebase already contain a module, page, component, adapter, helper, test, fixture, template, starter, or demo with the same technical shape?
+2. Does the framework or hosting platform already solve most of the need?
+3. Is there a managed service that removes operational burden?
+4. Is there a mature open-source option with acceptable maintenance cost?
+5. Can code generation cover the non-differentiated glue work?
+6. Does custom build create long-term ownership that the team actually wants?
 
-If the answer to any of the first four questions is a clear "yes", custom build needs justification.
+If the answer to any of the first five questions is a clear "yes", custom build needs justification.
 
 ## Reuse Path Order
 
 Check options in this order and stop when one path is clearly strong enough:
 
-1. Official capability
-2. Managed service / SaaS
-3. Mature open-source library or starter
-4. Generate the thin layer
-5. Build from scratch
+1. Current codebase implementation, example, template, fixture, or test pattern
+2. Official capability from the already chosen framework or platform
+3. Managed service / SaaS
+4. Mature open-source library or starter
+5. Generate the thin layer
+6. Build from scratch
 
 Use the strongest viable path as the baseline recommendation.
+
+## Project-Local Reuse
+
+Treat the current repository as the first reuse surface. Before recommending a new abstraction, dependency, or from-scratch implementation, check whether the surrounding code already has the same technical shape.
+
+Look for:
+
+- same responsibility shape: modules, services, controllers, DTOs, adapters, guards, middleware, jobs, workers, and tests
+- same UX shape: pages, routes, forms, tables, filters, drawers, modals, tabs, state views, and browser-test flows
+- same governance shape: permissions, audit, error handling, validation, idempotency, observability, naming, and file layout
+- vendored framework examples, playgrounds, generated starters, internal templates, fixtures, seeds, and mocks
+
+Prefer this order when a local pattern exists:
+
+1. Reuse the existing API/component directly.
+2. Copy and adapt the nearest proven local example.
+3. Add a thin extension point to the existing pattern.
+4. Write only the missing delta.
+
+Do not treat a new business object as proof that the technical implementation must be new.
 
 ## Visual Layer vs Behavior Layer
 
@@ -46,6 +68,7 @@ If the task is drifting from custom visuals into custom commodity state manageme
 Use the smallest useful question set:
 
 - What new thing is being introduced: dependency, service, infrastructure, module, or major refactor?
+- What existing local implementation has the closest technical shape?
 - Is this area a commodity capability or a business differentiator?
 - What is the real constraint: delivery speed, cost, compliance, security, performance, lock-in, or control?
 - Does the team already operate a proven tool in this area?
@@ -55,6 +78,8 @@ Use the smallest useful question set:
 
 Recommend or conditionally allow custom build only when at least one of these is true:
 
+- The user explicitly asked for a fresh implementation or no reuse.
+- A documented project-local reuse check found no suitable existing pattern.
 - The capability is a core business differentiator.
 - Compliance, privacy, or data residency rules rule out standard hosted options.
 - Security requirements exceed what reasonable reuse options can provide.
@@ -101,7 +126,7 @@ Do not turn this into a full procurement memo unless the user explicitly asks.
 
 ### Forms and Validation
 
-- Default bias: mature validation library or form framework
+- Default bias: current local form/schema/test pattern, then mature validation library or form framework
 - Custom build bias: low
 - Typical reasons against custom build: repeated edge cases, UX drift, inconsistent validation behavior
 
@@ -114,7 +139,7 @@ Do not turn this into a full procurement memo unless the user explicitly asks.
 
 ### Workflow or Orchestration
 
-- Default bias: existing workflow engine or platform feature
+- Default bias: existing local workflow pattern, then workflow engine or platform feature
 - Custom build bias: conditional
 - Typical reasons to allow custom build: business-specific orchestration logic is the product core
 
@@ -123,6 +148,7 @@ Do not turn this into a full procurement memo unless the user explicitly asks.
 Use direct language:
 
 - "This looks like a commodity capability, so custom build is not the default."
+- "This repo already has a nearby pattern; copy and adapt that before creating a parallel implementation."
 - "A managed option removes most of the maintenance burden here."
 - "Custom build is only justified if you need control for compliance, security, performance, or core differentiation."
 - "I recommend a short POC before committing to custom build."

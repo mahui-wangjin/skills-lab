@@ -1,6 +1,6 @@
 ---
 name: reuse-first-guard
-description: Enforce a reuse-first decision gate before building from scratch. Use when a task introduces a new dependency, third-party service, infrastructure capability, custom module, major refactor, or a likely wheel-rebuild area such as auth, payments, search, storage, messaging, forms, CMS, analytics, monitoring, or workflow tooling. When this skill is active, emit the fixed `### Reuse-First Check` and `### Decision` template before repository exploration, memory reads, planning, or implementation.
+description: Enforce a reuse-first decision gate before building from scratch. Use when a task introduces a new dependency, third-party service, infrastructure capability, custom module, major refactor, new page/component/service, or a likely wheel-rebuild area such as auth, payments, search, storage, messaging, forms, CMS, analytics, monitoring, or workflow tooling. When this skill is active, emit the fixed `### Reuse-First Check` and `### Decision` template before repository exploration, memory reads, planning, or implementation.
 ---
 
 # Reuse First Guard
@@ -28,6 +28,7 @@ Use this skill before implementation when the task:
 - adds a third-party service
 - adds infrastructure or platform capability
 - creates a new custom module
+- creates a new page, component, service, controller, API client, workflow, or test pattern that may already exist in the current codebase
 - proposes a major refactor
 - looks like rebuilding a common capability
 
@@ -50,11 +51,34 @@ If the task does not change technical direction or ownership, skip this skill.
 
 Check options in this order:
 
-1. Official capability
-2. Managed service or SaaS
-3. Mature open-source library, template, or starter
-4. Code generation or AI-assisted generation
-5. Custom build
+1. Current codebase capability, module, page, component, adapter, helper, test, fixture, template, starter, or demo that can be copied and adapted
+2. Official capability from the already chosen framework, platform, SDK, or product
+3. Managed service or SaaS
+4. Mature open-source library, template, or starter
+5. Code generation or AI-assisted generation
+6. Custom build
+
+The current codebase is the first reuse surface. Treat "copy and adapt the nearest proven local example" as the default engineering move, especially inside established product shells, admin frameworks, API modules, permissions, audit, testing, routing, forms, tables, workflows, and adapters.
+
+Because this skill must emit the gate before repository exploration, the first template may mark project-local reuse as `pending`. After the gate and before planning or implementation, inspect the current project for reusable local patterns unless the user explicitly asked for a fresh implementation.
+
+Project-local reuse check must look for:
+
+- existing modules, services, controllers, DTOs, stores, adapters, middleware, guards, jobs, workers, and tests with the same responsibility shape
+- existing pages, routes, menus, forms, tables, drawers, modals, tabs, filters, empty/error/loading states, and browser-test patterns with the same UX shape
+- framework examples, playgrounds, generated starters, internal docs, fixtures, seeds, mocks, and product templates already vendored or maintained in the repo
+- naming, file layout, permissions, audit, error handling, validation, idempotency, observability, and test conventions already used by the surrounding code
+
+Do not skip local reuse just because the requested business object is new. New business semantics usually still reuse an existing technical shape.
+
+If a matching local pattern exists, prefer:
+
+1. direct reuse through existing API or component
+2. copy-and-adapt of the nearest local example
+3. thin extension point around the existing pattern
+4. new implementation only for the genuinely missing delta
+
+Do not create a parallel abstraction when a local pattern can be extended without weakening boundaries.
 
 For UI-heavy commodity capabilities, separate visual layer from behavior layer:
 
@@ -64,12 +88,13 @@ For UI-heavy commodity capabilities, separate visual layer from behavior layer:
 
 For forms, pickers, dialogs, uploads, and similar interaction controls, apply this sub-order:
 
-1. Native browser capability
-2. Existing framework primitive or official capability
-3. Mature headless / unstyled library
-4. Mature domain library for the capability
-5. Thin adapter around the chosen path
-6. Custom build
+1. Existing local form/picker/dialog/upload implementation or framework example already used in this codebase
+2. Native browser capability
+3. Existing framework primitive or official capability
+4. Mature headless / unstyled library
+5. Mature domain library for the capability
+6. Thin adapter around the chosen path
+7. Custom build
 
 Special rule for upload and file handling:
 
@@ -81,6 +106,8 @@ If a lower-cost or lower-maintenance reuse path is clearly viable, do not defaul
 
 Allow direct custom build only when at least one of these is clearly true:
 
+- the user explicitly asked for a fresh implementation or no reuse
+- no suitable current-codebase pattern exists after a documented local reuse check
 - core business differentiation
 - compliance or data sovereignty
 - security requirement
@@ -100,7 +127,7 @@ Use this exact structure every time:
 ### Reuse-First Check
 
 - Trigger: <why this gate applies>
-- Reuse paths checked: <official / SaaS / open source / generate>
+- Reuse paths checked: <project-local / official / SaaS / open source / generate>
 - Recommendation: <recommended path>
 - Why not custom build by default: <1-3 concise reasons>
 
@@ -127,5 +154,7 @@ Only after emitting the template may you:
 - inspect the repository
 - read docs or memory
 - move into planning or implementation
+
+Before planning or implementation, run the project-local reuse check unless the user explicitly requested a fresh implementation. Report the nearest local example or state that no suitable local pattern was found. If project-local reuse was `pending` in the initial template, update the decision after inspection before writing code.
 
 If the user only wants the gate decision, stop after the template.
