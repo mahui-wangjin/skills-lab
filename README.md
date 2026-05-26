@@ -107,6 +107,7 @@ python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py
 - `我要新增一个后台列表页`：应先找当前工程已有列表页、路由、查询表单、表格、弹窗和测试模式，优先复制适配最近的本地示例，而不是从空白页面新写。
 - `帮我做一个生产级的后台权限模块` 或 `用 production-delivery-manager 交付这个功能`：应进入 `production-delivery-manager`，先锁定验收标准，再查项目已有权限模式和官方文档，拆分实现与审查任务，最后必须给出验证证据、钢人反论和剩余风险。
 - `用 production-delivery-manager 让多个 agent 并行改后端和后台前端`：应先检查 `git status --short`，说明使用当前工作区、分支或 git worktree 的理由；并行写代码时应分配不重叠范围，必要时使用独立 worktree，交付时报告清理状态。
+- `主分支上有人正在手工改文档，我还要你继续改另一个文档`：不应因为存在本地改动就硬性停止；应判断改动是否重叠、是否可逆、最终验收是否就在当前工作区，只有重叠或意图不明时才询问、隔离或暂缓。
 
 ## Publish This Repository
 

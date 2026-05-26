@@ -92,8 +92,11 @@ If a domain-specific skill is available, use it at the relevant gate:
 Before planning edits, decide whether the current workspace is safe to use:
 
 - run `git status --short` when inside a Git repository
+- treat local uncommitted or untracked changes as context, not an automatic blocker
 - identify unrelated user changes and avoid touching those files
+- continue in the current workspace when user changes are unrelated, non-overlapping, and the task's final validation target is that workspace
 - use a dedicated branch or git worktree for large changes, risky refactors, multi-agent implementation, long-running work, or when preserving the user's current workspace matters
+- pause, ask, or isolate only when local changes overlap the intended edit scope, make user intent unclear, or raise irreversible risk
 - do not create a separate worktree for tiny docs-only or one-file reversible edits unless the user asks
 - when using parallel agents, assign non-overlapping file/module scopes; use separate worktrees for parallel code-writing agents when overlap risk is real
 

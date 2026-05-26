@@ -66,21 +66,30 @@ Required checks:
 
 - If inside a Git repository, run `git status --short`.
 - Identify tracked and untracked changes that are unrelated to the task.
+- Treat local changes as decision context, not as an automatic stop condition.
 - Do not overwrite, revert, delete, or reformat unrelated user changes.
 - Decide whether the current workspace, a new branch, or a separate git worktree is the right execution surface.
 
 Use the current workspace when:
 
 - the task is small, reversible, and low-risk
-- there are no conflicting tracked changes
-- any unrelated untracked files can be ignored safely
+- tracked changes are unrelated or clearly non-overlapping
+- untracked files can be ignored safely
+- the user's expected validation or merge target is the current workspace
+- the work can be reviewed with a clear diff that separates user changes from agent changes
 
 Use a dedicated branch or git worktree when:
 
 - the task is large, risky, long-running, or likely to span multiple verification cycles
 - the user needs their current workspace preserved
 - multiple agents will write code in parallel
-- existing local changes overlap the likely edit scope
+- existing local changes overlap the likely edit scope, or user intent for those files is unclear
+
+Ask before proceeding when:
+
+- the task requires editing a file that already has user changes and the intended final content is ambiguous
+- merging agent changes with user changes could drop content, reorder large sections, or hide authorship
+- validation would be misleading because it would test a mixed state whose ownership is unclear
 
 Cleanup requirements:
 

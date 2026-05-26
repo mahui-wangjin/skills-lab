@@ -8,20 +8,23 @@
 
 - 在正式计划和实现前显式判断当前工作区是否可用。
 - 要求在 Git 仓库中先检查 `git status --short`。
+- 明确本地未提交或未跟踪改动只是判断上下文，不是自动阻断条件。
 - 对大改动、高风险重构、长周期任务、多 agent 并行写代码或用户需要保留当前工作区的情况，优先使用独立分支或 git worktree。
 - 对小型、可逆、低风险文档或单文件变更，允许说明理由后继续使用当前工作区，避免制造额外清理成本。
+- 对主分支上同时存在人工文档改动的场景，只要改动范围不重叠、最终验收目标仍是当前工作区，可以继续在当前工作区做可审查的增量变更。
 - 交付时报告工作区决策、清理状态和剩余未跟踪文件。
 
 ## 非目标
 
 - 不强制所有任务都创建 worktree。
+- 不把“存在本地改动”解释为必须停止、必须 worktree 或必须要求用户先提交。
 - 不替代具体项目自己的分支、提交、发布或验收规则。
 - 不允许因为使用 worktree 而跳过最终目标工作区或真实验收环境确认。
 
 ## 规则变更
 
 - `SKILL.md` 的交付循环新增 `Workspace isolation`。
-- `Gate Rules` 新增 `Workspace Isolation`，要求检查 git 状态、识别无关用户改动、选择当前工作区/分支/worktree。
+- `Gate Rules` 新增 `Workspace Isolation`，要求检查 git 状态、识别无关用户改动、选择当前工作区/分支/worktree，并明确本地改动不是自动阻断条件。
 - `Delivery Plan` 必须包含 workspace decision。
 - `Implementation` 必须关注临时文件、测试产物和本地输出清理。
 - `Handoff` 必须包含 workspace and cleanup status。
