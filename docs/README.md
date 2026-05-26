@@ -10,6 +10,7 @@
 - 实施计划文档目录：`./superpowers/plans/`
 - 当前新增实施计划：`./superpowers/plans/2026-04-17-reuse-first-guard.md`
 - 新增 skill：`../skills/reuse-first-guard/`
+- 新增 skill：`../skills/production-delivery-manager/`
 
 ## 维护约定
 

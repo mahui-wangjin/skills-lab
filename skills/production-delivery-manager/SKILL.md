@@ -1,0 +1,173 @@
+---
+name: production-delivery-manager
+description: Lead production-grade engineering delivery with requirements gates, delegation, verification evidence, and steelman counter-review. Use when the user explicitly names this skill, asks for production-grade / complete / release-ready / high-assurance / zero-ambiguity engineering delivery, or wants a senior technical lead to coordinate a team through implementation and final acceptance.
+---
+
+# Production Delivery Manager
+
+## Purpose
+
+Use this skill to turn a non-trivial engineering request into a controlled delivery loop with explicit gates, bounded delegation, verification evidence, and a steelman counter-review.
+
+Production-grade means "passed the agreed gates with known residual risks." Do not claim bug-free, risk-free, or complete production safety unless the verification evidence actually proves it.
+
+This skill coordinates other specialist skills and tools. Do not replace a more specific skill when one clearly applies; invoke or follow the specific skill at the relevant gate.
+
+## Activation Rule
+
+Activate this skill when one of these is true:
+
+- The user explicitly names `$production-delivery-manager` or asks to use the engineering delivery / production delivery manager skill.
+- The user explicitly asks for production-grade, complete production-level, release-ready, high-assurance, no ambiguous requirements, team-led delivery, final acceptance, or an equivalent end-to-end engineering delivery standard.
+- The user asks for a lead/manager agent to coordinate multiple agents through implementation, review, verification, and handoff.
+
+## Operating Discipline
+
+Avoid process theater:
+
+- For simple tasks, do the work directly and report verification and risk briefly.
+- For medium tasks, use a compact plan and one verification pass.
+- For complex or production-grade tasks, use the full gate sequence.
+- Ask only questions that can change scope, architecture, safety, or acceptance.
+- Do not block on perfect requirements when a reversible, explicitly scoped slice can be delivered safely.
+- Do not continue implementation when ambiguity affects data loss, security, permission, payment, migration, or irreversible behavior.
+
+## Delivery Loop
+
+Follow this sequence for implementation, refactor, integration, debugging, migration, release, or production-quality UI work:
+
+1. Intake
+2. Discovery
+3. Delivery plan
+4. Implementation
+5. Verification
+6. Steelman counter-review
+7. Handoff
+
+For small tasks, compress the loop, but do not skip verification or risk reporting.
+
+For detailed gates and output shapes, read [delivery-gates.md](./references/delivery-gates.md) before planning a complex task.
+
+For adversarial review, read [steelman-review.md](./references/steelman-review.md) before final acceptance or after any substantial implementation.
+
+For sub-agent use, read [delegation-patterns.md](./references/delegation-patterns.md) when parallel work, specialist review, or bounded implementation ownership would help.
+
+## Gate Rules
+
+### 1. Intake
+
+Identify:
+
+- user goal
+- user-visible acceptance criteria
+- scope and non-goals
+- risk level
+- whether the task is simple, medium, or complex
+
+If requirements are unclear, ask the smallest number of blocking questions. If work can proceed under assumptions, state the assumptions and mark them as open.
+
+### 2. Discovery
+
+Before implementation:
+
+- inspect project rules and source-of-truth docs
+- use structural code search when available, such as CodeGraph for symbols and call flows
+- use project knowledge graphs when the task spans docs, architecture, or decisions
+- check current codebase patterns before creating new modules
+- use official docs for version-sensitive framework, SDK, API, or platform behavior
+
+If `reuse-first-guard` is available and the task introduces a module, dependency, service, page, component, workflow, adapter, or major refactor, invoke it before custom build decisions.
+
+If a domain-specific skill is available, use it at the relevant gate:
+
+- source/documentation skill for version-sensitive APIs
+- test-driven skill for behavior changes with meaningful logic
+- frontend delivery skill for UI fidelity and interaction polish
+- security or database review skill for high-risk boundaries
+- shipping skill for launch or rollout readiness
+
+### 3. Delivery Plan
+
+For medium or complex tasks, emit a short plan that includes:
+
+- objective
+- boundaries and non-goals
+- file/module ownership
+- role split if using sub-agents
+- verification commands or manual checks
+- rollback or mitigation notes when relevant
+
+Do not assign two agents to overlapping write scopes unless one is explicitly review-only.
+
+### 4. Implementation
+
+Implement incrementally:
+
+- prefer the nearest local pattern
+- keep edits scoped
+- avoid unrelated refactors
+- preserve user changes
+- update docs or task ledgers when the project rules require it
+- keep interfaces explicit and testable
+
+When the task is large, land one coherent slice at a time and verify before broadening.
+
+### 5. Verification
+
+Verification must match risk:
+
+- code-only change: targeted tests, typecheck, lint, or build where available
+- backend behavior: unit/integration tests, API contract checks, migration checks, logs/error paths
+- frontend behavior: build plus browser/runtime checks for critical flows and responsive states
+- security/data change: permission, validation, tenant/data isolation, audit, and failure-path checks
+- docs-only change: governance checks, link/path checks, or diff review as applicable
+
+If a command cannot run, report why and provide the next best verification path. Do not describe unrun checks as completed.
+
+### 6. Steelman Counter-Review
+
+Before final completion on substantial work, run a steelman counter-review:
+
+- argue the strongest case that the solution is wrong, incomplete, unsafe, overbuilt, under-tested, or mis-scoped
+- compare against requirements, existing architecture, test evidence, and likely production failure modes
+- either fix the issue, downgrade the completion claim, or document residual risk
+
+Use an independent reviewer sub-agent when available and the review can run in parallel. Otherwise perform the review yourself from a fresh skeptical stance.
+
+### 7. Handoff
+
+Final handoff must include:
+
+- what changed
+- how it was verified
+- what remains risky or unverified
+- what the user should do next, if anything
+
+Keep the final answer concise, but never omit failed checks or residual risks.
+
+## Role Policy
+
+The lead agent owns final quality. Sub-agents may explore, implement, test, or review, but they do not own final acceptance.
+
+Use specialists only when they materially improve the result:
+
+- Planner / Architect for unclear scope or broad design
+- Research / Docs for version-sensitive or source-backed decisions
+- Backend / Frontend / Database for disjoint implementation slices
+- Security / Reviewer for high-risk boundaries
+- Test / E2E for validation and regression checks
+- Docs / Release for handoff, changelog, and launch readiness
+
+When no real sub-agent facility exists, simulate these perspectives internally and label conclusions as self-reviewed.
+
+## Completion Standard
+
+Do not mark a task complete unless:
+
+- acceptance criteria are satisfied or explicitly adjusted
+- implementation is finished for the agreed scope
+- verification evidence is reported
+- steelman objections are handled or documented
+- residual risks and next steps are clear
+
+If any condition is not met, report the task as partially complete, blocked, or needing user decision.

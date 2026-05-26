@@ -22,6 +22,12 @@ npx skills add mahui-wangjin/skills-lab --skill design-to-frontend-delivery
 npx skills add mahui-wangjin/skills-lab --skill reuse-first-guard
 ```
 
+安装 `production-delivery-manager`：
+
+```bash
+npx skills add mahui-wangjin/skills-lab --skill production-delivery-manager
+```
+
 全局安装并跳过确认：
 
 ```bash
@@ -30,6 +36,10 @@ npx skills add mahui-wangjin/skills-lab --skill design-to-frontend-delivery -g -
 
 ```bash
 npx skills add mahui-wangjin/skills-lab --skill reuse-first-guard -g -y
+```
+
+```bash
+npx skills add mahui-wangjin/skills-lab --skill production-delivery-manager -g -y
 ```
 
 安装完成后重启 Codex，让新 skill 生效。
@@ -52,12 +62,20 @@ npx skills add mahui-wangjin/skills-lab --skill reuse-first-guard -g -y
 该 skill 现在额外强调一条稳定性规则：
 当用户要“自定义 UI”时，默认只允许自定义视觉层；行为层优先复用原生浏览器能力、框架官方能力、Headless/unstyled primitives 或成熟领域库，不要顺手把通用状态机也写成自研实现。
 
+### `production-delivery-manager`
+
+用于用户明确点名或明确要求“生产级 / 完整生产级 / release-ready / 高确定性交付 / Leader 带团队交付”时的工程交付总控：先澄清需求和验收标准，再做项目检索、复用优先、任务拆分、子 Agent 分工、实现、验证、钢人反论审查和最终交付。它不承诺“零风险”，而是要求每次完成都必须有验证证据、剩余风险和下一步。
+
 ## Repository Layout
 
 ```text
 skills-lab/
   skills/
     design-to-frontend-delivery/
+      SKILL.md
+      agents/openai.yaml
+      references/
+    production-delivery-manager/
       SKILL.md
       agents/openai.yaml
       references/
@@ -74,6 +92,7 @@ skills-lab/
 ```bash
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/design-to-frontend-delivery"
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/reuse-first-guard"
+python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/production-delivery-manager"
 ```
 
 ### Manual Smoke Checks
@@ -86,6 +105,7 @@ python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py
 - `我要做一个只属于我们业务的核心排程引擎`：应在给出业务壁垒、性能、TCO 等理由后，才允许有条件自研。
 - `我要做一个自定义样式的上传控件`：应优先建议“UI 自绘 + 原生 file input / Headless 行为层 / 成熟上传库”，不应默认把去重、队列、重试、上限控制继续扩成自研上传状态机。
 - `我要新增一个后台列表页`：应先找当前工程已有列表页、路由、查询表单、表格、弹窗和测试模式，优先复制适配最近的本地示例，而不是从空白页面新写。
+- `帮我做一个生产级的后台权限模块` 或 `用 production-delivery-manager 交付这个功能`：应进入 `production-delivery-manager`，先锁定验收标准，再查项目已有权限模式和官方文档，拆分实现与审查任务，最后必须给出验证证据、钢人反论和剩余风险。
 
 ## Publish This Repository
 

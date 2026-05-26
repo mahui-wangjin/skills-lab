@@ -1,0 +1,4 @@
+interface:
+  display_name: "Production Delivery Manager"
+  short_description: "Production delivery gates and steelman review"
+  default_prompt: "Use $production-delivery-manager to lead this engineering task through requirements, discovery, planning, implementation, verification, steelman counter-review, and final handoff."
