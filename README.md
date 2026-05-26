@@ -1,6 +1,6 @@
 # skills-lab
 
-个人 skills 仓库，当前包含“前端设计落地与精修”和“通用工程决策守门”两类 skill。
+个人 skills 仓库，当前包含“前端设计落地与精修”、“通用工程决策守门”和“生产级工程交付总控”三类 skill。
 
 ## Installation & Discovery
 
@@ -64,7 +64,7 @@ npx skills add mahui-wangjin/skills-lab --skill production-delivery-manager -g -
 
 ### `production-delivery-manager`
 
-用于用户明确点名或明确要求“生产级 / 完整生产级 / release-ready / 高确定性交付 / Leader 带团队交付”时的工程交付总控：先澄清需求和验收标准，再做项目检索、复用优先、任务拆分、子 Agent 分工、实现、验证、钢人反论审查和最终交付。它不承诺“零风险”，而是要求每次完成都必须有验证证据、剩余风险和下一步。
+用于用户明确点名或明确要求“生产级 / 完整生产级 / release-ready / 高确定性交付 / Leader 带团队交付”时的工程交付总控：先澄清需求和验收标准，再做项目检索、复用优先、工作区隔离判断、任务拆分、子 Agent 分工、实现、验证、钢人反论审查和最终交付。它不承诺“零风险”，而是要求每次完成都必须有验证证据、工作区与清理状态、剩余风险和下一步。
 
 ## Repository Layout
 
@@ -106,6 +106,7 @@ python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py
 - `我要做一个自定义样式的上传控件`：应优先建议“UI 自绘 + 原生 file input / Headless 行为层 / 成熟上传库”，不应默认把去重、队列、重试、上限控制继续扩成自研上传状态机。
 - `我要新增一个后台列表页`：应先找当前工程已有列表页、路由、查询表单、表格、弹窗和测试模式，优先复制适配最近的本地示例，而不是从空白页面新写。
 - `帮我做一个生产级的后台权限模块` 或 `用 production-delivery-manager 交付这个功能`：应进入 `production-delivery-manager`，先锁定验收标准，再查项目已有权限模式和官方文档，拆分实现与审查任务，最后必须给出验证证据、钢人反论和剩余风险。
+- `用 production-delivery-manager 让多个 agent 并行改后端和后台前端`：应先检查 `git status --short`，说明使用当前工作区、分支或 git worktree 的理由；并行写代码时应分配不重叠范围，必要时使用独立 worktree，交付时报告清理状态。
 
 ## Publish This Repository
 

@@ -54,6 +54,8 @@ For code-editing workers, add:
 - You are not alone in the codebase.
 - Do not revert unrelated edits.
 - Keep changes inside the assigned scope.
+- Use the assigned branch or worktree only; do not write into the lead agent's workspace unless explicitly instructed.
+- Clean up temporary files, logs, scratch outputs, and abandoned artifacts created by your task.
 - List changed files in the final response.
 
 ## Integration
@@ -64,6 +66,7 @@ When a sub-agent returns:
 2. Reject or revise unsupported claims.
 3. Resolve conflicts with the main plan.
 4. Run or record relevant verification.
-5. Close the agent when no longer needed.
+5. Confirm temporary artifacts and unused worktrees/branches are cleaned up or explicitly handed off.
+6. Close the agent when no longer needed.
 
 Sub-agent output is evidence, not final truth.

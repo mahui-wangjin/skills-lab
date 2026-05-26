@@ -1,6 +1,6 @@
 ---
 name: production-delivery-manager
-description: Lead production-grade engineering delivery with requirements gates, delegation, verification evidence, and steelman counter-review. Use when the user explicitly names this skill, asks for production-grade / complete / release-ready / high-assurance / zero-ambiguity engineering delivery, or wants a senior technical lead to coordinate a team through implementation and final acceptance.
+description: Use when the user explicitly names this skill, asks for production-grade / complete / release-ready / high-assurance / zero-ambiguity engineering delivery, wants a senior technical lead to coordinate implementation and acceptance, or needs worktree/workspace hygiene for risky or parallel engineering work.
 ---
 
 # Production Delivery Manager
@@ -38,11 +38,12 @@ Follow this sequence for implementation, refactor, integration, debugging, migra
 
 1. Intake
 2. Discovery
-3. Delivery plan
-4. Implementation
-5. Verification
-6. Steelman counter-review
-7. Handoff
+3. Workspace isolation
+4. Delivery plan
+5. Implementation
+6. Verification
+7. Steelman counter-review
+8. Handoff
 
 For small tasks, compress the loop, but do not skip verification or risk reporting.
 
@@ -86,12 +87,25 @@ If a domain-specific skill is available, use it at the relevant gate:
 - security or database review skill for high-risk boundaries
 - shipping skill for launch or rollout readiness
 
-### 3. Delivery Plan
+### 3. Workspace Isolation
+
+Before planning edits, decide whether the current workspace is safe to use:
+
+- run `git status --short` when inside a Git repository
+- identify unrelated user changes and avoid touching those files
+- use a dedicated branch or git worktree for large changes, risky refactors, multi-agent implementation, long-running work, or when preserving the user's current workspace matters
+- do not create a separate worktree for tiny docs-only or one-file reversible edits unless the user asks
+- when using parallel agents, assign non-overlapping file/module scopes; use separate worktrees for parallel code-writing agents when overlap risk is real
+
+If `superpowers:using-git-worktrees` is available and the task needs isolation, use it before implementation. If no worktree is used, state why the current workspace is acceptable.
+
+### 4. Delivery Plan
 
 For medium or complex tasks, emit a short plan that includes:
 
 - objective
 - boundaries and non-goals
+- workspace decision: current workspace, branch, or worktree
 - file/module ownership
 - role split if using sub-agents
 - verification commands or manual checks
@@ -99,7 +113,7 @@ For medium or complex tasks, emit a short plan that includes:
 
 Do not assign two agents to overlapping write scopes unless one is explicitly review-only.
 
-### 4. Implementation
+### 5. Implementation
 
 Implement incrementally:
 
@@ -107,12 +121,13 @@ Implement incrementally:
 - keep edits scoped
 - avoid unrelated refactors
 - preserve user changes
+- keep temporary files, test artifacts, and local-only outputs out of the final diff unless they are intentional deliverables
 - update docs or task ledgers when the project rules require it
 - keep interfaces explicit and testable
 
 When the task is large, land one coherent slice at a time and verify before broadening.
 
-### 5. Verification
+### 6. Verification
 
 Verification must match risk:
 
@@ -124,7 +139,7 @@ Verification must match risk:
 
 If a command cannot run, report why and provide the next best verification path. Do not describe unrun checks as completed.
 
-### 6. Steelman Counter-Review
+### 7. Steelman Counter-Review
 
 Before final completion on substantial work, run a steelman counter-review:
 
@@ -134,12 +149,13 @@ Before final completion on substantial work, run a steelman counter-review:
 
 Use an independent reviewer sub-agent when available and the review can run in parallel. Otherwise perform the review yourself from a fresh skeptical stance.
 
-### 7. Handoff
+### 8. Handoff
 
 Final handoff must include:
 
 - what changed
 - how it was verified
+- workspace and cleanup status
 - what remains risky or unverified
 - what the user should do next, if anything
 

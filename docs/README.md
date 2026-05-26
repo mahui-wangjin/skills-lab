@@ -5,8 +5,9 @@
 - 项目级规则文件：`../AGENTS.md`
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
-- 当前新增设计文档：`./superpowers/specs/2026-05-25-reuse-first-guard-project-local-reuse.md`
-- 上一轮设计文档：`./superpowers/specs/2026-04-23-reuse-first-guard-headless-native-refinement.md`
+- 当前新增设计文档：`./superpowers/specs/2026-05-26-production-delivery-manager-workspace-isolation.md`
+- 上一轮设计文档：`./superpowers/specs/2026-05-25-reuse-first-guard-project-local-reuse.md`
+- 历史设计文档：`./superpowers/specs/2026-04-23-reuse-first-guard-headless-native-refinement.md`
 - 实施计划文档目录：`./superpowers/plans/`
 - 当前新增实施计划：`./superpowers/plans/2026-04-17-reuse-first-guard.md`
 - 新增 skill：`../skills/reuse-first-guard/`

@@ -58,12 +58,43 @@ Discovery output should identify:
 - likely tests or validation commands
 - risks that can change the plan
 
+## Gate 2.5: Workspace Isolation
+
+Before editing files, choose the workspace strategy.
+
+Required checks:
+
+- If inside a Git repository, run `git status --short`.
+- Identify tracked and untracked changes that are unrelated to the task.
+- Do not overwrite, revert, delete, or reformat unrelated user changes.
+- Decide whether the current workspace, a new branch, or a separate git worktree is the right execution surface.
+
+Use the current workspace when:
+
+- the task is small, reversible, and low-risk
+- there are no conflicting tracked changes
+- any unrelated untracked files can be ignored safely
+
+Use a dedicated branch or git worktree when:
+
+- the task is large, risky, long-running, or likely to span multiple verification cycles
+- the user needs their current workspace preserved
+- multiple agents will write code in parallel
+- existing local changes overlap the likely edit scope
+
+Cleanup requirements:
+
+- Keep intentional deliverables in the diff.
+- Remove temporary files, logs, generated scratch artifacts, and abandoned test fixtures before handoff.
+- Report any remaining untracked files that were not created by the task and were intentionally left alone.
+
 ## Gate 3: Plan
 
 For medium and complex work, provide:
 
 - objective
 - implementation slices
+- workspace decision: current workspace, branch, or worktree, with reason
 - file/module ownership
 - sub-agent roles, if used
 - verification strategy
@@ -120,6 +151,10 @@ Final handoff format:
 ### Verified
 
 - <evidence>
+
+### Workspace
+
+- <current workspace/branch/worktree decision and cleanup status>
 
 ### Residual Risk
 
