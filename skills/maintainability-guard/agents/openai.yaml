@@ -1,0 +1,4 @@
+interface:
+  display_name: "Maintainability Guard"
+  short_description: "Guard architecture and code size before changes."
+  default_prompt: "Use $maintainability-guard before adding behavior to large, mixed-responsibility, or likely-reused code. Assess responsibility boundaries, change reasons, concern separation, abstraction level, testability, dependency direction, and interface stability before deciding whether to continue in place or split first."

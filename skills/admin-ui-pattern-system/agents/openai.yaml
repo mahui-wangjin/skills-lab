@@ -1,0 +1,4 @@
+interface:
+  display_name: "Admin UI Pattern System"
+  short_description: "Derive reusable admin UI patterns before coding."
+  default_prompt: "Use $admin-ui-pattern-system before building or reviewing an admin/backoffice page. First model user tasks, inspect the current template examples and components, propose the project-level page pattern, prefer drawers for details and editing, and verify field, action, state, and layout usability before implementation is considered complete."
