@@ -1,6 +1,6 @@
 ---
 name: admin-ui-pattern-system
-description: Use when designing, building, reviewing, or refactoring backend/admin/backoffice management UIs, 后台管理界面, 中后台, admin panel, CRUD pages, data tables, configuration consoles, approval pages, workflow/runtime pages, graph editors, audit pages, dashboards, and operational tools. Forces agents to discover the current template/framework capabilities, derive project-level admin UI patterns, confirm information architecture and interaction containers before coding, and verify usability after implementation.
+description: Use when designing, building, reviewing, or refactoring backend/admin/backoffice management UIs, 后台管理界面, 中后台, admin panel, CRUD pages, data tables, configuration consoles, approval pages, workflow/runtime pages, graph editors, audit pages, dashboards, and operational tools. Forces agents to discover the current template/framework capabilities, confirm content-area wireframes and foundational page elements before coding, derive project-level admin UI patterns, and verify usability after implementation.
 ---
 
 # Admin UI Pattern System
@@ -9,7 +9,9 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 
 不要从 API 字段、数据库表或组件清单直接堆后台页面。
 
-后台页面必须先从用户任务、当前模板能力、项目级页面范式、交互容器、字段/操作/状态治理出发，再进入编码。这个 skill 不绑定 Vben、Ant Design、Element Plus、MUI、React Admin、shadcn 或任何框架；它要求先现场盘点当前项目实际提供的能力，再基于这些能力建立或复用项目后台范式。
+后台页面必须先从用户任务、当前模板能力、右侧内容区线稿、基础页面元素、项目级页面范式、交互容器、字段/操作/状态治理出发，再进入编码。这个 skill 不绑定 Vben、Ant Design、Element Plus、MUI、React Admin、shadcn 或任何框架；它要求先现场盘点当前项目实际提供的能力，再基于这些能力建立或复用项目后台范式。
+
+公共管理平台外壳（侧边栏、顶栏、全局面包屑、登录态等）通常不用反复澄清。必须澄清的是业务内容区如何布局、主任务是什么、哪些元素常驻、哪些通过抽屉/弹窗/下钻页承载。
 
 ## 触发场景
 
@@ -25,7 +27,7 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 
 ## 强制工作流
 
-编码前必须完成 4 步。
+编码前必须完成 5 步。
 
 ### 1. 业务任务建模
 
@@ -45,7 +47,8 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 先查当前项目模板、文档、已有页面和示例。至少寻找：
 
 - 列表页、搜索表单、搜索折叠/展开
-- 表格工具栏、刷新、全屏、列设置、密度、固定列、排序、筛选、分页
+- 表格工具栏、隐藏/显示筛选、快速搜索、刷新、全屏、列设置、字段显示/隐藏、密度、固定列、排序、筛选、分页
+- 属性筛选、标签筛选、树筛选、日期范围、状态分组等适合当前对象的筛选组件
 - 长文本省略、行操作、批量操作
 - 树表、Tabs、分栏、主从布局
 - 详情页、详情抽屉、弹窗表单、抽屉表单、步骤表单
@@ -53,12 +56,53 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 
 如果模板没有明确标准范式，就从完整页面示例和组件示例中归纳候选范式，而不是臆造一套。
 
-### 3. 项目范式建议
+输出时必须说明每个基础元素复用哪个现成示例/组件；找不到示例时，说明缺口和替代方案。
+
+### 3. 内容区线稿与基础元素确认
+
+编码前必须给出业务内容区的低保真线稿。线稿可以是文本框图，但必须让用户一眼看出：
+
+- 主页面的唯一主体信息是什么
+- 顶部是否有可折叠适用备注/说明
+- 是否需要 Tabs；每个 Tab 的主任务是什么
+- 筛选区放哪里，是否默认折叠，是否有属性筛选/快速搜索
+- 操作工具栏放哪些能力：隐藏筛选、刷新、全屏、字段列设置、密度、批量操作等
+- 主体区域是列表、树表、画布、队列还是详情
+- 分页、状态提示、空态、错误态在哪里
+- 次级信息如何进入抽屉、弹窗或下钻页
+
+常规列表/CRUD 默认线稿：
+
+```text
+[可折叠适用备注/说明]
+[Tabs，如需要]
+[筛选区：高频条件 + 折叠低频条件 + 属性筛选/快速搜索]
+[操作工具栏：新增/批量/隐藏筛选/刷新/全屏/字段设置/密度]
+[列表区域：默认列 + 状态 + 行操作/更多]
+[分页]
+```
+
+图谱/画布默认线稿：
+
+```text
+[标题/状态/保存/发布/回滚等主操作]
+[可折叠说明/风险提示]
+[Tabs：图谱编辑/节点列表/关系列表/版本 diff/审计，如需要]
+[画布工具栏：新增节点/新增关系/布局/适配视图/全屏/图例/显示设置]
+[大画布主体]
+[选中节点或边后再打开 inspector/抽屉；新增流程用抽屉或专门流程]
+```
+
+如果用户没有确认线稿和基础元素表，不得进入实现。
+
+### 4. 项目范式建议
 
 实现前必须说明准备用哪种后台范式承载本页，并输出：
 
 - 页面类型
 - 主布局
+- 内容区线稿
+- 基础元素复用清单
 - 主页面保留哪些内容
 - 哪些进入详情抽屉/详情页
 - 哪些进入弹窗/抽屉/独立编辑页
@@ -70,7 +114,7 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 
 新项目或新增交互类型时，先让用户确认范式；已确认过的项目范式可以复用。
 
-### 4. 按范式实现与验收
+### 5. 按范式实现与验收
 
 确认后再编码。优先复用当前模板已有组件、布局和示例组合。只有模板能力确实覆盖不了时，才新增局部组件，并说明新增边界和复用方式。
 
@@ -87,11 +131,22 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 
 如果一个弹窗需要滚动、分组、Tabs、长表单或大量说明，默认升级为抽屉或独立页面。
 
+## 一页一个主体
+
+常规后台页面默认一页只呈现一个主体信息。其他信息通过下钻新页面、按钮触发抽屉、短确认弹窗或专门流程承载。
+
+- 主体是列表时，页面围绕筛选、工具栏、表格和分页组织。
+- 主体是详情时，页面围绕详情分组、状态、关联入口和关键操作组织。
+- 主体是图谱/画布时，页面围绕画布、工具栏、选择后的属性面板组织。
+- 主体是审批/队列时，页面围绕队列、状态筛选、证据详情和处理动作组织。
+
+不要在同一层同时常驻主列表、详情、表单、说明、图例、审计和新增流程。
+
 ## 标准页面类型
 
 先选择一个主类型：
 
-- 标准列表管理页：搜索区 + 主表格 + 工具栏 + 行操作 + 批量操作 + 详情/编辑承载。
+- 标准列表管理页：可折叠说明 + Tabs（可选）+ 搜索/属性筛选 + 工具栏 + 主表格 + 行操作/批量操作 + 分页 + 详情/编辑承载。
 - 树表主从页：左树/分类/组织，右侧表格或详情，节点操作和实体操作分离。
 - 配置治理页：配置对象、版本、草稿、发布、回滚、diff、审计。
 - 审批/流程处理页：队列、状态筛选、证据上下文、处理动作、审计轨迹。
@@ -126,6 +181,7 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 - 必须有搜索和重置。
 - 搜索状态要能回显。
 - 搜索区不能长期挤占主要工作区。
+- 属性筛选、分类筛选、树筛选、状态分组、日期范围和快速搜索按对象任务选择，优先复用框架现成组件。
 
 ## 操作治理
 
@@ -145,6 +201,8 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 - 创建/编辑表单长期平铺在表格下方。
 - 详情、编辑、审计、历史和操作全部同时摊开。
 - 图谱/画布被表单、图例、说明长期挤压。
+- 没有先画内容区线稿就开始编码。
+- 基础元素如检索折叠、刷新、全屏、列设置、字段隐藏/显示明明模板已有却未复用。
 - 为了“一屏展示”牺牲可操作性。
 - 用户必须长滚动才能完成主任务。
 - 表格字段按后端字段原样平铺，没有分级。
@@ -164,6 +222,15 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 次对象/关系对象：
 当前模板能力盘点：
 参考过的模板/示例：
+内容区线稿：
+基础元素确认：
+  - 检索区/检索折叠：
+  - 属性筛选/快速搜索：
+  - 工具栏：
+  - 刷新/全屏/列设置/字段隐藏：
+  - 主体区：
+  - 分页：
+  - 抽屉/弹窗/下钻：
 建议采用的项目范式：
 主页面保留：
 详情承载：
@@ -181,6 +248,8 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 
 - 主任务不需要用户猜测或长滚动寻找。
 - 没有无关列表/表单/说明块纵向堆叠。
+- 已确认内容区线稿，且一页只有一个主体信息。
+- 已复用或明确替代检索折叠、刷新、全屏、列设置、字段隐藏/显示、快速搜索、分页等基础元素。
 - 字段、搜索、操作已分级和收纳。
 - 抽屉、弹窗、详情页或独立页承载合理。
 - 复杂详情和编辑没有被塞进小弹窗；默认优先用抽屉，信息过多时使用独立页面。
