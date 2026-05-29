@@ -1,6 +1,6 @@
 ---
 name: admin-ui-pattern-system
-description: Use when designing, building, reviewing, or refactoring backend/admin/backoffice management UIs, 后台管理界面, 中后台, admin panel, CRUD pages, data tables, configuration consoles, approval pages, workflow/runtime pages, graph editors, audit pages, dashboards, and operational tools. Forces agents to discover the current template/framework capabilities, confirm content-area wireframes and foundational page elements before coding, derive project-level admin UI patterns, and verify usability after implementation.
+description: Use when designing, building, reviewing, or refactoring backend/admin/backoffice management UIs, 后台管理界面, 中后台, admin panel, CRUD pages, data tables, configuration consoles, approval pages, workflow/runtime pages, graph editors, audit pages, dashboards, import/mapping pages, rule builders, permission matrices, diff/release confirmation pages, exception review workbenches, monitoring pages, and other non-CRUD operational tools. Forces agents to discover the current template/framework capabilities, confirm content-area wireframes and foundational page elements before coding, derive project-level admin UI patterns, and verify usability before claiming completion.
 ---
 
 # Admin UI Pattern System
@@ -12,6 +12,8 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 后台页面必须先从用户任务、当前模板能力、右侧内容区线稿、基础页面元素、项目级页面范式、交互容器、字段/操作/状态治理出发，再进入编码。这个 skill 不绑定 Vben、Ant Design、Element Plus、MUI、React Admin、shadcn 或任何框架；它要求先现场盘点当前项目实际提供的能力，再基于这些能力建立或复用项目后台范式。
 
 公共管理平台外壳（侧边栏、顶栏、全局面包屑、登录态等）通常不用反复澄清。必须澄清的是业务内容区如何布局、主任务是什么、哪些元素常驻、哪些通过抽屉/弹窗/下钻页承载。
+
+不要把这个 skill 当作建议清单。只要任务是在设计、实现、重构或验收一个有实际业务含义的后台页面，缺少线稿证据、模板/示例证据或可用性验证时，就不能声称“完成”。小范围、可逆的修复可以压缩流程，但必须说明它不是完整后台页面范式设计或重构。
 
 ## 触发场景
 
@@ -95,6 +97,8 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 
 如果用户没有确认线稿和基础元素表，不得进入实现。
 
+例外：只改错字、调整单个按钮文案、修复明显样式 bug、补一个已确认范式内的小状态时，可以压缩线稿确认，但必须说明“本轮是局部修复，不构成完整页面范式设计/重构”。如果改动会改变页面信息架构、主任务、承载方式、字段规模、操作流或移动端可用性，不得使用该例外。
+
 ### 4. 项目范式建议
 
 实现前必须说明准备用哪种后台范式承载本页，并输出：
@@ -154,6 +158,28 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 - 审计/观测页：时间/状态/用户/范围筛选，事件表格，详情抽屉，轨迹或时间线。
 
 常见范式细节见 `references/admin-page-patterns.md`。审查和验收见 `references/review-checklist.md`。
+
+## 非 CRUD 页面类型
+
+当页面不是简单列表增删改查时，先从以下类型中选择主范式。不要把非 CRUD 场景退化成“一个表格 + 一堆按钮 + 一堆卡片”。
+
+- 总览工作台：关键指标、待办队列、风险列表、异常摘要和快捷入口；指标服务于决策，不做营销式大屏。
+- 分步向导：策略创建、配置发布、数据导入、规则上线等流程按步骤拆分，每步只处理一类决策。
+- 导入映射工作台：上传、字段映射、预检、错误明细、修复建议、提交/回滚分层呈现。
+- 规则构建器：条件组、逻辑关系、测试样例、解释预览、影响范围和高级 JSON/DSL 预览分离。
+- 运行监控页：job、worker、批次、调度、重试、日志、输入输出和失败原因围绕运行实例组织。
+- Diff/发布确认页：版本差异、影响对象、风险等级、审批记录、回滚路径和发布确认必须可见。
+- 权限矩阵页：主体、权限域、动作矩阵、字段权限、数据范围和“以某用户预览最终权限”分层。
+- 对象 360 详情页：摘要头、状态/风险和基础、关系、运行、审计、历史等 Tabs；适合长期停留。
+- 异常复核台：待处理异常、证据、建议动作、影响范围、处理结果和审计上下文同屏协作但不堆叠。
+- 消息/通知运营页：模板、发送批次、接收人、渠道状态、失败重试和触达结果分入口承载。
+- 搜索/资源选择器：搜索筛选、预览、已选区、批量确认和选择结果回填是主任务。
+- 时间线/因果链路页：状态变化、事件详情、关联对象、trace、操作者和原因用时间线或链路视图解释。
+- 日历/排期页：排程、时间窗口、冲突、资源占用、拖拽调整、列表替代视图和发布确认分层。
+- 报表分析页：筛选、指标定义、图表、明细下钻、导出权限和口径说明分层，避免装饰型大屏。
+- 模板/内容编辑页：编辑器、变量插入、预览、校验、测试发送/渲染、版本和发布记录分层。
+
+如果一个页面同时命中多个非 CRUD 类型，选择一个主任务作为主体，其他类型作为 Tab、抽屉、下钻页或流程步骤，不得全部常驻在同一层。
 
 ## 字段治理
 
@@ -222,6 +248,11 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 次对象/关系对象：
 当前模板能力盘点：
 参考过的模板/示例：
+模板证据：
+  - 示例/文档路径：
+  - 复用组件/能力：
+  - 未复用原因：
+  - 替代方案：
 内容区线稿：
 基础元素确认：
   - 检索区/检索折叠：
@@ -239,6 +270,11 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 字段分级：
 操作收纳：
 状态覆盖：
+浏览器验收计划：
+  - 桌面路径：
+  - 窄屏/移动端路径：
+  - 关键状态：
+  - 控制台错误检查：
 需要用户确认的问题：
 ```
 
@@ -256,3 +292,20 @@ description: Use when designing, building, reviewing, or refactoring backend/adm
 - 加载、空数据、错误、权限拒绝、禁用、提交中、成功、失败状态有处理。
 - 长文本、多列、窄屏不会破坏布局。
 - 重要后台流程使用真实浏览器或截图验收。
+
+## 完成标准与降级规则
+
+不得声称后台页面或重构已完成，除非：
+
+- 业务任务、主对象和主页面唯一主体已明确。
+- 已列出当前模板/框架示例、复用组件和未复用原因。
+- 已给出并确认内容区线稿；若是小修例外，已明确不属于完整范式重构。
+- 已选择标准页面类型或非 CRUD 页面类型，并说明次级信息承载方式。
+- 字段、搜索、操作、状态和窄屏策略已覆盖。
+- 关键路径已用真实浏览器、截图或明确的人工验收方式验证。
+
+如果缺少模板证据、线稿确认、状态覆盖或浏览器验收：
+
+- 只能交付“候选方案”“局部修复”或“自审通过但未验收”。
+- 必须列出缺失证据和下一步补齐方式。
+- 不得把静态理想态、mock 截图或未跑浏览器的实现说成产品级可用。

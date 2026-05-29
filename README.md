@@ -123,6 +123,8 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 - 详情、编辑和次级信息默认优先使用抽屉承载；短确认、极轻量输入和临时选择器才使用弹窗；信息过多、流程复杂或需要多 Tab/深链时使用独立页面。
 - 字段超过 6 个必须做 P0/P1/P2/P3 分级；搜索条件超过 4 个必须支持折叠；行操作超过 3 个必须收纳。
 - 图谱/画布类页面必须画布优先，说明、图例、添加节点/关系表单、属性编辑和新增关系流程不得长期挤压主画布。
+- 非 CRUD 后台页面必须先选主范式，例如总览工作台、分步向导、导入映射、规则构建器、运行监控、Diff/发布确认、权限矩阵、对象 360、异常复核台、消息运营、搜索选择器、时间线、日历排期、报表分析或模板编辑；不得退化为“一个表格 + 一堆按钮 + 一堆卡片”。
+- 缺少模板证据、线稿确认、状态覆盖或浏览器验收时，只能交付候选方案、局部修复或自审结果，不能声称后台产品级完成。
 
 #### 推荐项目规则
 
@@ -135,6 +137,8 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 - 一页只呈现一个主体信息；其他信息通过下钻新页面、按钮打开抽屉/弹窗或专门流程承载，不得在一个页面长期堆叠主列表、详情、表单、说明、图例和审计。
 - 详情、编辑和次级信息默认优先使用抽屉；短确认/极轻量输入才使用弹窗；信息过多、流程复杂、多 Tab、长时间停留或需要深链时使用独立页面。
 - 字段多、搜索多、操作多时必须做分级、折叠、列设置、更多菜单和状态验收，不允许为了一屏展示牺牲可用性。
+- 非 CRUD 页面必须先确认主范式和主任务，复杂流程使用步骤、工作台、矩阵、Diff、时间线、监控或详情 360 等合适布局，不得强行套普通 CRUD 表格。
+- 完成前必须说明模板/示例来源、内容区线稿、关键状态、桌面/窄屏验收和已知取舍；证据不足时只能标为候选或局部修复。
 ```
 
 ## Repository Layout
@@ -167,13 +171,16 @@ skills-lab/
 
 在仓库根目录执行（将 `<your-codex-home>` 替换为你本机实际路径）：
 
-```bash
+```powershell
+$env:PYTHONUTF8='1'
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/design-to-frontend-delivery"
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/reuse-first-guard"
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/production-delivery-manager"
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/maintainability-guard"
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/admin-ui-pattern-system"
 ```
+
+Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 读取 `SKILL.md` 并报 `UnicodeDecodeError`。
 
 ### Manual Smoke Checks
 
@@ -198,6 +205,8 @@ python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py
 - `我要新增一个后台管理页面`：应先进入 `admin-ui-pattern-system`，盘点当前模板已有列表、搜索、表格工具栏、抽屉、弹窗、详情页和完整示例，再提出项目页面范式，不应直接按接口字段堆组件。
 - `这个后台页面字段很多、操作很多`：应进入 `admin-ui-pattern-system`，输出字段分级、搜索折叠、列设置、操作收纳和状态验收方案。
 - `图谱编辑器右侧说明、图例和添加节点表单一直堆着`：应进入 `admin-ui-pattern-system`，先画内容区线稿，按画布工作台范式重设布局，画布优先，说明/图例折叠或弹出，属性与新增关系默认用 inspector/抽屉/独立流程承载。
+- `我要做规则配置向导/数据导入映射/权限矩阵/运行监控/异常复核台`：应进入 `admin-ui-pattern-system` 的非 CRUD 范式，先确认主任务、步骤/矩阵/工作台/时间线/Diff 等布局，再进入实现。
+- `后台页面已经做完了但没有浏览器验收或线稿确认`：应降级为候选方案或局部修复，不能声称产品级完成。
 
 ## Publish This Repository
 
