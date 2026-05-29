@@ -1,6 +1,6 @@
 ---
 name: production-delivery-manager
-description: Use when the user explicitly names this skill, asks for production-grade / complete / release-ready / high-assurance / zero-ambiguity engineering delivery, wants a senior technical lead to coordinate implementation and acceptance, or needs worktree/workspace hygiene for risky or parallel engineering work.
+description: Use when the user explicitly names this skill, asks for production-grade / complete / release-ready / high-assurance / quality-first / strict / zero-ambiguity engineering delivery, wants a senior technical lead to coordinate implementation and acceptance, asks for multi-agent/team-led delivery, or needs worktree/workspace hygiene for risky or parallel engineering work.
 ---
 
 # Production Delivery Manager
@@ -13,12 +13,14 @@ Production-grade means "passed the agreed gates with known residual risks." Do n
 
 This skill coordinates other specialist skills and tools. Do not replace a more specific skill when one clearly applies; invoke or follow the specific skill at the relevant gate.
 
+The lead agent is accountable for delivery quality, not just task velocity. When the user explicitly asks for strict, production-grade, high-assurance, team-led, or quality-first delivery, do not silently downgrade the work into a single-agent implementation unless the task is genuinely simple and the no-delegation reason is stated.
+
 ## Activation Rule
 
 Activate this skill when one of these is true:
 
 - The user explicitly names `$production-delivery-manager` or asks to use the engineering delivery / production delivery manager skill.
-- The user explicitly asks for production-grade, complete production-level, release-ready, high-assurance, no ambiguous requirements, team-led delivery, final acceptance, or an equivalent end-to-end engineering delivery standard.
+- The user explicitly asks for production-grade, complete production-level, release-ready, high-assurance, quality-first, strict delivery, no ambiguous requirements, team-led delivery, final acceptance, or an equivalent end-to-end engineering delivery standard.
 - The user asks for a lead/manager agent to coordinate multiple agents through implementation, review, verification, and handoff.
 
 ## Operating Discipline
@@ -27,10 +29,12 @@ Avoid process theater:
 
 - For simple tasks, do the work directly and report verification and risk briefly.
 - For medium tasks, use a compact plan and one verification pass.
-- For complex or production-grade tasks, use the full gate sequence.
+- For complex or production-grade tasks, use the full gate sequence and make a visible delegation decision.
 - Ask only questions that can change scope, architecture, safety, or acceptance.
 - Do not block on perfect requirements when a reversible, explicitly scoped slice can be delivered safely.
 - Do not continue implementation when ambiguity affects data loss, security, permission, payment, migration, or irreversible behavior.
+- Treat explicit quality-first or strict production delivery requests as complex by default. Downgrade only when the work is narrow, low-risk, reversible, and independently verifiable.
+- If real sub-agents are unavailable or not useful, say so and perform labeled self-review perspectives. Do not pretend a single self-review is equivalent to independent review.
 
 ## Delivery Loop
 
@@ -52,7 +56,7 @@ For detailed gates and output shapes, read [delivery-gates.md](./references/deli
 
 For adversarial review, read [steelman-review.md](./references/steelman-review.md) before final acceptance or after any substantial implementation.
 
-For sub-agent use, read [delegation-patterns.md](./references/delegation-patterns.md) when parallel work, specialist review, or bounded implementation ownership would help.
+For sub-agent use, read [delegation-patterns.md](./references/delegation-patterns.md) when parallel work, specialist review, or bounded implementation ownership would help. For complex or production-grade work, read it before deciding not to delegate.
 
 ## Gate Rules
 
@@ -65,8 +69,11 @@ Identify:
 - scope and non-goals
 - risk level
 - whether the task is simple, medium, or complex
+- whether the user asked for quality-first, production-grade, strict delivery, or multi-agent/team-led execution
 
 If requirements are unclear, ask the smallest number of blocking questions. If work can proceed under assumptions, state the assumptions and mark them as open.
+
+If a request is production-grade or quality-first, classify it as complex unless the exception is obvious and documented. "I can do it myself faster" is not a valid downgrade reason.
 
 ### 2. Discovery
 
@@ -122,6 +129,20 @@ For medium or complex tasks, emit a short plan that includes:
 
 Do not assign two agents to overlapping write scopes unless one is explicitly review-only.
 
+### 4.5. Delegation Quality Gate
+
+Before implementation on complex, production-grade, or quality-first work, decide and report:
+
+- which roles are needed for implementation, architecture review, risk review, verification, docs, or release
+- which roles get real sub-agents, which roles are handled locally, and why
+- which files or modules each code-writing agent owns
+- which reviewers are read-only and what acceptance risks they must challenge
+- whether any critical path work stays with the lead agent because delegation would block progress
+
+Default for complex or production-grade delivery: use at least one independent specialist perspective for review, verification, architecture, security, database, frontend, or E2E risk unless no real sub-agent facility exists or the task's scope is genuinely too narrow. When no real delegation is used, include a no-delegation note in the plan and revisit it in the steelman review.
+
+Do not use sub-agents as theater. Delegation must create non-overlapping ownership or an independent review surface that can change the result.
+
 ### 5. Implementation
 
 Implement incrementally:
@@ -160,6 +181,8 @@ Run final verification from the delivery target, not only from the isolated work
 
 If a command cannot run, report why and provide the next best verification path. Do not describe unrun checks as completed.
 
+If complex or production-grade work proceeds without real sub-agents or independent reviewers, compensate with stronger objective evidence where practical: targeted tests, typecheck, lint, build, contract checks, migration checks, browser/E2E runs, security/database checks, or documented manual inspection. If the missing independent perspective cannot be compensated, downgrade the claim to partial, candidate, or self-reviewed.
+
 ### 8. Steelman Counter-Review
 
 Before final completion on substantial work, run a steelman counter-review:
@@ -169,6 +192,8 @@ Before final completion on substantial work, run a steelman counter-review:
 - either fix the issue, downgrade the completion claim, or document residual risk
 
 Use an independent reviewer sub-agent when available and the review can run in parallel. Otherwise perform the review yourself from a fresh skeptical stance.
+
+For complex or production-grade work, steelman must challenge the delegation choice: if the lead agent implemented, reviewed, and verified everything alone, explain why that was acceptable or downgrade the completion claim.
 
 ### 9. Handoff
 
@@ -186,7 +211,7 @@ Keep the final answer concise, but never omit failed checks or residual risks.
 
 The lead agent owns final quality. Sub-agents may explore, implement, test, or review, but they do not own final acceptance.
 
-Use specialists only when they materially improve the result:
+Use specialists when they materially improve the result. For complex or production-grade work, assume specialists will improve quality unless a concrete exception applies:
 
 - Planner / Architect for unclear scope or broad design
 - Research / Docs for version-sensitive or source-backed decisions
@@ -197,6 +222,8 @@ Use specialists only when they materially improve the result:
 
 When no real sub-agent facility exists, simulate these perspectives internally and label conclusions as self-reviewed.
 
+Do not let the lead agent become the only implementer, reviewer, tester, and release judge for a risk-bearing product change merely to save time. The lead may keep critical-path work local, but must still create an independent challenge surface through real sub-agents or explicit self-reviewed specialist perspectives.
+
 ## Completion Standard
 
 Do not mark a task complete unless:
@@ -206,6 +233,7 @@ Do not mark a task complete unless:
 - changes are present in the agreed delivery target, or the user explicitly accepted an unapplied branch/worktree/PR handoff
 - verification evidence is reported
 - steelman objections are handled or documented
+- for complex or production-grade work, the handoff reports the delegation decision, the independent challenge surface used, and any no-delegation reason or self-reviewed downgrade
 - residual risks and next steps are clear
 
 If any condition is not met, report the task as partially complete, blocked, or needing user decision.

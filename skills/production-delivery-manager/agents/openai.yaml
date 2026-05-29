@@ -1,4 +1,4 @@
 interface:
   display_name: "Production Delivery Manager"
-  short_description: "Production delivery gates, delivery-target integration, and steelman review"
-  default_prompt: "Use $production-delivery-manager to lead this engineering task through requirements, discovery, workspace isolation, planning, implementation, delivery-target integration, verification, steelman counter-review, and final handoff."
+  short_description: "Production gates, visible delegation decisions, independent review, and steelman acceptance"
+  default_prompt: "Use $production-delivery-manager to lead this engineering task through requirements, discovery, workspace isolation, delegation-quality planning, implementation, delivery-target integration, objective verification, independent challenge or no-delegation justification, steelman counter-review, and final handoff."

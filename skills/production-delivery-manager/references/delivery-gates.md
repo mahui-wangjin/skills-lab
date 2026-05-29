@@ -9,6 +9,7 @@ Classify before planning:
 - Simple: one narrow change, low blast radius, clear acceptance.
 - Medium: multiple files, existing patterns available, moderate verification needed.
 - Complex: cross-module behavior, unclear requirements, data/security/migration/release risk, or production-grade expectation.
+- Quality-first or strict production-grade requests are complex by default. Downgrade only when the work is narrow, reversible, low-risk, and independently verifiable.
 
 Simple tasks may skip visible planning, but must still report verification and risk.
 
@@ -23,6 +24,7 @@ Lock or state:
 - acceptance criteria
 - known assumptions
 - blocking questions
+- quality priority: speed-first, balanced, or quality-first when the user has stated a preference
 
 Stop and ask when:
 
@@ -118,8 +120,38 @@ For medium and complex work, provide:
 - sub-agent roles, if used
 - verification strategy
 - rollback or mitigation path for risky changes
+- delegation decision: real sub-agents, local specialist perspectives, or a stated no-delegation exception
 
 A valid plan has disjoint ownership. One owner may edit a module; reviewers may inspect any module without editing.
+
+For complex or production-grade work, a valid plan must not simply say "I will implement and verify." It must identify at least one independent challenge surface: specialist review, E2E/browser verification, security/database/type review, docs/release check, or an explicit reason real delegation is unavailable or not useful.
+
+## Gate 3.5: Delegation Quality Gate
+
+Before implementation on complex, production-grade, or quality-first work:
+
+- decide which work stays on the lead agent's critical path
+- delegate bounded side work when it can run independently and materially improve quality
+- assign non-overlapping write scopes to code-writing agents
+- assign read-only reviewers to challenge correctness, safety, maintainability, verification gaps, or user-visible acceptance
+- record why no real sub-agent is used if the task remains single-agent
+
+Good no-delegation reasons:
+
+- the task is simple: narrow, low-risk, reversible, and independently verifiable
+- the task is a small, reversible, one-file change with clear validation
+- the environment has no real sub-agent facility
+- the next step is blocked on local discovery and cannot usefully run in parallel
+- delegation would require sharing missing private context or would risk overlapping writes
+
+Bad no-delegation reasons:
+
+- "faster if I do it myself" on a production-grade or broad task
+- "the code looks simple" without checking blast radius and verification
+- "I will self-review later" when an independent reviewer could run in parallel
+- assigning every role to the lead without naming residual risk
+
+Simple low-risk work does not need a delegation matrix. It only needs a brief reason for the compressed path, verification evidence, and residual-risk reporting.
 
 ## Gate 4: Implementation Control
 
@@ -172,6 +204,10 @@ Verification report format:
 - Manual check: <what was inspected and why it is sufficient or partial>
 ```
 
+For complex or production-grade work, include whether verification had an independent surface such as a delegated reviewer, delegated E2E pass, targeted automated test, browser run, build/typecheck, or a clearly labeled self-reviewed fallback.
+
+When there is no real sub-agent or independent reviewer, strengthen the objective verification where practical. If verification cannot compensate for the missing perspective, label the result as partial, candidate, or self-reviewed instead of complete production-grade delivery.
+
 ## Gate 6: Handoff
 
 Final handoff format:
@@ -184,6 +220,10 @@ Final handoff format:
 ### Verified
 
 - <evidence>
+
+### Delegation / Review
+
+- <delegation decision, independent challenge surface, or no-delegation reason for complex/production-grade work>
 
 ### Workspace
 

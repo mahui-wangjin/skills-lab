@@ -84,7 +84,9 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 
 ### `production-delivery-manager`
 
-用于用户明确点名或明确要求“生产级 / 完整生产级 / release-ready / 高确定性交付 / Leader 带团队交付”时的工程交付总控：先澄清需求和验收标准，再做项目检索、复用优先、工作区隔离判断、任务拆分、子 Agent 分工、实现、交付目标回灌、验证、钢人反论审查和最终交付。它不承诺“零风险”，而是要求每次完成都必须有验证证据、工作区/分支/worktree 的集成状态、清理状态、剩余风险和下一步。
+用于用户明确点名或明确要求“生产级 / 完整生产级 / release-ready / 高确定性交付 / Leader 带团队交付 / 质量优先 / 严格交付”时的工程交付总控：先澄清需求和验收标准，再做项目检索、复用优先、工作区隔离判断、任务拆分、Delegation Quality Gate、子 Agent 分工或明确不委派理由、实现、交付目标回灌、验证、钢人反论审查和最终交付。它不承诺“零风险”，而是要求每次完成都必须有验证证据、工作区/分支/worktree 的集成状态、清理状态、剩余风险和下一步。
+
+该 skill 的当前口径是：复杂或生产级任务默认需要可见的委派决策、独立专家视角或其他能改变结论的独立挑战面，不能因为“我自己写更快”就把交付降级成单 Agent 自写自验。只有任务确属小范围、低风险、可逆且验证明确，或真实子 Agent 不可用/不适合时，才允许单 Agent 处理，并必须在计划和钢人反论中说明原因；若缺少独立视角无法由测试、构建、浏览器验收、安全/数据库检查等客观证据补偿，最终声明必须降级为 partial、candidate 或 self-reviewed。
 
 ### `maintainability-guard`
 
@@ -184,6 +186,10 @@ python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py
 - `我要做一个自定义样式的上传控件`：应优先建议“UI 自绘 + 原生 file input / Headless 行为层 / 成熟上传库”，不应默认把去重、队列、重试、上限控制继续扩成自研上传状态机。
 - `我要新增一个后台列表页`：应先找当前工程已有列表页、路由、查询表单、表格、弹窗和测试模式，优先复制适配最近的本地示例，而不是从空白页面新写。
 - `帮我做一个生产级的后台权限模块` 或 `用 production-delivery-manager 交付这个功能`：应进入 `production-delivery-manager`，先锁定验收标准，再查项目已有权限模式和官方文档，拆分实现与审查任务，最后必须给出验证证据、钢人反论和剩余风险。
+- `用 production-delivery-manager 做完整产品化交付，质量比速度重要`：应把任务按复杂/生产级处理，显式输出 Delegation Quality Gate；默认安排至少一个独立专家视角（如 Architect、Reviewer、Security、Database、E2E、Docs/Release），除非说明真实子 Agent 不可用或任务确属小范围低风险。
+- `用 production-delivery-manager，但这个需求看起来很简单`：可以压缩流程，但必须说明为什么不派发子 Agent，并在最终钢人反论中挑战这个判断；不能只用“我自己更快”作为理由。
+- `用 production-delivery-manager，但当前环境没有真实子 Agent`：必须明示 no-delegation reason，用 targeted tests、typecheck、build、浏览器/E2E、安全/数据库检查或人工审阅补偿；无法补偿时只能交付 partial/candidate/self-reviewed。
+- `用 production-delivery-manager 改一个单文件文案错字`：可直接做并简短报告验证和风险，不需要完整多 Agent 矩阵。
 - `用 production-delivery-manager 让多个 agent 并行改后端和后台前端`：应先检查 `git status --short`，说明使用当前工作区、分支或 git worktree 的理由；并行写代码时应分配不重叠范围，必要时使用独立 worktree，交付前必须说明变更是否已回灌到用户原始工作区/目标分支并在那里验证。
 - `我在主分支上提出需求，agent 用 worktree 改完了`：不应直接声称完成；除非用户接受 branch/PR-only 交付，否则必须 merge/cherry-pick/apply 回主工作区或目标分支，无法回灌时只能报告候选实现和阻塞原因。
 - `主分支上有人正在手工改文档，我还要你继续改另一个文档`：不应因为存在本地改动就硬性停止；应判断改动是否重叠、是否可逆、最终验收是否就在当前工作区，只有重叠或意图不明时才询问、隔离或暂缓。

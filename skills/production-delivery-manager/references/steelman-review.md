@@ -16,6 +16,7 @@ Run before final handoff when the task includes:
 - substantial refactor
 - prior build/test failure
 - ambiguous requirement that was resolved by assumption
+- complex or production-grade work where the lead agent did not use real sub-agents
 
 For small tasks, run a compressed self-review.
 
@@ -34,23 +35,35 @@ Assume at least one of these is true and try to prove it:
 - The tests prove implementation details but not user-visible behavior.
 - The verification evidence does not cover the risky part.
 - The final answer overclaims certainty.
+- The lead agent avoided delegation or independent review for speed, then overtrusted self-review.
+- Real sub-agents, specialist review, or independent verification were skipped without enough compensating evidence.
 
 ## Method
 
 1. Restate the acceptance criteria.
-2. List the strongest objections.
-3. For each objection, cite evidence:
+2. Restate the delegation decision for complex or production-grade work.
+3. List the strongest objections.
+4. For each objection, cite evidence:
    - code path
    - test result
    - command output
    - source document
    - explicit assumption
-4. Decide:
+5. Decide:
    - Fix now
    - Add verification now
    - Downgrade completion claim
    - Ask user
    - Accept as residual risk
+
+For complex or production-grade work, include one objection that challenges the delivery process itself: "Was this implemented, reviewed, verified, and accepted by the same agent without a strong reason?" If yes, resolve it with independent evidence, extra verification, or a downgraded claim.
+
+Also challenge the no-delegation exception directly:
+
+- Was real delegation authorized by the user's wording or available tool policy?
+- If delegation was available, why was it not used?
+- Did the fallback verification objectively cover the missing specialist perspective?
+- Should the final handoff say complete, partial, candidate, or self-reviewed?
 
 ## Output Template
 

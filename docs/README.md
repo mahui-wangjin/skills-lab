@@ -5,7 +5,8 @@
 - 项目级规则文件：`../AGENTS.md`
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
-- 当前新增设计文档：`./superpowers/specs/2026-05-27-admin-ui-pattern-system-design.md`
+- 当前新增设计文档：`./superpowers/specs/2026-05-29-production-delivery-manager-delegation-quality-gate.md`（补充复杂/生产级任务的 Delegation Quality Gate、独立专家视角和不委派钢人反审规则）
+- 上一轮设计文档：`./superpowers/specs/2026-05-27-admin-ui-pattern-system-design.md`
 - 上一轮设计文档：`./superpowers/specs/2026-05-27-maintainability-guard-design.md`
 - 已更新设计文档：`./superpowers/specs/2026-05-26-production-delivery-manager-workspace-isolation.md`（补充 worktree 回灌到交付目标与目标面验证规则）
 - 历史设计文档：`./superpowers/specs/2026-05-25-reuse-first-guard-project-local-reuse.md`

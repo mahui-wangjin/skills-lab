@@ -1,8 +1,10 @@
 # Delegation Patterns
 
-Use real sub-agents only when the user has authorized delegation or the environment explicitly supports it for the task.
+Use real sub-agents only when the user has authorized delegation and the environment supports it for the task. Explicit requests for this skill, production-grade delivery, quality-first delivery, team-led delivery, parallel work, or multi-agent execution authorize the lead to evaluate and prioritize real sub-agent use within the current tool policy.
 
 The lead agent must keep the critical path moving locally and delegate bounded side work that can run independently.
+
+For complex, production-grade, strict, or quality-first delivery, delegation is the default quality posture, not an optional flourish. If no real sub-agent is used, the lead must state the exception, add compensating objective verification where practical, and later challenge the exception during steelman review.
 
 ## Good Delegation Tasks
 
@@ -24,6 +26,19 @@ Examples:
 - Reviewer: inspect the final diff for correctness and missing tests.
 - E2E Runner: run browser validation while implementation polish continues.
 
+## Minimum Quality Surfaces
+
+For production-grade work, try to create at least one independent surface beyond lead-agent implementation:
+
+- Architecture surface: Architect or Code Explorer maps boundaries before broad edits.
+- Risk surface: Reviewer, Security, Database, TypeScript, Performance, or silent-failure reviewer challenges failure modes.
+- Verification surface: Test or E2E runner validates user-visible flows, build/runtime checks, or regression tests.
+- Documentation/release surface: Docs or Release agent checks that handoff, ledgers, and acceptance evidence match the change.
+
+Use the surfaces that match the task's risk. A backend data migration may need database/security review; a frontend product workflow may need E2E and accessibility review; a docs-only skill change may only need skill validation plus reviewer critique.
+
+An independent surface must be capable of changing the result. A real sub-agent review, targeted automated test, typecheck/build, browser/E2E pass, security/database review, or release/doc consistency check can count when it directly targets the risky acceptance criteria. A generic self-affirming checklist does not count.
+
 ## Bad Delegation Tasks
 
 Do not delegate:
@@ -34,6 +49,9 @@ Do not delegate:
 - final architecture judgment
 - final acceptance decision
 - tasks requiring hidden context not passed to the sub-agent
+- final completion claims or user-facing acceptance
+
+Do not skip delegation on complex work merely because the lead can implement faster. Speed is not a sufficient reason when the user's stated preference is delivery quality.
 
 ## Delegation Prompt Shape
 
@@ -48,6 +66,8 @@ Inputs: <docs, symbols, paths, assumptions>
 Expected output: <patch, findings, test result, risk list>
 Verification: <command/check or evidence required>
 ```
+
+For read-only review agents, ask for findings that could change the result: blockers, missing tests, weak assumptions, overclaims, and residual risks. A review prompt that cannot produce a rejection is usually too soft.
 
 For code-editing workers, add:
 
@@ -72,3 +92,16 @@ When a sub-agent returns:
 7. Close the agent when no longer needed.
 
 Sub-agent output is evidence, not final truth. A sub-agent's isolated worktree cannot be treated as delivered until the lead agent has integrated or explicitly handed off that surface.
+
+## No-Delegation Note
+
+When complex or production-grade work proceeds without real sub-agents, record a concise note:
+
+```md
+No real sub-agent used because: <reason>.
+Risk accepted: <what independent perspective is missing>.
+Fallback: <self-reviewed specialist perspectives or extra objective verification added>.
+Completion claim: <full / partial / candidate / self-reviewed>.
+```
+
+This note is not a waiver for quality. If the missing perspective is important to acceptance, downgrade the completion claim or ask the user.
