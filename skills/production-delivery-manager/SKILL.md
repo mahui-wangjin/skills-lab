@@ -7,7 +7,7 @@ description: Use when the user explicitly names this skill, asks for production-
 
 ## Purpose
 
-Use this skill to turn a non-trivial engineering request into a controlled delivery loop with explicit gates, bounded delegation, verification evidence, and a steelman counter-review.
+Use this skill to turn a non-trivial engineering request into a controlled delivery loop with explicit gates, bounded delegation, delivery-target integration, verification evidence, and a steelman counter-review.
 
 Production-grade means "passed the agreed gates with known residual risks." Do not claim bug-free, risk-free, or complete production safety unless the verification evidence actually proves it.
 
@@ -41,9 +41,10 @@ Follow this sequence for implementation, refactor, integration, debugging, migra
 3. Workspace isolation
 4. Delivery plan
 5. Implementation
-6. Verification
-7. Steelman counter-review
-8. Handoff
+6. Delivery-target integration
+7. Verification
+8. Steelman counter-review
+9. Handoff
 
 For small tasks, compress the loop, but do not skip verification or risk reporting.
 
@@ -92,10 +93,14 @@ If a domain-specific skill is available, use it at the relevant gate:
 Before planning edits, decide whether the current workspace is safe to use:
 
 - run `git status --short` when inside a Git repository
+- record the original workspace path, current branch, and intended delivery target before creating a branch or worktree
 - treat local uncommitted or untracked changes as context, not an automatic blocker
 - identify unrelated user changes and avoid touching those files
 - continue in the current workspace when user changes are unrelated, non-overlapping, and the task's final validation target is that workspace
 - use a dedicated branch or git worktree for large changes, risky refactors, multi-agent implementation, long-running work, or when preserving the user's current workspace matters
+- treat an isolated branch or worktree as a candidate execution surface, not the default final delivery surface
+- if the user made the request from the main/current workspace and did not ask for a PR-only or branch-only deliverable, make the original workspace/current branch the default delivery target
+- before working in a separate branch or worktree, state how the result will be returned: merge, cherry-pick, patch application, PR/branch handoff, or explicit "not applied to original workspace"
 - pause, ask, or isolate only when local changes overlap the intended edit scope, make user intent unclear, or raise irreversible risk
 - do not create a separate worktree for tiny docs-only or one-file reversible edits unless the user asks
 - when using parallel agents, assign non-overlapping file/module scopes; use separate worktrees for parallel code-writing agents when overlap risk is real
@@ -109,6 +114,7 @@ For medium or complex tasks, emit a short plan that includes:
 - objective
 - boundaries and non-goals
 - workspace decision: current workspace, branch, or worktree
+- delivery target and integration method if implementation is isolated
 - file/module ownership
 - role split if using sub-agents
 - verification commands or manual checks
@@ -130,7 +136,17 @@ Implement incrementally:
 
 When the task is large, land one coherent slice at a time and verify before broadening.
 
-### 6. Verification
+### 6. Delivery-Target Integration
+
+Before final verification, ensure the implemented change is present in the agreed delivery target:
+
+- if work happened in the current workspace, confirm the changed files and branch/workspace are the intended target
+- if work happened in a branch or worktree, merge, cherry-pick, or apply the patch back to the agreed target when safe and within user instructions
+- if integration is blocked by conflicts, dirty overlapping files, missing permissions, or user preference, stop and report the task as not applied to the delivery target
+- do not claim completion from an isolated worktree unless the user explicitly accepted that branch/worktree/PR as the deliverable
+- after integration, run `git status --short` in the delivery target and report any unrelated remaining changes separately from the task diff
+
+### 7. Verification
 
 Verification must match risk:
 
@@ -140,9 +156,11 @@ Verification must match risk:
 - security/data change: permission, validation, tenant/data isolation, audit, and failure-path checks
 - docs-only change: governance checks, link/path checks, or diff review as applicable
 
+Run final verification from the delivery target, not only from the isolated worktree, unless the agreed deliverable is explicitly a branch or PR. If only worktree verification was possible, report the result as partial and state that the original workspace/target branch was not verified.
+
 If a command cannot run, report why and provide the next best verification path. Do not describe unrun checks as completed.
 
-### 7. Steelman Counter-Review
+### 8. Steelman Counter-Review
 
 Before final completion on substantial work, run a steelman counter-review:
 
@@ -152,13 +170,13 @@ Before final completion on substantial work, run a steelman counter-review:
 
 Use an independent reviewer sub-agent when available and the review can run in parallel. Otherwise perform the review yourself from a fresh skeptical stance.
 
-### 8. Handoff
+### 9. Handoff
 
 Final handoff must include:
 
 - what changed
 - how it was verified
-- workspace and cleanup status
+- workspace, branch/worktree, integration, and cleanup status
 - what remains risky or unverified
 - what the user should do next, if anything
 
@@ -185,6 +203,7 @@ Do not mark a task complete unless:
 
 - acceptance criteria are satisfied or explicitly adjusted
 - implementation is finished for the agreed scope
+- changes are present in the agreed delivery target, or the user explicitly accepted an unapplied branch/worktree/PR handoff
 - verification evidence is reported
 - steelman objections are handled or documented
 - residual risks and next steps are clear
