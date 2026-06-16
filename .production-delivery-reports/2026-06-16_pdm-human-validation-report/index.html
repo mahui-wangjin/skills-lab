@@ -17,6 +17,7 @@
     .panel { background: #fff; border: 1px solid #d9dee8; border-radius: 8px; padding: 16px; }
     .status { display: inline-block; padding: 4px 8px; border-radius: 999px; font-weight: 700; }
     .candidate { background: #fff7df; color: #8a5a00; }
+    .complete { background: #e7f7ed; color: #116236; }
     table { width: 100%; border-collapse: collapse; background: #fff; }
     th, td { border: 1px solid #d9dee8; padding: 10px; text-align: left; vertical-align: top; }
     th { background: #eef1f6; }
@@ -32,7 +33,7 @@
   <p>production-delivery-manager human validation report enhancement</p>
 
   <section class="meta">
-    <div class="panel"><strong>Status</strong><br><span class="status candidate">candidate</span></div>
+    <div class="panel"><strong>Status</strong><br><span class="status complete">complete</span></div>
     <div class="panel"><strong>Generated</strong><br>2026-06-16</div>
     <div class="panel"><strong>Repository</strong><br>E:/develop/code/my-project/skills-lab</div>
     <div class="panel"><strong>Delivery Target</strong><br>main</div>
@@ -43,7 +44,7 @@
   <section class="panel ok" id="executive-validation">
     <h2>Executive Validation</h2>
     <p>本次增强把 production-delivery-manager 从“内部交付流程控制”扩展为“交付流程 + 人类验收面”。中等及复杂任务最终回复必须包含 Human Validation Packet；复杂、生产级、发布候选、浏览器验收或用户要求报告时，默认生成 `.production-delivery-reports/<date>_<slug>/index.html`。</p>
-    <p>当前状态为候选交付：本地校验、脚本 smoke、npx 本地发现和钢人反论已完成；远端推送和全局安装将在提交后执行，并在最终回复中报告。</p>
+    <p>当前状态为完成交付：本地校验、脚本 smoke、npx 本地发现、钢人反论、远端推送和 Codex 全局安装均已完成。安装器同时提示 PromptScript 适配目标不支持全局安装；这不影响 Codex 的 `~/.agents/skills/production-delivery-manager` 安装结果。</p>
   </section>
 
   <section id="human-checkpoints">
@@ -88,6 +89,9 @@
         <tr><td><code>python -m py_compile create_report.py</code></td><td>build_typecheck</td><td>passed</td><td>Script has valid Python syntax.</td><td>Does not prove semantic completeness.</td></tr>
         <tr><td><code>npx skills add . --list --full-depth</code></td><td>automated_assertion</td><td>passed</td><td>Local skills-lab discovery still finds 5 skills and updated PDM description.</td><td>Does not prove remote GitHub install until after push.</td></tr>
         <tr><td><code>git diff --check</code></td><td>build_typecheck</td><td>passed</td><td>No whitespace errors in tracked diff.</td><td>Does not check untracked files until staged/committed.</td></tr>
+        <tr><td><code>git push origin main</code></td><td>external_source</td><td>passed</td><td>Remote main advanced to commit 54230f6.</td><td>Does not prove global installation by itself.</td></tr>
+        <tr><td><code>npx skills add mahui-wangjin/skills-lab --skill production-delivery-manager -g -y --full-depth</code></td><td>automated_assertion</td><td>Codex install passed; PromptScript target reported unsupported global install</td><td>Global Codex skill directory received the updated PDM skill.</td><td>PromptScript adapter failure is outside Codex global skill availability.</td></tr>
+        <tr><td><code>quick_validate.py ~/.agents/skills/production-delivery-manager</code></td><td>automated_assertion</td><td>passed</td><td>Installed global skill remains structurally valid.</td><td>Does not prove future prompt-trigger behavior.</td></tr>
       </tbody>
     </table>
   </section>
@@ -108,7 +112,7 @@
 
   <section id="workspace-and-integration">
     <h2>Workspace and Integration</h2>
-    <p>Workspace: <code>E:/develop/code/my-project/skills-lab</code>. Current branch target: <code>main</code>. Existing unrelated untracked <code>.idea/</code> was left untouched. This report is part of the candidate diff and should be committed with the skill changes if the user accepts keeping delivery reports in the repository.</p>
+    <p>Workspace: <code>E:/develop/code/my-project/skills-lab</code>. Current branch target: <code>main</code>. Existing unrelated untracked <code>.idea/</code> was left untouched. This report is committed as a dogfood delivery report for the PDM report feature.</p>
   </section>
 
   <section id="appendix">

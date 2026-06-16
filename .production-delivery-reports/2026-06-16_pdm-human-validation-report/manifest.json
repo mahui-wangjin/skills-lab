@@ -1,7 +1,7 @@
 {
   "report_id": "2026-06-16_pdm-human-validation-report",
   "title": "production-delivery-manager human validation report enhancement",
-  "status": "candidate",
+  "status": "complete",
   "generated_at": "2026-06-16 18:29:52",
   "repository": "E:/develop/code/my-project/skills-lab",
   "delivery_target": "main",
@@ -33,6 +33,21 @@
     {
       "name": "git diff --check",
       "grade": "build_typecheck",
+      "result": "passed"
+    },
+    {
+      "name": "git push origin main",
+      "grade": "external_source",
+      "result": "passed: origin/main advanced to 54230f6"
+    },
+    {
+      "name": "global npx skills add",
+      "grade": "automated_assertion",
+      "result": "Codex install passed; PromptScript target reported unsupported global install"
+    },
+    {
+      "name": "installed skill quick_validate",
+      "grade": "automated_assertion",
       "result": "passed"
     }
   ]
