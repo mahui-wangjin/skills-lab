@@ -37,6 +37,8 @@ Assume at least one of these is true and try to prove it:
 - The final answer overclaims certainty.
 - The lead agent avoided delegation or independent review for speed, then overtrusted self-review.
 - Real sub-agents, specialist review, or independent verification were skipped without enough compensating evidence.
+- The final handoff is technically complete but not human-validatable: architecture, core logic, evidence, screenshots, CI/workflow status, or residual risks are not organized so the user can accept or reject the delivery.
+- A required HTML delivery report was skipped, incomplete, unlinked, local-only without explanation, or filled with raw logs instead of reviewable evidence.
 
 ## Method
 
@@ -52,6 +54,7 @@ Assume at least one of these is true and try to prove it:
 5. Decide:
    - Fix now
    - Add verification now
+   - Add or repair the Human Validation Packet or HTML report now
    - Downgrade completion claim
    - Ask user
    - Accept as residual risk
@@ -65,6 +68,14 @@ Also challenge the no-delegation exception directly:
 - Did the fallback verification objectively cover the missing specialist perspective?
 - Should the final handoff say complete, partial, candidate, or self-reviewed?
 
+Also challenge the user validation surface directly:
+
+- Can a busy human validate the architecture and core logic without reading the full diff?
+- Are screenshots classified as visible-state evidence rather than overclaimed backend proof?
+- Does the evidence map say what each test, build, CI job, browser run, screenshot, or manual inspection proves and does not prove?
+- If an HTML report was required, is it in `.production-delivery-reports/` or a documented project-specific equivalent, with relative links to evidence?
+- Are secrets, tokens, personal data, and noisy raw logs excluded or redacted?
+
 ## Output Template
 
 Use this internally or in the final answer when the risk is high:
@@ -76,6 +87,7 @@ Use this internally or in the final answer when the risk is high:
 - Evidence checked: <files/tests/docs/commands>
 - Decision: <fixed / verified / accepted residual risk / needs user decision>
 - Remaining risk: <specific residual risk or none known>
+- Human validation: <packet/report complete, repaired, omitted with reason, or downgraded>
 ```
 
 ## Quality Bar

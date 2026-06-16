@@ -1,0 +1,39 @@
+{
+  "report_id": "2026-06-16_pdm-human-validation-report",
+  "title": "production-delivery-manager human validation report enhancement",
+  "status": "candidate",
+  "generated_at": "2026-06-16 18:29:52",
+  "repository": "E:/develop/code/my-project/skills-lab",
+  "delivery_target": "main",
+  "ci_status": "not run",
+  "ci_reference": "not applicable: skills-lab has no project CI workflow for skill validation",
+  "index": "index.html",
+  "evidence_dir": "evidence",
+  "evidence": [
+    {
+      "name": "quick_validate all skills",
+      "grade": "automated_assertion",
+      "result": "passed"
+    },
+    {
+      "name": "create_report scaffold smoke",
+      "grade": "automated_assertion",
+      "result": "passed"
+    },
+    {
+      "name": "create_report invalid date smoke",
+      "grade": "automated_assertion",
+      "result": "passed"
+    },
+    {
+      "name": "npx skills add . --list --full-depth",
+      "grade": "automated_assertion",
+      "result": "passed"
+    },
+    {
+      "name": "git diff --check",
+      "grade": "build_typecheck",
+      "result": "passed"
+    }
+  ]
+}

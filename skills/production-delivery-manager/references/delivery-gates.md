@@ -208,14 +208,49 @@ For complex or production-grade work, include whether verification had an indepe
 
 When there is no real sub-agent or independent reviewer, strengthen the objective verification where practical. If verification cannot compensate for the missing perspective, label the result as partial, candidate, or self-reviewed instead of complete production-grade delivery.
 
-## Gate 6: Handoff
+## Gate 5.5: Human Validation Report
 
-Final handoff format:
+Before final handoff, decide whether a durable report is required.
+
+Always include a compact Human Validation Packet for medium and complex work.
+
+Generate an HTML report under `.production-delivery-reports/<YYYY-MM-DD>_<slug>/index.html` when:
+
+- the user asks for a report or validation package
+- the task is complex, production-grade, release-candidate, merge-to-main, launch, rollback, or final acceptance work
+- the risky surface includes architecture, core business logic, permission, security, data/schema/migration, queues/workers, external side effects, AI runtime, or product UI/browser acceptance
+- screenshots, browser traces, logs, CI/workflow artifacts, sub-agent findings, or multiple verification surfaces need to be reviewed together
+
+Use `scripts/create_report.py` when possible to scaffold the report directory, `index.html`, `evidence/`, and `manifest.json`. Read `human-validation-report.md` for the report contract before writing the report.
+
+CI/workflow results are evidence inputs. A report may cite a CI run, job, artifact, or release-candidate workflow, but the report must still explain what that evidence proves and does not prove.
+
+If the task is small and low risk, do not generate a report unless asked. Report verification and risk briefly.
+
+If a report trigger applies but no report is generated, state why in the final handoff and downgrade the completion claim if the missing report weakens acceptance.
+
+## Gate 6: Human Validation Handoff
+
+Final handoff format for complex work:
 
 ```md
 ### Delivered
 
 - <completed change>
+
+### Human Validation Packet
+
+- Status: <complete / candidate / partial / blocked / self-reviewed>
+- Needs user decision: <yes/no>
+- Review first: <1-3 human review points>
+- Architecture surface: <boundary and dependency direction>
+- Core logic surface: <critical flow and invariants>
+- Evidence map: <what proves what, including CI/workflow when relevant>
+- Evidence gap: <what was not proven>
+- Steelman result: <strongest objection and decision>
+- Residual risk: <specific risk or none known>
+- Human checkpoints: <acceptance checks>
+- Report: <path or not generated reason>
 
 ### Verified
 
@@ -228,6 +263,10 @@ Final handoff format:
 ### Workspace
 
 - <current workspace/branch/worktree decision, delivery target, integration status, and cleanup status>
+
+### Report Artifact
+
+- <HTML report path, evidence path, committed/staged/local-only status, or not generated reason>
 
 ### Residual Risk
 

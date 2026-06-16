@@ -88,6 +88,18 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 
 该 skill 的当前口径是：复杂或生产级任务默认需要可见的委派决策、独立专家视角或其他能改变结论的独立挑战面，不能因为“我自己写更快”就把交付降级成单 Agent 自写自验。只有任务确属小范围、低风险、可逆且验证明确，或真实子 Agent 不可用/不适合时，才允许单 Agent 处理，并必须在计划和钢人反论中说明原因；若缺少独立视角无法由测试、构建、浏览器验收、安全/数据库检查等客观证据补偿，最终声明必须降级为 partial、candidate 或 self-reviewed。
 
+该 skill 现在把“人的 validation 是否友好”作为生产级交付的一部分：中等及复杂任务最终回复必须包含 Human Validation Packet，把架构审查面、核心逻辑、证据地图、钢人反论、残余风险和人工验收点翻译成用户可快速判断的形式。复杂/生产级、发布候选、合并主线、数据库/权限/安全/worker/外部副作用/浏览器验收，或用户明确要求报告时，默认在目标项目生成 HTML 交付报告：
+
+```text
+.production-delivery-reports/
+  YYYY-MM-DD_<short-slug>/
+    index.html
+    evidence/
+    manifest.json
+```
+
+报告骨架优先用 `skills/production-delivery-manager/scripts/create_report.py` 生成，避免不同 agent 手写出不同格式。CI workflow、release-candidate workflow、本地测试、浏览器截图、日志摘录和子 Agent 审查都可以进入报告证据区，但必须标注证据等级和限制；截图只能证明可见 UI 状态，不能单独证明权限、数据隔离、幂等、事务或后端正确性。CI/workflow 是可重复机器验证的证据来源，HTML 报告负责汇总、解释和映射证据，不替代 CI。
+
 ### `maintainability-guard`
 
 用于在前端、后端、worker、脚本、测试辅助等代码继续堆功能前做可维护性守门。它不按行数洁癖强拆，而是把行数作为报警器，再按职责分离、关注点分离、高内聚低耦合、单一抽象层级、变化轴、测试边界、依赖方向和稳定接口判断是否允许继续原地开发、需要小步拆分，或必须先做结构恢复。
@@ -156,6 +168,7 @@ skills-lab/
     production-delivery-manager/
       SKILL.md
       agents/openai.yaml
+      scripts/
       references/
     reuse-first-guard/
       SKILL.md
@@ -199,6 +212,9 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `用 production-delivery-manager 做完整产品化交付，质量比速度重要`：应把任务按复杂/生产级处理，显式输出 Delegation Quality Gate；默认安排至少一个独立专家视角（如 Architect、Reviewer、Security、Database、E2E、Docs/Release），除非说明真实子 Agent 不可用或任务确属小范围低风险。
 - `用 production-delivery-manager，但这个需求看起来很简单`：可以压缩流程，但必须说明为什么不派发子 Agent，并在最终钢人反论中挑战这个判断；不能只用“我自己更快”作为理由。
 - `用 production-delivery-manager，但当前环境没有真实子 Agent`：必须明示 no-delegation reason，用 targeted tests、typecheck、build、浏览器/E2E、安全/数据库检查或人工审阅补偿；无法补偿时只能交付 partial/candidate/self-reviewed。
+- `用 production-delivery-manager，并且最后给我可审的交付报告`：应在交付目标中生成 `.production-delivery-reports/<日期>_<slug>/index.html`，首页给出 Human Validation Packet，后续展开架构、核心逻辑、证据地图、CI/workflow、本地验证、浏览器截图/限制、钢人反论、workspace 集成和残余风险。
+- `做了浏览器测试并截了图`：截图应进入 HTML 报告的 Browser Evidence 或 Evidence Map，并标为 `screenshot` 证据；同时写明它证明的是可见状态，不替代后端/API/权限/数据隔离测试。
+- `CI release-candidate workflow 已经跑过`：应把 workflow 名称、提交/分支、结果、artifact 或链接写进 Evidence Map，并说明它证明的是可重复机器门禁，不等于用户已验收或生产已发布。
 - `用 production-delivery-manager 改一个单文件文案错字`：可直接做并简短报告验证和风险，不需要完整多 Agent 矩阵。
 - `用 production-delivery-manager 让多个 agent 并行改后端和后台前端`：应先检查 `git status --short`，说明使用当前工作区、分支或 git worktree 的理由；并行写代码时应分配不重叠范围，必要时使用独立 worktree，交付前必须说明变更是否已回灌到用户原始工作区/目标分支并在那里验证。
 - `我在主分支上提出需求，agent 用 worktree 改完了`：不应直接声称完成；除非用户接受 branch/PR-only 交付，否则必须 merge/cherry-pick/apply 回主工作区或目标分支，无法回灌时只能报告候选实现和阻塞原因。

@@ -1,6 +1,6 @@
 ---
 name: production-delivery-manager
-description: Use when the user explicitly names this skill, asks for production-grade / complete / release-ready / high-assurance / quality-first / strict / zero-ambiguity engineering delivery, wants a senior technical lead to coordinate implementation and acceptance, asks for multi-agent/team-led delivery, or needs worktree/workspace hygiene for risky or parallel engineering work.
+description: Use when the user explicitly names this skill, asks for production-grade / complete / release-ready / high-assurance / quality-first / strict / zero-ambiguity engineering delivery, wants a senior technical lead to coordinate implementation and acceptance, asks for multi-agent/team-led delivery, needs worktree/workspace hygiene for risky or parallel engineering work, or needs a human-validation packet / HTML delivery report with architecture, core logic, verification evidence, screenshots, CI/workflow evidence, steelman review, and residual risks.
 ---
 
 # Production Delivery Manager
@@ -10,6 +10,8 @@ description: Use when the user explicitly names this skill, asks for production-
 Use this skill to turn a non-trivial engineering request into a controlled delivery loop with explicit gates, bounded delegation, delivery-target integration, verification evidence, and a steelman counter-review.
 
 Production-grade means "passed the agreed gates with known residual risks." Do not claim bug-free, risk-free, or complete production safety unless the verification evidence actually proves it.
+
+Production-grade delivery also means the user can validate the result without reading the entire diff. For medium, complex, production-grade, or user-requested report work, translate the implementation into a human validation surface: architecture review points, core logic flow, evidence map, steelman summary, residual risks, and explicit human checkpoints. When report triggers apply, generate an HTML report under `.production-delivery-reports/`.
 
 This skill coordinates other specialist skills and tools. Do not replace a more specific skill when one clearly applies; invoke or follow the specific skill at the relevant gate.
 
@@ -35,6 +37,7 @@ Avoid process theater:
 - Do not continue implementation when ambiguity affects data loss, security, permission, payment, migration, or irreversible behavior.
 - Treat explicit quality-first or strict production delivery requests as complex by default. Downgrade only when the work is narrow, low-risk, reversible, and independently verifiable.
 - If real sub-agents are unavailable or not useful, say so and perform labeled self-review perspectives. Do not pretend a single self-review is equivalent to independent review.
+- Do not make the user reverse-engineer quality from raw diffs, command logs, CI job names, or screenshots. Surface the few architecture, core logic, evidence, and risk points that need human acceptance.
 
 ## Delivery Loop
 
@@ -48,13 +51,15 @@ Follow this sequence for implementation, refactor, integration, debugging, migra
 6. Delivery-target integration
 7. Verification
 8. Steelman counter-review
-9. Handoff
+9. Human validation handoff
 
 For small tasks, compress the loop, but do not skip verification or risk reporting.
 
 For detailed gates and output shapes, read [delivery-gates.md](./references/delivery-gates.md) before planning a complex task.
 
 For adversarial review, read [steelman-review.md](./references/steelman-review.md) before final acceptance or after any substantial implementation.
+
+For human validation packets, HTML delivery reports, evidence directories, screenshot handling, CI/workflow evidence, report trigger rules, and the report scaffold script, read [human-validation-report.md](./references/human-validation-report.md) before final handoff for complex or production-grade work, browser/UI acceptance, release-candidate work, or whenever the user asks for a report.
 
 For sub-agent use, read [delegation-patterns.md](./references/delegation-patterns.md) when parallel work, specialist review, or bounded implementation ownership would help. For complex or production-grade work, read it before deciding not to delegate.
 
@@ -195,7 +200,7 @@ Use an independent reviewer sub-agent when available and the review can run in p
 
 For complex or production-grade work, steelman must challenge the delegation choice: if the lead agent implemented, reviewed, and verified everything alone, explain why that was acceptable or downgrade the completion claim.
 
-### 9. Handoff
+### 9. Human Validation Handoff
 
 Final handoff must include:
 
@@ -204,6 +209,8 @@ Final handoff must include:
 - workspace, branch/worktree, integration, and cleanup status
 - what remains risky or unverified
 - what the user should do next, if anything
+
+For medium and complex work, include a compact Human Validation Packet. For complex, production-grade, release-candidate, browser-heavy, migration/security/data-risk work, or when the user asks for a report, generate or update an HTML report under `.production-delivery-reports/<YYYY-MM-DD>_<slug>/index.html` unless repository policy or user preference blocks it. If no report is produced when a trigger applies, state why and downgrade the claim if the missing report weakens user validation.
 
 Keep the final answer concise, but never omit failed checks or residual risks.
 
@@ -234,6 +241,8 @@ Do not mark a task complete unless:
 - verification evidence is reported
 - steelman objections are handled or documented
 - for complex or production-grade work, the handoff reports the delegation decision, the independent challenge surface used, and any no-delegation reason or self-reviewed downgrade
+- for medium or complex work, the handoff includes a Human Validation Packet that exposes architecture review points, core logic, evidence, steelman result, human checkpoints, and residual risks
+- when report triggers apply, the HTML delivery report exists in `.production-delivery-reports/` or the final handoff explains why it was not generated and what evidence replaces it
 - residual risks and next steps are clear
 
 If any condition is not met, report the task as partially complete, blocked, or needing user decision.

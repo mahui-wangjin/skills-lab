@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Production Delivery Report - PDM Human Validation Report</title>
+  <style>
+    body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; color: #172033; background: #f6f7f9; }
+    main { max-width: 1120px; margin: 0 auto; padding: 32px 20px 56px; }
+    h1, h2, h3 { color: #111827; }
+    h1 { margin: 0 0 8px; font-size: 30px; }
+    h2 { margin-top: 32px; border-bottom: 1px solid #d9dee8; padding-bottom: 8px; font-size: 21px; }
+    h3 { margin-top: 20px; font-size: 16px; }
+    .meta, .grid { display: grid; gap: 12px; }
+    .meta { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); margin: 20px 0; }
+    .grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .panel { background: #fff; border: 1px solid #d9dee8; border-radius: 8px; padding: 16px; }
+    .status { display: inline-block; padding: 4px 8px; border-radius: 999px; font-weight: 700; }
+    .candidate { background: #fff7df; color: #8a5a00; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { border: 1px solid #d9dee8; padding: 10px; text-align: left; vertical-align: top; }
+    th { background: #eef1f6; }
+    code { background: #eef1f6; padding: 2px 4px; border-radius: 4px; }
+    .risk { border-left: 4px solid #d97706; }
+    .gap { border-left: 4px solid #b91c1c; }
+    .ok { border-left: 4px solid #15803d; }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Production Delivery Report</h1>
+  <p>production-delivery-manager human validation report enhancement</p>
+
+  <section class="meta">
+    <div class="panel"><strong>Status</strong><br><span class="status candidate">candidate</span></div>
+    <div class="panel"><strong>Generated</strong><br>2026-06-16</div>
+    <div class="panel"><strong>Repository</strong><br>E:/develop/code/my-project/skills-lab</div>
+    <div class="panel"><strong>Delivery Target</strong><br>main</div>
+    <div class="panel"><strong>Report ID</strong><br>2026-06-16_pdm-human-validation-report</div>
+    <div class="panel"><strong>CI / Workflow</strong><br>not run<br>skills-lab has local skill validation; no project CI workflow was modified in this change.</div>
+  </section>
+
+  <section class="panel ok" id="executive-validation">
+    <h2>Executive Validation</h2>
+    <p>本次增强把 production-delivery-manager 从“内部交付流程控制”扩展为“交付流程 + 人类验收面”。中等及复杂任务最终回复必须包含 Human Validation Packet；复杂、生产级、发布候选、浏览器验收或用户要求报告时，默认生成 `.production-delivery-reports/<date>_<slug>/index.html`。</p>
+    <p>当前状态为候选交付：本地校验、脚本 smoke、npx 本地发现和钢人反论已完成；远端推送和全局安装将在提交后执行，并在最终回复中报告。</p>
+  </section>
+
+  <section id="human-checkpoints">
+    <h2>Human Checkpoints</h2>
+    <ul>
+      <li>[ ] 是否接受 `.production-delivery-reports/` 作为默认报告目录。</li>
+      <li>[ ] 是否接受“短 Human Validation Packet + 条件 HTML 报告”的分层，不让小改动过度流程化。</li>
+      <li>[ ] 是否接受 CI/workflow 作为证据来源，而不是报告的替代品。</li>
+      <li>[ ] 是否接受截图只能证明可见 UI 状态，不能替代后端/API/权限/数据隔离测试。</li>
+    </ul>
+  </section>
+
+  <section id="architecture-review-surface">
+    <h2>Architecture Review Surface</h2>
+    <div class="grid">
+      <div class="panel"><h3>Main Boundary</h3><p>主流程仍在 <code>SKILL.md</code> 和 <code>delivery-gates.md</code>；报告契约拆到 <code>references/human-validation-report.md</code>；稳定脚手架放到 <code>scripts/create_report.py</code>。</p></div>
+      <div class="panel"><h3>Dependency Direction</h3><p>交付主流程引用报告 reference；报告 reference 可调用脚本；脚本只生成骨架，不反向决定交付是否完成。</p></div>
+      <div class="panel"><h3>Non-goals</h3><p>本次没有给所有任务强制生成完整报告，没有新增 CI workflow，也没有让截图替代自动化测试。</p></div>
+    </div>
+  </section>
+
+  <section id="core-logic-review-surface">
+    <h2>Core Logic Review Surface</h2>
+    <ol>
+      <li>任务进入 PDM 后先按简单/中等/复杂/生产级分流。</li>
+      <li>中等及复杂任务最终输出 Human Validation Packet。</li>
+      <li>符合报告触发条件时，使用脚本生成 HTML 报告骨架，再填入真实证据。</li>
+      <li>证据地图把本地验证、CI/workflow、浏览器截图、日志和审查结论分级，并写明限制。</li>
+      <li>steelman review 必须挑战报告是否真的让人能验收。</li>
+    </ol>
+    <p><strong>Invariant:</strong> 不得把未运行的 CI 写成已通过；不得把截图过度解释为后端正确性；不得因为生成了报告就宣称生产无风险。</p>
+  </section>
+
+  <section id="evidence-map">
+    <h2>Evidence Map</h2>
+    <table>
+      <thead><tr><th>Evidence</th><th>Grade</th><th>Result</th><th>Proves</th><th>Limits</th></tr></thead>
+      <tbody>
+        <tr><td><code>quick_validate.py</code> for all 5 skills</td><td>automated_assertion</td><td>passed</td><td>Skill frontmatter and required structure remain valid.</td><td>Does not prove behavioral trigger quality in future prompts.</td></tr>
+        <tr><td><code>create_report.py</code> normal scaffold smoke</td><td>automated_assertion</td><td>passed</td><td>Script creates index.html, evidence/, manifest.json and avoids broken placeholder screenshot.</td><td>Does not prove future agents will fill report content correctly.</td></tr>
+        <tr><td><code>create_report.py</code> invalid date smoke</td><td>automated_assertion</td><td>passed</td><td>Bad <code>--date</code> input is rejected before output creation.</td><td>Does not validate every possible filesystem path policy.</td></tr>
+        <tr><td><code>python -m py_compile create_report.py</code></td><td>build_typecheck</td><td>passed</td><td>Script has valid Python syntax.</td><td>Does not prove semantic completeness.</td></tr>
+        <tr><td><code>npx skills add . --list --full-depth</code></td><td>automated_assertion</td><td>passed</td><td>Local skills-lab discovery still finds 5 skills and updated PDM description.</td><td>Does not prove remote GitHub install until after push.</td></tr>
+        <tr><td><code>git diff --check</code></td><td>build_typecheck</td><td>passed</td><td>No whitespace errors in tracked diff.</td><td>Does not check untracked files until staged/committed.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="browser-evidence">
+    <h2>Browser Evidence</h2>
+    <p>No browser UI was changed in this skill repository. The new PDM rule states that future browser screenshots belong in the report as <code>screenshot</code> evidence and must state visible-state limitations.</p>
+  </section>
+
+  <section class="panel risk" id="steelman-counter-review">
+    <h2>Steelman Counter-Review</h2>
+    <p><strong>Strongest objection 1:</strong> The report requirement could make every small task heavy. <strong>Decision:</strong> addressed by keeping full HTML reports conditional and allowing small tasks to use a compressed handoff.</p>
+    <p><strong>Strongest objection 2:</strong> A scaffold script could create false confidence if placeholders remain. <strong>Decision:</strong> addressed by documenting that placeholders must be replaced and by keeping final completion tied to evidence, not report existence.</p>
+    <p><strong>Strongest objection 3:</strong> CI/workflow evidence might be confused with user acceptance. <strong>Decision:</strong> addressed by explicitly defining CI as evidence input and requiring "proves / does not prove" mapping.</p>
+    <p><strong>Strongest objection 4:</strong> The report template may become hard to maintain if embedded in SKILL.md. <strong>Decision:</strong> addressed by moving the detailed contract to a reference file and deterministic scaffold script.</p>
+    <p><strong>Remaining risk:</strong> Trigger quality still depends on future agents reading the reference before final handoff. This is mitigated by adding the reference callout to SKILL.md and delivery-gates completion standards.</p>
+  </section>
+
+  <section id="workspace-and-integration">
+    <h2>Workspace and Integration</h2>
+    <p>Workspace: <code>E:/develop/code/my-project/skills-lab</code>. Current branch target: <code>main</code>. Existing unrelated untracked <code>.idea/</code> was left untouched. This report is part of the candidate diff and should be committed with the skill changes if the user accepts keeping delivery reports in the repository.</p>
+  </section>
+
+  <section id="appendix">
+    <h2>Appendix</h2>
+    <p>Primary changed areas: PDM skill frontmatter/body, delivery gates, steelman review, delegation patterns, new human-validation-report reference, new create_report.py scaffold script, README, docs index, and this dogfood report.</p>
+  </section>
+</main>
+</body>
+</html>

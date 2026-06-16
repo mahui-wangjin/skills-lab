@@ -25,6 +25,7 @@ Examples:
 - Database Reviewer: inspect schema and migration risks.
 - Reviewer: inspect the final diff for correctness and missing tests.
 - E2E Runner: run browser validation while implementation polish continues.
+- Evidence Reporter: assemble a human-readable validation packet or HTML report from accepted verification evidence without inventing results.
 
 ## Minimum Quality Surfaces
 
@@ -33,7 +34,7 @@ For production-grade work, try to create at least one independent surface beyond
 - Architecture surface: Architect or Code Explorer maps boundaries before broad edits.
 - Risk surface: Reviewer, Security, Database, TypeScript, Performance, or silent-failure reviewer challenges failure modes.
 - Verification surface: Test or E2E runner validates user-visible flows, build/runtime checks, or regression tests.
-- Documentation/release surface: Docs or Release agent checks that handoff, ledgers, and acceptance evidence match the change.
+- Documentation/release surface: Docs or Release agent checks that handoff, ledgers, Human Validation Packet, HTML report, CI/workflow evidence, and acceptance evidence match the change.
 
 Use the surfaces that match the task's risk. A backend data migration may need database/security review; a frontend product workflow may need E2E and accessibility review; a docs-only skill change may only need skill validation plus reviewer critique.
 
@@ -67,7 +68,7 @@ Expected output: <patch, findings, test result, risk list>
 Verification: <command/check or evidence required>
 ```
 
-For read-only review agents, ask for findings that could change the result: blockers, missing tests, weak assumptions, overclaims, and residual risks. A review prompt that cannot produce a rejection is usually too soft.
+For read-only review agents, ask for findings that could change the result: blockers, missing tests, weak assumptions, overclaims, missing human-validation surfaces, report gaps, and residual risks. A review prompt that cannot produce a rejection is usually too soft.
 
 For code-editing workers, add:
 
