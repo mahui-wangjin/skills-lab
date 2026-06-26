@@ -25,7 +25,7 @@ Examples:
 - Database Reviewer: inspect schema and migration risks.
 - Reviewer: inspect the final diff for correctness and missing tests.
 - E2E Runner: run browser validation while implementation polish continues.
-- Evidence Reporter: assemble a human-readable validation packet or HTML report from accepted verification evidence without inventing results.
+- Evidence Reporter: at finalization, assemble a human-readable validation packet or HTML report from accepted verification evidence without inventing results. During implementation, keep only an evidence ledger and do not polish the final report.
 
 ## Minimum Quality Surfaces
 

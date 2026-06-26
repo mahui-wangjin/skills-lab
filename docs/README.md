@@ -5,7 +5,8 @@
 - 项目级规则文件：`../AGENTS.md`
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
-- 当前新增设计文档：`./superpowers/specs/2026-06-16-production-delivery-manager-human-validation-report.md`（补充 Human Validation Packet、HTML 交付报告、证据等级、截图限制、CI/workflow 证据和 `.production-delivery-reports/` 默认目录）
+- 当前新增设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-result-first-reporting.md`（将 production-delivery-manager 的 HTML 报告优化为结果优先验收面，实施中只维护 evidence ledger，最终一次性生成或补齐报告）
+- 上一轮设计文档：`./superpowers/specs/2026-06-16-production-delivery-manager-human-validation-report.md`（补充 Human Validation Packet、HTML 交付报告、证据等级、截图限制、CI/workflow 证据和 `.production-delivery-reports/` 默认目录）
 - 上一轮设计文档：`./superpowers/specs/2026-05-29-production-delivery-manager-delegation-quality-gate.md`（补充复杂/生产级任务的 Delegation Quality Gate、独立专家视角和不委派钢人反审规则）
 - 已更新设计文档：`./superpowers/specs/2026-05-27-admin-ui-pattern-system-design.md`（补充非 CRUD 后台页面范式、完成门禁、降级规则和 Windows UTF-8 校验口径）
 - 上一轮设计文档：`./superpowers/specs/2026-05-27-maintainability-guard-design.md`

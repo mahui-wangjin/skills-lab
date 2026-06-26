@@ -163,6 +163,7 @@ During implementation:
 - preserve unrelated user changes
 - update docs or ledgers required by project rules
 - stage broad changes through small, verifiable slices
+- keep report work out of the implementation loop; record only a terse evidence ledger when a command, screenshot, sub-agent review, CI run, or manual check produces evidence
 
 If new information invalidates the plan, pause, report the conflict, and re-plan.
 
@@ -214,6 +215,19 @@ Before final handoff, decide whether a durable report is required.
 
 Always include a compact Human Validation Packet for medium and complex work.
 
+Use result-first reporting. The report must help the user accept or reject the final outcome without reading the full diff. It is not a development diary, scratchpad, chronological debug log, or place to narrate repeated failed attempts.
+
+During implementation, maintain only a compact evidence ledger:
+
+```md
+- Evidence: <command/check/artifact>
+  Result: <passed/failed/skipped/not run>
+  Proves: <one sentence>
+  Limit: <one sentence>
+```
+
+Do not repeatedly write or polish the HTML report while implementation is still changing. Generate or update the durable report after delivery-target integration, final verification, and steelman review, using the final evidence ledger.
+
 Generate an HTML report under `.production-delivery-reports/<YYYY-MM-DD>_<slug>/index.html` when:
 
 - the user asks for a report or validation package
@@ -236,16 +250,17 @@ Final handoff format for complex work:
 ```md
 ### Delivered
 
-- <completed change>
+- <final user-visible capabilities or engineering outcomes>
 
 ### Human Validation Packet
 
 - Status: <complete / candidate / partial / blocked / self-reviewed>
 - Needs user decision: <yes/no>
 - Review first: <1-3 human review points>
-- Architecture surface: <boundary and dependency direction>
-- Core logic surface: <critical flow and invariants>
-- Evidence map: <what proves what, including CI/workflow when relevant>
+- Delivered capabilities: <what the user can now do or what behavior changed>
+- Architecture surface: <boundary and dependency direction only if relevant to acceptance>
+- Core logic surface: <critical flow and invariants, not implementation chronology>
+- Evidence map: <final tests/build/CI/browser/screenshots/docs and what each proves>
 - Evidence gap: <what was not proven>
 - Steelman result: <strongest objection and decision>
 - Residual risk: <specific risk or none known>

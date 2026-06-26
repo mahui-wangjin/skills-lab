@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Create a production delivery HTML report scaffold.
+"""Create a result-first production delivery HTML report scaffold.
 
 The script creates:
   .production-delivery-reports/YYYY-MM-DD_slug/index.html
   .production-delivery-reports/YYYY-MM-DD_slug/evidence/
   .production-delivery-reports/YYYY-MM-DD_slug/manifest.json
 
-It only scaffolds stable structure. Agents must replace placeholders with real
-task evidence before treating the report as final.
+It only scaffolds stable structure. Agents must replace placeholders with final
+outcome, delivered capabilities, and verified evidence before treating the
+report as final. The report is not a chronological work log.
 """
 
 from __future__ import annotations
@@ -46,7 +47,7 @@ def build_html(args: argparse.Namespace, report_id: str) -> str:
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Production Delivery Report - {title}</title>
+  <title>Production Delivery Outcome - {title}</title>
   <style>
     body {{ margin: 0; font-family: Arial, sans-serif; color: #172033; background: #f6f7f9; }}
     main {{ max-width: 1120px; margin: 0 auto; padding: 32px 20px 56px; }}
@@ -76,7 +77,7 @@ def build_html(args: argparse.Namespace, report_id: str) -> str:
 </head>
 <body>
 <main>
-  <h1>Production Delivery Report</h1>
+  <h1>Production Delivery Outcome</h1>
   <p>{title}</p>
 
   <section class="meta">
@@ -90,35 +91,40 @@ def build_html(args: argparse.Namespace, report_id: str) -> str:
 
   <section class="panel ok" id="executive-validation">
     <h2>Executive Validation</h2>
-    <p>Replace this paragraph with what was delivered, whether a user decision is needed, and why this is ready for human review.</p>
+    <p>Replace this paragraph with the final outcome, whether a user decision is needed, and the first thing the user should inspect.</p>
   </section>
 
   <section id="human-checkpoints">
     <h2>Human Checkpoints</h2>
     <ul>
-      <li>[ ] Architecture boundary matches the intended product or engineering direction.</li>
-      <li>[ ] Core flow matches the business rule.</li>
-      <li>[ ] Evidence is sufficient for the risky surface.</li>
+      <li>[ ] Delivered capabilities match the requested outcome.</li>
+      <li>[ ] Key user-visible behavior or engineering invariant works as expected.</li>
+      <li>[ ] Evidence is sufficient for the risky surface being accepted.</li>
       <li>[ ] Residual risks are acceptable.</li>
+    </ul>
+  </section>
+
+  <section id="delivered-capabilities">
+    <h2>Delivered Capabilities</h2>
+    <ul>
+      <li>Replace with final feature, behavior, integration, or fix the user can validate.</li>
+      <li>Replace with any important removed, disabled, or intentionally unchanged behavior.</li>
+      <li>Replace with how the user should exercise the result, if a manual check is useful.</li>
     </ul>
   </section>
 
   <section id="architecture-review-surface">
     <h2>Architecture Review Surface</h2>
     <div class="grid">
-      <div class="panel"><h3>Main Boundary</h3><p>Replace with changed boundary and ownership.</p></div>
-      <div class="panel"><h3>Dependency Direction</h3><p>Replace with dependency direction and integration notes.</p></div>
+      <div class="panel"><h3>Main Boundary</h3><p>Replace with changed boundary and ownership, only as needed to validate the outcome.</p></div>
+      <div class="panel"><h3>Dependency Direction</h3><p>Replace with dependency direction and integration notes, not implementation chronology.</p></div>
       <div class="panel"><h3>Non-goals</h3><p>Replace with what intentionally did not change.</p></div>
     </div>
   </section>
 
   <section id="core-logic-review-surface">
     <h2>Core Logic Review Surface</h2>
-    <ol>
-      <li>Replace with critical flow step one.</li>
-      <li>Replace with critical flow step two.</li>
-      <li>Replace with critical flow step three.</li>
-    </ol>
+    <p>Replace with the final critical flow and invariants. Do not include the sequence of failed attempts or intermediate rewrites.</p>
     <p><strong>Invariants:</strong> Replace with business, permission, tenant, audit, idempotency, or failure-path invariants.</p>
   </section>
 
@@ -153,7 +159,7 @@ def build_html(args: argparse.Namespace, report_id: str) -> str:
 
   <section id="appendix">
     <h2>Appendix</h2>
-    <p>Replace with concise file list, important diffs by intent, skipped checks, follow-up tasks, and evidence omissions.</p>
+    <p>Replace with concise file list grouped by delivered outcome, skipped checks that still matter, follow-up tasks, and evidence omissions. Do not include raw logs or process transcripts.</p>
   </section>
 </main>
 </body>

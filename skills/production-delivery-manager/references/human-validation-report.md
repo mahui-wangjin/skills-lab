@@ -1,14 +1,26 @@
 # Human Validation Report
 
-Use this reference to make production delivery reviewable by a human who does not want to inspect the full diff.
+Use this reference to make the final delivery reviewable by a human who cares about the outcome, not the agent's iteration history.
 
 ## Core Rule
 
-Every medium, complex, or production-grade task must expose a Human Validation Packet in the final answer. The packet is the user's review surface.
+Every medium, complex, or production-grade task must expose a Human Validation Packet in the final answer. The packet is the user's result-review surface.
 
 Generate an HTML report when any report trigger applies. The report is the durable version of the packet plus evidence.
 
 CI/workflow results are evidence sources, not the report itself. A workflow proves that a repeatable machine gate ran on a commit or branch. The report explains what that evidence proves, what it does not prove, and how it maps to architecture, core logic, browser behavior, and residual risk.
+
+Report once, at finalization. During implementation, do not keep rewriting `index.html` after every failed check or fix. Keep a compact evidence ledger and produce the report from the final verified state.
+
+The report must not be a chronology. Exclude:
+
+- step-by-step debugging narration
+- repeated failed attempts that were superseded
+- raw command dumps
+- sub-agent transcripts
+- long diffs or file-by-file implementation commentary
+
+Include failed or skipped checks only when they remain relevant to final acceptance, and summarize what they mean for risk.
 
 ## Report Triggers
 
@@ -46,6 +58,19 @@ Rules:
 - If the report is part of merge/release evidence, keep it in the diff unless project policy says delivery reports are external artifacts.
 - If the report is local-only, state that it was not committed and why.
 
+## Evidence Ledger During Work
+
+While implementation is still changing, use a short ledger instead of writing the HTML report:
+
+```md
+- Evidence: `<command/check/artifact path>`
+  Result: passed / failed / skipped / not run
+  Proves: <what the final user-visible or engineering claim it supports>
+  Limit: <what it does not prove>
+```
+
+This ledger can live in the agent's working notes or final response preparation. Only persist it as a repository artifact when the project explicitly wants raw evidence.
+
 ## Scaffold Script
 
 Use `scripts/create_report.py` to create the report directory, `index.html`, `evidence/`, and `manifest.json` whenever possible. This keeps report layout stable across agents.
@@ -62,7 +87,7 @@ python <skill-dir>/scripts/create_report.py \
   --output-root ".production-delivery-reports"
 ```
 
-After scaffolding, edit `index.html` with task-specific evidence. Do not leave placeholder text in a final report.
+After scaffolding, edit `index.html` with final task-specific outcome and evidence. Do not leave placeholder text in a final report. Do not scaffold repeatedly during implementation; if a report directory is created early, use it only to collect screenshots or log excerpts until final verification is complete.
 
 ## Evidence Grades
 
@@ -93,17 +118,18 @@ If CI was not run, say so. Do not let local-only verification masquerade as CI e
 
 ## Human Validation Packet
 
-Use this packet in the final answer for medium and complex work. Keep it concise.
+Use this packet in the final answer for medium and complex work. Keep it concise and outcome-first.
 
 ```md
 ### Human Validation Packet
 
 - Status: <complete / candidate / partial / blocked / self-reviewed>
 - Needs user decision: <no / yes: decision needed>
-- Review first: <1-3 architecture or product decisions the user should inspect>
-- Architecture surface: <main boundary, dependency direction, what should not have changed>
-- Core logic surface: <critical flow and invariants>
-- Evidence map: <tests/build/CI/browser/screenshots/docs and what each proves>
+- Delivered capabilities: <what is now usable or what behavior changed>
+- Review first: <1-3 result, architecture, or product points the user should inspect>
+- Architecture surface: <main boundary, dependency direction, what should not have changed; omit if irrelevant>
+- Core logic surface: <critical flow and invariants, not the implementation chronology>
+- Evidence map: <final tests/build/CI/browser/screenshots/docs and what each proves>
 - Evidence gap: <what was not proven>
 - Steelman result: <strongest objection and decision>
 - Residual risk: <specific risk or none known beyond untested environments>
@@ -123,11 +149,13 @@ Requirements:
 - no secrets, tokens, session values, unredacted PII, or full noisy logs
 - include generation date, task title, repository/workspace, branch or worktree, and delivery target
 - put the validation verdict near the top
+- put delivered capabilities and user-visible outcomes before process or file details
 - separate facts from assumptions and residual risks
 - link screenshots, logs, traces, and CI artifacts with captions and evidence grades
 - preserve failed, skipped, or unrun checks; do not hide them in appendices
 - include steelman objections and the final decision for each material objection
 - include human checkpoints that can be accepted or rejected without reading code
+- avoid chronological process logs; summarize only the final state, final evidence, and remaining risk
 
 Use a quiet, utilitarian layout. Avoid decorative styling that weakens scanning.
 
@@ -136,21 +164,23 @@ Use a quiet, utilitarian layout. Avoid decorative styling that weakens scanning.
 1. **Executive Validation**
    - status, delivery target, decision needed, report scope
 2. **Human Checkpoints**
-   - architecture, core logic, user-visible behavior, residual risk acceptance
-3. **Architecture Review Surface**
+   - delivered behavior, user-visible acceptance, residual risk acceptance
+3. **Delivered Capabilities**
+   - final features, fixed behaviors, removed/disabled fake paths, and how to validate them
+4. **Architecture Review Surface**
    - changed boundary, dependency direction, module ownership, non-goals
-4. **Core Logic Review Surface**
+5. **Core Logic Review Surface**
    - critical flow, invariants, error paths, permission/tenant/audit/idempotency notes when relevant
-5. **Evidence Map**
+6. **Evidence Map**
    - commands, tests, CI/workflow results, browser checks, screenshots, source documents, what each proves, and limitations
-6. **Browser Evidence** when UI/browser work occurred
+7. **Browser Evidence** when UI/browser work occurred
    - desktop/mobile screenshots, route, viewport, action path, console/network result, limitations
-7. **Steelman Counter-Review**
+8. **Steelman Counter-Review**
    - strongest objections, evidence checked, decision, remaining risk
-8. **Workspace and Integration**
+9. **Workspace and Integration**
    - original workspace, branch/worktree, delivery target, integration status, cleanup status, unrelated changes
-9. **Appendix**
-   - concise file list, important diffs by intent, skipped checks, follow-up tasks
+10. **Appendix**
+   - concise file list by outcome, skipped checks that remain relevant, follow-up tasks
 
 ## Minimal HTML Template
 
@@ -162,13 +192,14 @@ The scaffold script generates a complete starter report. Use this structure when
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Production Delivery Report - TASK_TITLE</title>
+  <title>Production Delivery Outcome - TASK_TITLE</title>
 </head>
 <body>
   <main>
-    <h1>Production Delivery Report</h1>
+    <h1>Production Delivery Outcome</h1>
     <section id="executive-validation"></section>
     <section id="human-checkpoints"></section>
+    <section id="delivered-capabilities"></section>
     <section id="architecture-review-surface"></section>
     <section id="core-logic-review-surface"></section>
     <section id="evidence-map"></section>
@@ -189,6 +220,7 @@ The scaffold script generates a complete starter report. Use this structure when
 - If evidence is generated by a browser tool, include route, viewport, user action path, console result, and network/API result when relevant.
 - If a screenshot is only illustrative, label it as `screenshot` and state what it cannot prove.
 - If a CI artifact is external and cannot be bundled, include a link or run identifier and state whether the report remains useful offline.
+- Do not include raw sub-agent transcripts or iterative scratch notes unless the user explicitly requests audit-trail detail.
 
 ## Final Answer Contract
 

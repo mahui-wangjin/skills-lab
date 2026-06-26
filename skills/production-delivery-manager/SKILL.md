@@ -11,7 +11,7 @@ Use this skill to turn a non-trivial engineering request into a controlled deliv
 
 Production-grade means "passed the agreed gates with known residual risks." Do not claim bug-free, risk-free, or complete production safety unless the verification evidence actually proves it.
 
-Production-grade delivery also means the user can validate the result without reading the entire diff. For medium, complex, production-grade, or user-requested report work, translate the implementation into a human validation surface: architecture review points, core logic flow, evidence map, steelman summary, residual risks, and explicit human checkpoints. When report triggers apply, generate an HTML report under `.production-delivery-reports/`.
+Production-grade delivery also means the user can validate the result without reading the entire diff. For medium, complex, production-grade, or user-requested report work, translate the implementation into a human validation surface: architecture review points, core logic flow, evidence map, steelman summary, residual risks, and explicit human checkpoints. Reports are finalization artifacts: keep a terse evidence ledger while implementing, then generate or update the HTML report after delivery-target integration and verification unless the user explicitly asked for a report-first artifact.
 
 This skill coordinates other specialist skills and tools. Do not replace a more specific skill when one clearly applies; invoke or follow the specific skill at the relevant gate.
 
@@ -38,6 +38,8 @@ Avoid process theater:
 - Treat explicit quality-first or strict production delivery requests as complex by default. Downgrade only when the work is narrow, low-risk, reversible, and independently verifiable.
 - If real sub-agents are unavailable or not useful, say so and perform labeled self-review perspectives. Do not pretend a single self-review is equivalent to independent review.
 - Do not make the user reverse-engineer quality from raw diffs, command logs, CI job names, or screenshots. Surface the few architecture, core logic, evidence, and risk points that need human acceptance.
+- Do not write or polish the final HTML report during core implementation. Capture only a short evidence ledger: command/check, result, artifact path, what it proves, and limitation.
+- Generate the durable report at finalization from verified evidence. If a long-running task needs a report directory early, use it only as an artifact bucket until verification is complete.
 
 ## Delivery Loop
 
@@ -59,7 +61,7 @@ For detailed gates and output shapes, read [delivery-gates.md](./references/deli
 
 For adversarial review, read [steelman-review.md](./references/steelman-review.md) before final acceptance or after any substantial implementation.
 
-For human validation packets, HTML delivery reports, evidence directories, screenshot handling, CI/workflow evidence, report trigger rules, and the report scaffold script, read [human-validation-report.md](./references/human-validation-report.md) before final handoff for complex or production-grade work, browser/UI acceptance, release-candidate work, or whenever the user asks for a report.
+For human validation packets, HTML delivery reports, evidence directories, screenshot handling, CI/workflow evidence, report trigger rules, and the report scaffold script, read [human-validation-report.md](./references/human-validation-report.md) during finalization for complex or production-grade work, browser/UI acceptance, release-candidate work, or whenever the user asks for a report. Do not let report drafting interrupt implementation unless report creation is the requested task.
 
 For sub-agent use, read [delegation-patterns.md](./references/delegation-patterns.md) when parallel work, specialist review, or bounded implementation ownership would help. For complex or production-grade work, read it before deciding not to delegate.
 
@@ -210,7 +212,7 @@ Final handoff must include:
 - what remains risky or unverified
 - what the user should do next, if anything
 
-For medium and complex work, include a compact Human Validation Packet. For complex, production-grade, release-candidate, browser-heavy, migration/security/data-risk work, or when the user asks for a report, generate or update an HTML report under `.production-delivery-reports/<YYYY-MM-DD>_<slug>/index.html` unless repository policy or user preference blocks it. If no report is produced when a trigger applies, state why and downgrade the claim if the missing report weakens user validation.
+For medium and complex work, include a compact Human Validation Packet. For complex, production-grade, release-candidate, browser-heavy, migration/security/data-risk work, or when the user asks for a report, generate or update an HTML report under `.production-delivery-reports/<YYYY-MM-DD>_<slug>/index.html` from the final evidence ledger unless repository policy or user preference blocks it. If no report is produced when a trigger applies, state why and downgrade the claim if the missing report weakens user validation.
 
 Keep the final answer concise, but never omit failed checks or residual risks.
 
@@ -242,7 +244,7 @@ Do not mark a task complete unless:
 - steelman objections are handled or documented
 - for complex or production-grade work, the handoff reports the delegation decision, the independent challenge surface used, and any no-delegation reason or self-reviewed downgrade
 - for medium or complex work, the handoff includes a Human Validation Packet that exposes architecture review points, core logic, evidence, steelman result, human checkpoints, and residual risks
-- when report triggers apply, the HTML delivery report exists in `.production-delivery-reports/` or the final handoff explains why it was not generated and what evidence replaces it
+- when report triggers apply, the HTML delivery report exists in `.production-delivery-reports/` and is generated from verified evidence, or the final handoff explains why it was not generated and what evidence replaces it
 - residual risks and next steps are clear
 
 If any condition is not met, report the task as partially complete, blocked, or needing user decision.

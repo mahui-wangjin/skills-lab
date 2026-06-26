@@ -88,7 +88,7 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 
 该 skill 的当前口径是：复杂或生产级任务默认需要可见的委派决策、独立专家视角或其他能改变结论的独立挑战面，不能因为“我自己写更快”就把交付降级成单 Agent 自写自验。只有任务确属小范围、低风险、可逆且验证明确，或真实子 Agent 不可用/不适合时，才允许单 Agent 处理，并必须在计划和钢人反论中说明原因；若缺少独立视角无法由测试、构建、浏览器验收、安全/数据库检查等客观证据补偿，最终声明必须降级为 partial、candidate 或 self-reviewed。
 
-该 skill 现在把“人的 validation 是否友好”作为生产级交付的一部分：中等及复杂任务最终回复必须包含 Human Validation Packet，把架构审查面、核心逻辑、证据地图、钢人反论、残余风险和人工验收点翻译成用户可快速判断的形式。复杂/生产级、发布候选、合并主线、数据库/权限/安全/worker/外部副作用/浏览器验收，或用户明确要求报告时，默认在目标项目生成 HTML 交付报告：
+该 skill 现在把“人的 validation 是否友好”作为生产级交付的一部分：中等及复杂任务最终回复必须包含 Human Validation Packet，把最终交付成果、可用功能、架构审查面、核心逻辑、证据地图、钢人反论、残余风险和人工验收点翻译成用户可快速判断的形式。复杂/生产级、发布候选、合并主线、数据库/权限/安全/worker/外部副作用/浏览器验收，或用户明确要求报告时，默认在目标项目生成 HTML 交付报告：
 
 ```text
 .production-delivery-reports/
@@ -98,7 +98,7 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
     manifest.json
 ```
 
-报告骨架优先用 `skills/production-delivery-manager/scripts/create_report.py` 生成，避免不同 agent 手写出不同格式。CI workflow、release-candidate workflow、本地测试、浏览器截图、日志摘录和子 Agent 审查都可以进入报告证据区，但必须标注证据等级和限制；截图只能证明可见 UI 状态，不能单独证明权限、数据隔离、幂等、事务或后端正确性。CI/workflow 是可重复机器验证的证据来源，HTML 报告负责汇总、解释和映射证据，不替代 CI。
+报告是结果验收面，不是开发过程流水账。实施过程中只维护简短 evidence ledger（检查/结果/证明什么/限制），不要在每次失败、修复、重跑后反复编辑 HTML。最终在交付目标回灌、验证和钢人反论之后，用 `skills/production-delivery-manager/scripts/create_report.py` 一次性生成或补齐结果优先的 `Production Delivery Outcome` 报告。CI workflow、release-candidate workflow、本地测试、浏览器截图、日志摘录和子 Agent 审查都可以进入报告证据区，但必须标注证据等级和限制；截图只能证明可见 UI 状态，不能单独证明权限、数据隔离、幂等、事务或后端正确性。CI/workflow 是可重复机器验证的证据来源，HTML 报告负责汇总、解释和映射最终证据，不替代 CI，也不记录已被最终实现取代的中间尝试。
 
 ### `maintainability-guard`
 
@@ -212,7 +212,7 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `用 production-delivery-manager 做完整产品化交付，质量比速度重要`：应把任务按复杂/生产级处理，显式输出 Delegation Quality Gate；默认安排至少一个独立专家视角（如 Architect、Reviewer、Security、Database、E2E、Docs/Release），除非说明真实子 Agent 不可用或任务确属小范围低风险。
 - `用 production-delivery-manager，但这个需求看起来很简单`：可以压缩流程，但必须说明为什么不派发子 Agent，并在最终钢人反论中挑战这个判断；不能只用“我自己更快”作为理由。
 - `用 production-delivery-manager，但当前环境没有真实子 Agent`：必须明示 no-delegation reason，用 targeted tests、typecheck、build、浏览器/E2E、安全/数据库检查或人工审阅补偿；无法补偿时只能交付 partial/candidate/self-reviewed。
-- `用 production-delivery-manager，并且最后给我可审的交付报告`：应在交付目标中生成 `.production-delivery-reports/<日期>_<slug>/index.html`，首页给出 Human Validation Packet，后续展开架构、核心逻辑、证据地图、CI/workflow、本地验证、浏览器截图/限制、钢人反论、workspace 集成和残余风险。
+- `用 production-delivery-manager，并且最后给我可审的交付报告`：实施中只记录 evidence ledger，不反复写 HTML；最终在交付目标中生成 `.production-delivery-reports/<日期>_<slug>/index.html`，首页先给出 Delivered Capabilities 和 Human Validation Packet，后续展开架构、核心逻辑、证据地图、CI/workflow、本地验证、浏览器截图/限制、钢人反论、workspace 集成和残余风险。
 - `做了浏览器测试并截了图`：截图应进入 HTML 报告的 Browser Evidence 或 Evidence Map，并标为 `screenshot` 证据；同时写明它证明的是可见状态，不替代后端/API/权限/数据隔离测试。
 - `CI release-candidate workflow 已经跑过`：应把 workflow 名称、提交/分支、结果、artifact 或链接写进 Evidence Map，并说明它证明的是可重复机器门禁，不等于用户已验收或生产已发布。
 - `用 production-delivery-manager 改一个单文件文案错字`：可直接做并简短报告验证和风险，不需要完整多 Agent 矩阵。
