@@ -72,6 +72,8 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 
 该 skill 现在采用“结构化源优先”原则：当 Figma、Stitch、Framer、Webflow 或其他设计/原型平台能够提供 Dev Mode 类属性、MCP design context、Code Connect/组件映射、tokens、样式变量、生成代码、导出 HTML/CSS 或参考实现时，必须先读取这些强事实源。截图、下载图和静态渲染图只能用于视觉验收、差异检查或位图资产提取，不能在强事实源可用时降级为按图复刻。
 
+该 skill 同时采用“专业布局保真”原则：用户说“1:1”“pixel-perfect”“像设计稿”时，应理解为高保真视觉目标，而不是按设计稿 `x/y` 坐标复刻。普通页面的主布局区域、重复卡片/行、响应式列、表单、仪表盘和内容流必须优先使用语义结构、组件化、设计 tokens、Flexbox、CSS Grid、正常文档流和响应式约束；`position:absolute`、`left/top`、固定像素坐标只能用于浮层、badge、装饰叠层、canvas/diagram 或稳定容器内的小型锚定元素，并需要记录例外原因和响应式风险。
+
 `design-to-code-html-first` 已并入 `design-to-frontend-delivery` 的 reference 层，不再作为独立 skill 维护。
 旧名已不再可安装，请改用 `design-to-frontend-delivery`。
 
@@ -206,6 +208,7 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 
 - `设计稿 + 导出 HTML -> React`：应进入 `convert-and-polish`。
 - `Figma/其他设计平台链接 + 已安装插件或 MCP`：应先读取平台可提供的结构、样式、tokens、组件映射或 reference code；能拿到结构化源时不得下载图当主基线。
+- `请 1:1 还原这个设计稿`：应理解为高保真视觉目标，优先用 Flex/Grid/flow、tokens 和响应式约束实现间距、对齐、字体、颜色和状态，不得用大量 absolute/left/top 坐标复刻普通页面布局。
 - `已有 React 工程，只说补交互但实际缺校验`：应进入 `polish-existing-project`，并触发范围缺口检测，给出最小闭环扩围建议（如补校验与反馈态）。
 - `只有截图，没有 HTML`：应先做仅视觉降级确认，确认后再问目标端，默认推荐 React。
 - `我要做一个用户鉴权模块`：应优先给出现成方案与不建议直接自研的原因。

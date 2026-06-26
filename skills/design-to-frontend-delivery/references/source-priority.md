@@ -78,6 +78,7 @@ The following are not accepted baseline by default:
 - Preserve platform/component semantics from structured sources: layer hierarchy, auto-layout/constraints, style variables, variants, component names, and code-mapped components.
 - Preserve explicit shell constraints (shared header, footer, router frame, host layout) and replace only the bounded content area.
 - Keep copy and structural anchors from stronger artifacts unless the user explicitly asks to change them.
+- Preserve design intent, not raw canvas coordinates: spacing relationships, alignment, typography, color, hierarchy, component states, and responsive behavior matter more than copying `x/y` positions.
 
 ## Existing-Project Polishing Rules
 
@@ -106,6 +107,7 @@ Allowed only when required by target stack or build system:
 - Asset path and import normalization
 - Component extraction without changing visible structure
 - Minimal typing, runtime wiring, and accessibility attributes
+- Translating design-tool auto-layout, constraints, grid tracks, spacing, tokens, and variants into CSS Flexbox, CSS Grid, normal flow, responsive constraints, `aspect-ratio`, and project components.
 
 ## Disallowed By Default
 
@@ -116,6 +118,7 @@ Allowed only when required by target stack or build system:
 - Inventing missing states, content, or interactions from visual guesswork
 - Treating a design-platform URL as screenshot-only when Dev Mode-like metadata, MCP context, generated code, token data, or component mapping is available
 - Downloading rendered images as the primary implementation baseline when a structured source can be read
+- Treating "1:1" or "pixel-perfect" as permission to copy design-canvas coordinates with many `position: absolute`, `left/top`, fixed pixel coordinates, or screenshot overlays for ordinary page layout.
 
 ## Only-Visual Fallback
 

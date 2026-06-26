@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
+description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells, avoiding coordinate-copy layouts, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
 ---
 
 # Design to Frontend Delivery
@@ -15,6 +15,23 @@ Route by [mode-routing.md](./references/mode-routing.md):
 - Treat design-platform URLs or connected plugins/MCPs that can expose structure, styles, tokens, component mappings, or reference code as design-tool context, not as image-only inputs.
 - Auto enter `polish-existing-project` when an accepted existing frontend project is the main baseline and the task is to keep polishing interactions, validation, states, modals, animation, or acceptance quality.
 - If both existing project and new design/HTML are present but intent is unclear, stop and ask which path is primary before implementation.
+
+## Layout Fidelity Contract
+
+Treat "1:1", "pixel-perfect", "same as design", or similar user wording as a fidelity goal, not permission to reproduce design-tool coordinates.
+
+Professional frontend fidelity means preserving visual intent with maintainable implementation:
+
+- Match layout relationships, spacing rhythm, alignment, typography, color, hierarchy, density, component states, and interaction behavior as closely as practical.
+- Prefer semantic structure, reusable components, design tokens, CSS variables, Flexbox, CSS Grid, normal document flow, responsive constraints, and aspect-ratio.
+- Translate design-tool auto-layout, constraints, grids, spacing, and variants into frontend layout primitives.
+- Accept normal browser differences in font rendering, content length, breakpoints, and responsive wrapping when the visual relationship remains correct.
+
+Do not use `position: absolute`, `left/top`, fixed pixel coordinates, or screenshot-coordinate overlays to drive primary layout regions, repeated cards/rows, responsive columns, forms, dashboards, or ordinary content flow.
+
+Absolute or fixed positioning is allowed for overlays, popovers, tooltips, badges, floating actions, intentional layered decoration, canvas/game/diagram surfaces, or small anchored elements inside a stable relative container.
+
+If a normal page needs many absolute coordinates to look close to the design, stop before continuing and convert the implementation plan to Flex/Grid/flow layout. Record the exception if absolute positioning remains necessary.
 
 ## Mandatory Reference Loading Rules
 

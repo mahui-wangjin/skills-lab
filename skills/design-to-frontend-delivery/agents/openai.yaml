@@ -1,4 +1,4 @@
 interface:
   display_name: "Design to Frontend Delivery"
-  short_description: "Frontend delivery with structured-source fidelity."
-  default_prompt: "Use $design-to-frontend-delivery to turn design artifacts into a frontend deliverable or polish an existing frontend project, reading structured platform context before screenshots whenever available."
+  short_description: "Frontend delivery with structured-source and maintainable layout fidelity."
+  default_prompt: "Use $design-to-frontend-delivery to turn design artifacts into a frontend deliverable or polish an existing frontend project. Read structured platform context before screenshots whenever available, and treat 1:1/pixel-perfect wording as high-fidelity visual intent, not permission to copy coordinates with absolute positioning. Prefer Flexbox, CSS Grid, normal flow, tokens, and responsive constraints for ordinary layouts."
