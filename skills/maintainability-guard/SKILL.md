@@ -1,6 +1,6 @@
 ---
 name: maintainability-guard
-description: Guard long-term code maintainability before adding behavior to large, mixed-responsibility, or likely-reused code. Use before modifying any source file, module, page, service, job, script, test helper, or component when file size is growing, responsibilities are mixing, reuse is likely, tests are hard to write, dependency direction is unclear, or the task risks continuing a "just patch the same file" pattern. Emit a maintainability gate before planning or implementation when the target file is over 800 lines, the module has multiple change reasons, or the user asks about maintainability, extensibility, architecture, refactoring, or avoiding overgrown code.
+description: Use when adding or changing source files, modules, pages, services, jobs, scripts, test helpers, or components where file size is growing, responsibilities are mixing, reuse or duplication is likely, tests are hard, dependency direction is unclear, or the task risks continuing a "just patch the same file" pattern; also when the user asks about maintainability, extensibility, architecture, refactoring, or avoiding overgrown code.
 ---
 
 # Maintainability Guard
@@ -10,6 +10,8 @@ description: Guard long-term code maintainability before adding behavior to larg
 Use this skill to decide whether a change can safely continue in place or must first split responsibilities, clarify interfaces, or reduce coupling.
 
 This is not a small-file rule. Do not split code just because it is long. Split when boundaries are unclear, change reasons diverge, reuse appears, testing is hard, or implementation details leak across modules.
+
+It is also not a large-file-only rule. Small files can fail maintainability when they introduce a reusable rule, a second change axis, duplicated mapping, hidden dependency direction, or a hard-to-test boundary.
 
 ## Core Principles
 
@@ -24,6 +26,18 @@ Apply these principles to any stack, language, or framework:
 - **Dependency direction:** Stable domain rules should not depend on volatile framework, database, UI, transport, or vendor details.
 - **Stable contracts:** Modules should collaborate through named inputs, outputs, errors, events, and side effects, not by reaching into internal state.
 
+## Always-On Boundary Check
+
+Before modifying code, perform this lightweight check even when the target is under 400 lines:
+
+1. What responsibility is being added or changed?
+2. Is it a domain rule, adapter, persistence detail, permission rule, status transition, mapper, formatter, presentation transform, reusable interaction, or orchestration step?
+3. Does a second caller, second use case, likely follow-up use case, or similar existing implementation exist?
+4. Would tests become simpler if this behavior had a named input/output contract?
+5. Would extraction hide details, or would it only create a pass-through wrapper?
+
+If the answer reveals reuse, duplication, a new change reason, unclear testing, or dependency-direction risk, do not rely on line count. Emit the Maintainability Gate before planning or implementation.
+
 ## Trigger Thresholds
 
 Line count is an alarm, not a verdict.
@@ -32,14 +46,26 @@ Use these thresholds to trigger review:
 
 | Size | Default action |
 | --- | --- |
-| `< 400` lines | Continue normally unless responsibilities are already mixed. |
-| `400-800` lines | Watch for a second responsibility or second use case. |
+| `< 400` lines | Continue only after the lightweight boundary check. Small files can still fail on reuse, duplication, mixed responsibility, dependency direction, or test boundary. |
+| `400-800` lines | Watch for a second responsibility, second use case, repeated mapping, repeated status logic, or new abstraction level. |
 | `800-1200` lines | Emit the maintainability gate before adding behavior. |
 | `1200-2000` lines | Require a written reason to continue in place, or split one clear responsibility first. |
 | `> 2000` lines | Do not add new business behavior until a structure-recovery slice is planned. Bug fixes may be allowed if narrowly scoped. |
 | `> 3000` lines | Treat as a maintainability incident. Plan recovery before feature work. |
 
 Treat reusable or foundational code more strictly. A poor boundary in reused code spreads complexity to every caller.
+
+## Gate Triggers
+
+Emit the Maintainability Gate before planning or implementation when any trigger applies:
+
+- The target is over 800 lines.
+- The module has multiple change reasons or already mixes responsibilities.
+- The change introduces or modifies a reusable rule, adapter, mapper, validator, permission check, status transition, formatter, hook, workflow step, reusable UI interaction, or presentation transform.
+- Similar logic exists elsewhere, or a second caller/use case is likely enough that the code would be copied soon.
+- Tests would need private internals, framework lifecycle tricks, large unrelated setup, or manual-only verification.
+- A high-level decision depends directly on database, transport, DOM, queue, vendor, or framework details.
+- The user asks about maintainability, extensibility, architecture, refactoring, reuse, avoiding overgrown code, or why agents keep patching the same file.
 
 ## Maintainability Gate
 
@@ -51,7 +77,8 @@ Before planning or implementation, emit this gate:
 - Target: <file/module/function/component/job/etc.>
 - Current size and shape: <line count if known, main responsibilities>
 - Change being added: <new behavior or responsibility>
-- Trigger: <size / mixed responsibility / reuse / test difficulty / dependency direction / user concern>
+- Trigger: <size / mixed responsibility / reuse / duplication / test difficulty / dependency direction / user concern>
+- Always-on check: <new responsibility, caller/use-case count, reuse/duplication signal, test boundary signal>
 
 ### Boundary Assessment
 
@@ -70,6 +97,7 @@ Before planning or implementation, emit this gate:
 - Required action before feature work: <none / small extraction / interface clarification / structure-recovery slice>
 - Do not split: <what must stay together and why>
 - Split candidate: <specific responsibility to extract, if any>
+- Contract if split: <inputs, outputs, errors, side effects, owner>
 - Verification: <tests, typecheck, lint, architecture check, or manual review>
 ```
 
@@ -83,10 +111,11 @@ Continue in place when most of these are true:
 
 - The module has one clear responsibility.
 - The new change belongs to the same change reason.
-- No second caller or reuse scenario exists.
+- No real or likely second caller, second use case, or duplication scenario exists.
 - Tests can cover the behavior through the existing public interface.
 - Dependencies still point in the correct direction.
 - Extraction would create pass-through files or vague names.
+- The lightweight boundary check did not reveal a reusable rule, adapter, mapper, permission check, status transition, formatter, workflow step, or presentation transform.
 
 ### Split First
 
@@ -94,11 +123,13 @@ Split before feature work when any of these are true:
 
 - One file now owns three or more independent responsibilities.
 - A second real use case or caller appears.
+- A second likely use case is close enough that the next agent would probably copy the same logic.
 - Callers must understand internal ordering, flags, storage shape, permission details, rendering details, or framework lifecycle.
 - Tests need to reach into private internals or construct a huge unrelated context.
 - A high-level rule depends directly on low-level details.
 - The same mapping, validation, permission, status, rendering, or adapter logic is duplicated.
 - A future change would require editing several unrelated sections of the same large file.
+- The host file is small but the new behavior has a different change reason from the host.
 
 ### Do Not Over-Split
 
@@ -107,9 +138,19 @@ Do not extract when:
 - The only reason is line count.
 - The extracted module would only forward parameters.
 - The new name is generic, such as `utils`, `helpers`, `manager`, `common`, or `misc`.
-- There is only one caller, one use case, and no independent test or change reason.
+- There is only one caller, one use case, no likely second use case, no duplication, and no independent test or change reason.
 - The extraction makes callers know more details than before.
 - The split separates logic that always changes together.
+
+## Reuse and Extraction Test
+
+Before choosing "continue in place" for a reusable-looking behavior, answer these checks explicitly:
+
+- **Second-use pressure:** Where is the next realistic caller or use case? If it is named, treat reuse as real enough to design a boundary.
+- **Copy pressure:** Would another agent copy this mapping, validation, permission, status, rendering, or adapter logic into another file? If yes, extract or clarify the contract now.
+- **Contract pressure:** Can the behavior be named with specific inputs, outputs, errors, and side effects? If no, do not extract yet. Clarify the interface first.
+- **Caller burden:** Does extraction make callers know less about ordering, flags, storage shape, rendering details, or framework lifecycle? If yes, extraction likely helps.
+- **Test pressure:** Would a focused test become smaller after extraction? If yes, the boundary is probably real.
 
 ## Boundary Patterns
 
@@ -125,6 +166,25 @@ Prefer boundaries that hide details behind a small contract:
 - **Reusable interaction boundary:** Exposes a focused API for repeated UI or workflow behavior.
 
 These names are examples of responsibility shapes, not required folders. Adapt them to the project's framework.
+
+## Common Rationalizations
+
+| Rationalization | Reality |
+| --- | --- |
+| "It is under 400 lines, so maintainability does not apply." | Small files can still introduce reusable rules, duplicate mappings, mixed change reasons, and hard-to-test boundaries. Run the lightweight boundary check. |
+| "There is only one caller today." | If a second use case is already named or the next agent would copy the logic, reuse is real enough to design a contract. |
+| "Do not over-split means keep it here." | Do not over-split forbids pass-through wrappers and vague names. It does not excuse duplication, hidden dependency direction, or mixed responsibilities. |
+| "Extraction will take longer than patching." | If the patch spreads a rule that will be reused, the cheap patch creates future coordination cost. Prefer one small boundary with a named contract. |
+| "Tests can cover it through the page/service." | Broad tests may be fine for orchestration. If the rule itself needs private setup or many unrelated dependencies, the boundary is unclear. |
+
+## Red Flags
+
+- You are adding a mapper, validator, permission rule, status transition, formatter, hook, adapter, or workflow step to a file that mainly does something else.
+- You are about to paste similar logic from another file.
+- You describe the future as "when the next page/service/job needs this..."
+- Tests require mounting a full page, opening a browser, creating a database transaction, or constructing a large service graph just to check a small rule.
+- Callers must know internal ordering, flags, storage shape, rendering details, or framework lifecycle.
+- You are using line count as the only reason to continue in place or the only reason to split.
 
 ## Framework Examples
 

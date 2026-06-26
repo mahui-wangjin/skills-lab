@@ -5,6 +5,7 @@
 - 项目级规则文件：`../AGENTS.md`
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
+- 当前新增设计文档：`./superpowers/specs/2026-06-27-maintainability-guard-boundary-check.md`（将 maintainability-guard 从“800 行触发”强化为“轻量边界检查始终执行，可复用/重复/测试边界/依赖方向触发完整 Gate”）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-structured-source-first.md`（将 design-to-frontend-delivery 优化为平台无关的结构化源优先，设计平台/MCP/Dev Mode/组件映射/参考代码可用时不得降级为按截图复刻）
 - 上一轮设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-result-first-reporting.md`（将 production-delivery-manager 的 HTML 报告优化为结果优先验收面，实施中只维护 evidence ledger，最终一次性生成或补齐报告）
 - 上一轮设计文档：`./superpowers/specs/2026-06-16-production-delivery-manager-human-validation-report.md`（补充 Human Validation Packet、HTML 交付报告、证据等级、截图限制、CI/workflow 证据和 `.production-delivery-reports/` 默认目录）
