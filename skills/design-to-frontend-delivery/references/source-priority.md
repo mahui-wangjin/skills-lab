@@ -3,19 +3,61 @@
 This reference defines baseline evidence ranking for `design-to-frontend-delivery`.
 It is a foundational rule layer used by the main skill workflow, not a standalone entry.
 
+## Core Principle
+
+Prefer structured source over raster source.
+
+If any design or prototyping platform can provide structure, style properties, tokens, component mappings, generated code, exported HTML/CSS, Dev Mode-like inspection data, MCP context, or reference implementation snippets, that source must be attempted before screenshots, downloaded images, or visual guessing are used as the baseline.
+
+This is platform-agnostic. Examples include Figma Dev Mode / MCP `get_design_context` / Code Connect, Stitch or design-tool exported HTML, Framer/Webflow/static exports, design-token JSON, component mapping files, generated React/Vue/HTML snippets, or accepted host-project implementation. The specific platform can change; the rule is about source strength.
+
+Screenshots, downloaded renders, and exported images are visual validation or asset evidence. They are not a substitute for available structured source.
+
 ## Evidence Ladder
 
 Default from strongest to weakest:
 
-1. Exported HTML/CSS/JS or design-tool generated code
-2. User-provided reference code or accepted existing implementation
-3. Explicit host-project shell constraints the user wants preserved
-4. Design files, screenshots, mockups, or static images
-5. Agent inference
+1. Platform or design-tool structured context with component/code mappings: Dev Mode-like inspect data, MCP design context, Code Connect/component maps, tokens, style variables, layer hierarchy, constraints, variants, and generated reference snippets.
+2. Exported HTML/CSS/JS or design-tool generated code.
+3. User-provided reference code or accepted existing implementation.
+4. Explicit host-project shell constraints the user wants preserved.
+5. Design screenshots, downloaded renders, mockups, or static images.
+6. Agent inference.
 
 Hard-constraint override: when the user explicitly requires preserving host shell boundaries (such as shared header, footer, router frame, or host layout), that shell-preservation rule is mandatory and overrides tier comparison for shell scope. Evidence ladder ranking is applied inside the allowed content scope.
 
 When stronger and weaker sources conflict, do not silently merge them into a new hybrid structure.
+
+## Structured Source Gate
+
+Before classifying an input as visual-only, check whether a stronger structured source is available:
+
+- Does the user provide a design-platform URL, file key, node ID, selection, exported package, plugin/MCP context, or generated-code link?
+- Is there a connected tool that can return structure, styles, tokens, component mappings, or reference code?
+- Does the project contain exported HTML, design snapshots, Code Connect files, token JSON, screenshots plus metadata, or accepted implementation for the same design?
+
+If yes, attempt the structured path first and record the result in Gate 1:
+
+```md
+Structured source check:
+- Source attempted: <platform/tool/artifact>
+- Result: <available / unavailable / inaccessible / conflicting>
+- Baseline decision: <structured source / accepted implementation / visual-only downgrade>
+```
+
+Do not skip this check because a screenshot is easier to access.
+
+## No Raster Downgrade Rule
+
+If structured context or reference code is available, do not downgrade to screenshot-based implementation. Use images only to verify final visual fidelity or to extract bitmap assets.
+
+Allowed raster downgrade only when:
+
+- no structured source exists, or
+- the structured source is inaccessible after a real attempt, or
+- the user explicitly instructs the agent to ignore the stronger source.
+
+When downgrade is needed, ask for confirmation using the visual-only fallback wording below and state which stronger source was attempted or missing.
 
 ## Accepted Implementation Definition
 
@@ -33,6 +75,7 @@ The following are not accepted baseline by default:
 ## What To Preserve
 
 - Preserve structure before visual reinterpretation: section order, wrappers, major grouping, and interaction scaffolding.
+- Preserve platform/component semantics from structured sources: layer hierarchy, auto-layout/constraints, style variables, variants, component names, and code-mapped components.
 - Preserve explicit shell constraints (shared header, footer, router frame, host layout) and replace only the bounded content area.
 - Keep copy and structural anchors from stronger artifacts unless the user explicitly asks to change them.
 
@@ -71,10 +114,12 @@ Allowed only when required by target stack or build system:
 - Collapsing wrappers only for cleanliness
 - Replacing source structure with component-library reinterpretations
 - Inventing missing states, content, or interactions from visual guesswork
+- Treating a design-platform URL as screenshot-only when Dev Mode-like metadata, MCP context, generated code, token data, or component mapping is available
+- Downloading rendered images as the primary implementation baseline when a structured source can be read
 
 ## Only-Visual Fallback
 
-If only screenshots or visual mockups are available (no exported code, no reference code, no accepted implementation), do not implement immediately.
+If only screenshots or visual mockups are available after the structured source gate (no structured platform context, exported code, reference code, tokens, component mappings, or accepted implementation), do not implement immediately.
 
 If target stack is also unclear at the same time, this fallback confirmation takes priority over stack selection. Ask the only-visual confirmation first; after the user confirms continuing, ask for target stack only if it is still unclear.
 

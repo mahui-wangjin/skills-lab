@@ -70,6 +70,8 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 
 覆盖从设计输入解析、基线选择、工程转换到还原验收与精修交付的完整前端设计落地流程。
 
+该 skill 现在采用“结构化源优先”原则：当 Figma、Stitch、Framer、Webflow 或其他设计/原型平台能够提供 Dev Mode 类属性、MCP design context、Code Connect/组件映射、tokens、样式变量、生成代码、导出 HTML/CSS 或参考实现时，必须先读取这些强事实源。截图、下载图和静态渲染图只能用于视觉验收、差异检查或位图资产提取，不能在强事实源可用时降级为按图复刻。
+
 `design-to-code-html-first` 已并入 `design-to-frontend-delivery` 的 reference 层，不再作为独立 skill 维护。
 旧名已不再可安装，请改用 `design-to-frontend-delivery`。
 
@@ -201,6 +203,7 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 ### Manual Smoke Checks
 
 - `设计稿 + 导出 HTML -> React`：应进入 `convert-and-polish`。
+- `Figma/其他设计平台链接 + 已安装插件或 MCP`：应先读取平台可提供的结构、样式、tokens、组件映射或 reference code；能拿到结构化源时不得下载图当主基线。
 - `已有 React 工程，只说补交互但实际缺校验`：应进入 `polish-existing-project`，并触发范围缺口检测，给出最小闭环扩围建议（如补校验与反馈态）。
 - `只有截图，没有 HTML`：应先做仅视觉降级确认，确认后再问目标端，默认推荐 React。
 - `我要做一个用户鉴权模块`：应优先给出现成方案与不建议直接自研的原因。

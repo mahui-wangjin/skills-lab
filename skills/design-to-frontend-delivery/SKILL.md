@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, preserving accepted shells, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
+description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
 ---
 
 # Design to Frontend Delivery
@@ -12,6 +12,7 @@ One run must produce one target frontend result. Do not produce multiple target 
 Route by [mode-routing.md](./references/mode-routing.md):
 
 - Auto enter `convert-and-polish` when design artifacts are the main input (design + exported HTML, or design-tool generated code) and the task is to deliver a target frontend implementation.
+- Treat design-platform URLs or connected plugins/MCPs that can expose structure, styles, tokens, component mappings, or reference code as design-tool context, not as image-only inputs.
 - Auto enter `polish-existing-project` when an accepted existing frontend project is the main baseline and the task is to keep polishing interactions, validation, states, modals, animation, or acceptance quality.
 - If both existing project and new design/HTML are present but intent is unclear, stop and ask which path is primary before implementation.
 
@@ -19,6 +20,7 @@ Route by [mode-routing.md](./references/mode-routing.md):
 
 Reference loading is required, not optional:
 
+- When the input is a design-platform URL, connected plugin/MCP, design export, generated code, Dev Mode context, Code Connect/component mapping, or any artifact that may contain structure/style metadata, you must read [source-priority.md](./references/source-priority.md) before deciding whether the task is visual-only.
 - When there are multiple fact sources, source conflicts, or visual-only inputs, you must read [source-priority.md](./references/source-priority.md) before implementation decisions.
 - After mode is locked, you must read exactly one mode reference before implementation details:
   - `convert-and-polish` -> [convert-and-polish.md](./references/convert-and-polish.md)
@@ -31,6 +33,7 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 
 1. Gate 1 (pre-start confirmation)
 - Lock mode, target stack, baseline artifacts, source-of-truth, scope, non-goals, and shell boundary.
+- For design-platform inputs, record whether structured source was attempted and what result it returned before using screenshots/images as a baseline.
 
 2. Gate 2 (mode-aware middle gate)
 - `convert-and-polish`: structure mapping and shell-boundary pass before polish.
@@ -48,10 +51,12 @@ Must ask:
 - Strong sources conflict on structure, primary flow, interaction path, or acceptance criteria.
 - Existing project and new design/HTML are both present, but replacement/transplant/alignment intent is unclear.
 - Only visual artifacts are provided (no exported HTML, no reference code, no accepted implementation).
+- A platform appears capable of structured context or reference code, but the agent cannot access it after a real attempt; ask whether to wait for the stronger source or proceed with a visual-only downgrade.
 - Shell preservation boundary is unclear (header/footer/layout/router).
 
 Can decide without asking:
 
+- A design-platform URL or plugin/MCP returns structured design context, Dev Mode-style metadata, component mappings, tokens, generated code, exported HTML/CSS, or reference code: use that as the structure/style source and use screenshots only for visual validation.
 - Design plus exported HTML with clear target stack: go `convert-and-polish`.
 - Explicit request to continue polishing current project: go `polish-existing-project`.
 - HTML and design are both provided without conflict: HTML is structure source, design is visual validation source.
