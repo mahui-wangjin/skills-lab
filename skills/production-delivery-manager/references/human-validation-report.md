@@ -6,6 +6,8 @@ Use this reference to make the final delivery reviewable by a human who cares ab
 
 Every medium, complex, or production-grade task must expose a Human Validation Packet in the final answer. The packet is the user's result-review surface.
 
+Default user intent: final summary, not process record. The packet and report should answer what was delivered, what materially changed, how it was verified, what remains risky, and what the user should inspect next.
+
 Generate an HTML report when any report trigger applies. The report is the durable version of the packet plus evidence.
 
 CI/workflow results are evidence sources, not the report itself. A workflow proves that a repeatable machine gate ran on a commit or branch. The report explains what that evidence proves, what it does not prove, and how it maps to architecture, core logic, browser behavior, and residual risk.
@@ -19,8 +21,21 @@ The report must not be a chronology. Exclude:
 - raw command dumps
 - sub-agent transcripts
 - long diffs or file-by-file implementation commentary
+- process ledgers copied from working notes
+- "then I did..." narration
 
 Include failed or skipped checks only when they remain relevant to final acceptance, and summarize what they mean for risk.
+
+## Document Routing Boundary
+
+Do not store report content or process evidence in arbitrary existing docs.
+
+- Formal docs receive long-lived facts only: accepted decisions, architecture boundaries, public contracts, product behavior, operating rules, and explicit follow-up commitments.
+- Human Validation Packet and HTML report receive final outcomes, key changes, evidence map, residual risk, and human checkpoints.
+- Evidence ledger stays in working notes during implementation. Persist it only in `.production-delivery-reports/.../evidence/` or a project-approved task-ledger path.
+- Debug chronology, failed-attempt sequences, raw command dumps, and sub-agent transcripts are not durable artifacts unless the user explicitly asks for audit-trail detail.
+
+If project docs must be updated, write them as source-of-truth updates, not as delivery logs. A useful docs update should still make sense months later without knowing this agent session happened.
 
 ## Report Triggers
 
@@ -126,6 +141,7 @@ Use this packet in the final answer for medium and complex work. Keep it concise
 - Status: <complete / candidate / partial / blocked / self-reviewed>
 - Needs user decision: <no / yes: decision needed>
 - Delivered capabilities: <what is now usable or what behavior changed>
+- Key changes: <important modules, boundaries, or decisions changed; no chronology>
 - Review first: <1-3 result, architecture, or product points the user should inspect>
 - Architecture surface: <main boundary, dependency direction, what should not have changed; omit if irrelevant>
 - Core logic surface: <critical flow and invariants, not the implementation chronology>
@@ -150,6 +166,7 @@ Requirements:
 - include generation date, task title, repository/workspace, branch or worktree, and delivery target
 - put the validation verdict near the top
 - put delivered capabilities and user-visible outcomes before process or file details
+- summarize key changes by outcome or boundary, not by time order
 - separate facts from assumptions and residual risks
 - link screenshots, logs, traces, and CI artifacts with captions and evidence grades
 - preserve failed, skipped, or unrun checks; do not hide them in appendices
@@ -167,19 +184,21 @@ Use a quiet, utilitarian layout. Avoid decorative styling that weakens scanning.
    - delivered behavior, user-visible acceptance, residual risk acceptance
 3. **Delivered Capabilities**
    - final features, fixed behaviors, removed/disabled fake paths, and how to validate them
-4. **Architecture Review Surface**
+4. **Key Changes**
+   - important modules, boundaries, contracts, or docs updated; no chronological log
+5. **Architecture Review Surface**
    - changed boundary, dependency direction, module ownership, non-goals
-5. **Core Logic Review Surface**
+6. **Core Logic Review Surface**
    - critical flow, invariants, error paths, permission/tenant/audit/idempotency notes when relevant
-6. **Evidence Map**
+7. **Evidence Map**
    - commands, tests, CI/workflow results, browser checks, screenshots, source documents, what each proves, and limitations
-7. **Browser Evidence** when UI/browser work occurred
+8. **Browser Evidence** when UI/browser work occurred
    - desktop/mobile screenshots, route, viewport, action path, console/network result, limitations
-8. **Steelman Counter-Review**
+9. **Steelman Counter-Review**
    - strongest objections, evidence checked, decision, remaining risk
-9. **Workspace and Integration**
+10. **Workspace and Integration**
    - original workspace, branch/worktree, delivery target, integration status, cleanup status, unrelated changes
-10. **Appendix**
+11. **Appendix**
    - concise file list by outcome, skipped checks that remain relevant, follow-up tasks
 
 ## Minimal HTML Template
@@ -200,6 +219,7 @@ The scaffold script generates a complete starter report. Use this structure when
     <section id="executive-validation"></section>
     <section id="human-checkpoints"></section>
     <section id="delivered-capabilities"></section>
+    <section id="key-changes"></section>
     <section id="architecture-review-surface"></section>
     <section id="core-logic-review-surface"></section>
     <section id="evidence-map"></section>

@@ -1,4 +1,4 @@
 interface:
   display_name: "Production Delivery Manager"
   short_description: "Production gates and outcome validation"
-  default_prompt: "Use $production-delivery-manager to lead this engineering task through requirements, discovery, workspace isolation, delegation-quality planning, implementation, delivery-target integration, verification, result-first validation reporting, independent challenge or no-delegation justification, steelman counter-review, and final handoff."
+  default_prompt: "Use $production-delivery-manager to lead this engineering task through requirements, discovery, workspace isolation, delegation-quality planning, implementation, delivery-target integration, verification, result-first validation reporting, document-routing checks, independent challenge or no-delegation justification, steelman counter-review, and final handoff. Keep project docs for durable facts only; put final outcomes, key changes, evidence, risks, and human checkpoints in the handoff or report, not process logs."

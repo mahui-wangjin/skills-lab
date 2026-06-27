@@ -113,6 +113,15 @@ def build_html(args: argparse.Namespace, report_id: str) -> str:
     </ul>
   </section>
 
+  <section id="key-changes">
+    <h2>Key Changes</h2>
+    <ul>
+      <li>Replace with important modules, boundaries, contracts, or docs updated.</li>
+      <li>Group changes by final outcome or review surface, not by implementation order.</li>
+      <li>Do not include process chronology, failed-attempt sequences, or raw command logs.</li>
+    </ul>
+  </section>
+
   <section id="architecture-review-surface">
     <h2>Architecture Review Surface</h2>
     <div class="grid">

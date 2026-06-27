@@ -161,9 +161,27 @@ During implementation:
 - prefer established local conventions
 - avoid speculative abstractions
 - preserve unrelated user changes
-- update docs or ledgers required by project rules
+- update docs or ledgers required by project rules, after routing content to the right artifact type
 - stage broad changes through small, verifiable slices
 - keep report work out of the implementation loop; record only a terse evidence ledger when a command, screenshot, sub-agent review, CI run, or manual check produces evidence
+
+### Gate 4.1: Document Routing
+
+Before writing to any repository document, classify the content:
+
+| Content type | Correct destination | Must not go into |
+| --- | --- | --- |
+| Long-lived product, architecture, API, workflow, operating rule, or accepted decision | Existing project docs, ADRs, specs, or source-adjacent docs | HTML report evidence-only sections |
+| Final delivery summary, key outcomes, evidence map, residual risk, human checkpoints | Final answer and, when triggered, `.production-delivery-reports/<date>_<slug>/index.html` | Product/architecture/development docs |
+| Temporary evidence ledger, command result notes, browser screenshots, short log excerpts | Agent working notes while implementing; report `evidence/` only when durable evidence is required | Formal docs unless the project explicitly has a task-ledger path |
+| Debug chronology, repeated failed attempts, raw command dumps, sub-agent transcripts | Normally nowhere durable; include only if the user explicitly asks for audit-trail detail | Existing project docs and result reports |
+
+Rules:
+
+- Formal docs are for durable facts, not the agent's work diary.
+- Do not create or repurpose an existing product, architecture, development, or governance doc to hold process notes.
+- If project rules require a task ledger, write only concise final task state: goal, key changes, verification, risk/blocker, next step. Do not paste execution chronology.
+- If uncertain whether a document is a ledger or source-of-truth doc, treat it as source-of-truth and keep process notes out.
 
 If new information invalidates the plan, pause, report the conflict, and re-plan.
 
@@ -216,6 +234,16 @@ Before final handoff, decide whether a durable report is required.
 Always include a compact Human Validation Packet for medium and complex work.
 
 Use result-first reporting. The report must help the user accept or reject the final outcome without reading the full diff. It is not a development diary, scratchpad, chronological debug log, or place to narrate repeated failed attempts.
+
+The user's default validation need is a final summary:
+
+- delivered capabilities
+- key changes and boundaries
+- final verification and what it proves
+- residual risks or evidence gaps
+- concrete next step or no action required
+
+Do not include process chronology unless the user explicitly asks for an audit trail.
 
 During implementation, maintain only a compact evidence ledger:
 

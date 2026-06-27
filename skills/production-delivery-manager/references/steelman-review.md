@@ -39,6 +39,7 @@ Assume at least one of these is true and try to prove it:
 - Real sub-agents, specialist review, or independent verification were skipped without enough compensating evidence.
 - The final handoff is technically complete but not human-validatable: architecture, core logic, evidence, screenshots, CI/workflow status, or residual risks are not organized so the user can accept or reject the delivery.
 - A required HTML delivery report was skipped, incomplete, unlinked, local-only without explanation, or filled with raw logs instead of reviewable evidence.
+- Process ledgers, debug chronology, raw command dumps, sub-agent transcripts, or repeated attempts were written into formal project docs instead of the final handoff, `.production-delivery-reports/`, or an explicitly approved ledger path.
 
 ## Method
 
@@ -74,6 +75,7 @@ Also challenge the user validation surface directly:
 - Are screenshots classified as visible-state evidence rather than overclaimed backend proof?
 - Does the evidence map say what each test, build, CI job, browser run, screenshot, or manual inspection proves and does not prove?
 - If an HTML report was required, is it in `.production-delivery-reports/` or a documented project-specific equivalent, with relative links to evidence?
+- Did any product, architecture, development, or governance doc receive process notes that should have stayed in working notes or report evidence?
 - Are secrets, tokens, personal data, and noisy raw logs excluded or redacted?
 
 ## Output Template

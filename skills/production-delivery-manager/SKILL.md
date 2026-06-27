@@ -13,6 +13,8 @@ Production-grade means "passed the agreed gates with known residual risks." Do n
 
 Production-grade delivery also means the user can validate the result without reading the entire diff. For medium, complex, production-grade, or user-requested report work, translate the implementation into a human validation surface: architecture review points, core logic flow, evidence map, steelman summary, residual risks, and explicit human checkpoints. Reports are finalization artifacts: keep a terse evidence ledger while implementing, then generate or update the HTML report after delivery-target integration and verification unless the user explicitly asked for a report-first artifact.
 
+Result-first handoff is mandatory. The user cares about final outcomes, key changes, verification, residual risk, and next steps; do not make the final answer, HTML report, or project docs read like an implementation diary.
+
 This skill coordinates other specialist skills and tools. Do not replace a more specific skill when one clearly applies; invoke or follow the specific skill at the relevant gate.
 
 The lead agent is accountable for delivery quality, not just task velocity. When the user explicitly asks for strict, production-grade, high-assurance, team-led, or quality-first delivery, do not silently downgrade the work into a single-agent implementation unless the task is genuinely simple and the no-delegation reason is stated.
@@ -40,6 +42,8 @@ Avoid process theater:
 - Do not make the user reverse-engineer quality from raw diffs, command logs, CI job names, or screenshots. Surface the few architecture, core logic, evidence, and risk points that need human acceptance.
 - Do not write or polish the final HTML report during core implementation. Capture only a short evidence ledger: command/check, result, artifact path, what it proves, and limitation.
 - Generate the durable report at finalization from verified evidence. If a long-running task needs a report directory early, use it only as an artifact bucket until verification is complete.
+- Do not write process ledgers, debug chronology, agent transcripts, repeated attempts, or command-by-command narratives into existing project docs.
+- Before editing documentation, route the content: long-lived product/architecture/API/decision facts belong in project docs; final validation belongs in the handoff or `.production-delivery-reports/`; transient evidence ledgers stay in working notes unless the repository explicitly has a task-ledger location.
 
 ## Delivery Loop
 
@@ -162,6 +166,13 @@ Implement incrementally:
 - update docs or task ledgers when the project rules require it
 - keep interfaces explicit and testable
 
+Document routing rule:
+
+- Update project docs only with durable facts: accepted decisions, architecture boundaries, public contracts, operating rules, product behavior, or explicit follow-up commitments.
+- Do not put process logs, evidence ledgers, raw verification output, sub-agent notes, or chronological implementation records into existing product, architecture, development, or governance docs.
+- If the project has no explicit task-ledger document, do not create one just to store process notes. Use the final handoff or `.production-delivery-reports/` when durable validation evidence is required.
+- If a process artifact is intentionally persisted, put it in the report evidence area or a project-approved ledger path, label it as evidence, and keep formal docs result-oriented.
+
 When the task is large, land one coherent slice at a time and verify before broadening.
 
 ### 6. Delivery-Target Integration
@@ -211,6 +222,14 @@ Final handoff must include:
 - workspace, branch/worktree, integration, and cleanup status
 - what remains risky or unverified
 - what the user should do next, if anything
+
+Final handoff must be result-first:
+
+- Lead with delivered capabilities and final state.
+- Summarize key changes by outcome or boundary, not by chronological steps.
+- Include final verification evidence and what it proves.
+- Include residual risks and concrete next steps.
+- Exclude iteration history, repeated failed attempts, raw command dumps, and "then I did..." narration unless the user explicitly asks for an audit trail.
 
 For medium and complex work, include a compact Human Validation Packet. For complex, production-grade, release-candidate, browser-heavy, migration/security/data-risk work, or when the user asks for a report, generate or update an HTML report under `.production-delivery-reports/<YYYY-MM-DD>_<slug>/index.html` from the final evidence ledger unless repository policy or user preference blocks it. If no report is produced when a trigger applies, state why and downgrade the claim if the missing report weakens user validation.
 

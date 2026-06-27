@@ -108,6 +108,8 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 
 报告是结果验收面，不是开发过程流水账。实施过程中只维护简短 evidence ledger（检查/结果/证明什么/限制），不要在每次失败、修复、重跑后反复编辑 HTML。最终在交付目标回灌、验证和钢人反论之后，用 `skills/production-delivery-manager/scripts/create_report.py` 一次性生成或补齐结果优先的 `Production Delivery Outcome` 报告。CI workflow、release-candidate workflow、本地测试、浏览器截图、日志摘录和子 Agent 审查都可以进入报告证据区，但必须标注证据等级和限制；截图只能证明可见 UI 状态，不能单独证明权限、数据隔离、幂等、事务或后端正确性。CI/workflow 是可重复机器验证的证据来源，HTML 报告负责汇总、解释和映射最终证据，不替代 CI，也不记录已被最终实现取代的中间尝试。
 
+该 skill 还要求文档归属先行：正式项目文档只写长期事实，例如架构边界、接口契约、产品行为、操作规则和已接受决策；最终交付摘要只写关键成果、关键改动、最终验证、剩余风险和下一步；过程性 evidence ledger、调试流水、失败重试记录、raw logs 和子 Agent 过程记录不得写进原有产品/架构/开发/治理文档。需要持久验收证据时放入 `.production-delivery-reports/` 或项目明确的台账路径，并保持 outcome-first。
+
 ### `maintainability-guard`
 
 用于在前端、后端、worker、脚本、测试辅助等代码继续堆功能前做可维护性守门。它不按行数洁癖强拆，也不把 800 行当作唯一触发点；每次改代码都先做轻量边界检查，再按职责分离、关注点分离、高内聚低耦合、单一抽象层级、变化轴、复用/重复压力、测试边界、依赖方向和稳定接口判断是否允许继续原地开发、需要小步拆分，或必须先做结构恢复。
@@ -227,6 +229,7 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `用 production-delivery-manager，但这个需求看起来很简单`：可以压缩流程，但必须说明为什么不派发子 Agent，并在最终钢人反论中挑战这个判断；不能只用“我自己更快”作为理由。
 - `用 production-delivery-manager，但当前环境没有真实子 Agent`：必须明示 no-delegation reason，用 targeted tests、typecheck、build、浏览器/E2E、安全/数据库检查或人工审阅补偿；无法补偿时只能交付 partial/candidate/self-reviewed。
 - `用 production-delivery-manager，并且最后给我可审的交付报告`：实施中只记录 evidence ledger，不反复写 HTML；最终在交付目标中生成 `.production-delivery-reports/<日期>_<slug>/index.html`，首页先给出 Delivered Capabilities 和 Human Validation Packet，后续展开架构、核心逻辑、证据地图、CI/workflow、本地验证、浏览器截图/限制、钢人反论、workspace 集成和残余风险。
+- `用 production-delivery-manager，但不要啰嗦过程，只要最终汇总`：最终输出应只包含关键成果、关键改动、最终验证、剩余风险和下一步；不得把过程台账、失败重试、子 Agent 流水或 raw logs 写进正式 docs。
 - `做了浏览器测试并截了图`：截图应进入 HTML 报告的 Browser Evidence 或 Evidence Map，并标为 `screenshot` 证据；同时写明它证明的是可见状态，不替代后端/API/权限/数据隔离测试。
 - `CI release-candidate workflow 已经跑过`：应把 workflow 名称、提交/分支、结果、artifact 或链接写进 Evidence Map，并说明它证明的是可重复机器门禁，不等于用户已验收或生产已发布。
 - `用 production-delivery-manager 改一个单文件文案错字`：可直接做并简短报告验证和风险，不需要完整多 Agent 矩阵。
