@@ -74,6 +74,10 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 
 该 skill 同时采用“专业布局保真”原则：用户说“1:1”“pixel-perfect”“像设计稿”时，应理解为高保真视觉目标，而不是按设计稿 `x/y` 坐标复刻。普通页面的主布局区域、重复卡片/行、响应式列、表单、仪表盘和内容流必须优先使用语义结构、组件化、设计 tokens、Flexbox、CSS Grid、正常文档流和响应式约束；`position:absolute`、`left/top`、固定像素坐标只能用于浮层、badge、装饰叠层、canvas/diagram 或稳定容器内的小型锚定元素，并需要记录例外原因和响应式风险。
 
+该 skill 还要求默认具备工程目录思维：设计落地前先识别目标框架和当前工程的路由、页面、feature/module、components、mock/fixtures、selectors/formatters、styles/tokens、assets、tests/stories 约定。页面入口只做接入和编排，组件、mock 数据、展示选择器、样式、资源和测试按职责归位；不得把整页实现、mock、状态、样式和测试堆到一个文件夹或一个大文件。若当前仓库没有约定，才按对应框架的官方或事实标准选择最小目录结构并记录原因。
+
+该 skill 还要求区分“静态 mock 阶段”和“真实 BFF/API 集成阶段”：静态设计落地或视觉精修时，mock 数据只是展示夹具，可以做成 BFF-shaped fixture 便于未来替换；前端只保留 tab、选中项、弹框开关、loading/error/empty 等轻量 UI 状态、薄展示选择器和演示级基础校验。派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化、基于业务枚举组合推导领域文案、目标去向和跨记录工作流属于 BFF/domain-owned 决策，不应在静态 mock 页面里提前实现。
+
 `design-to-code-html-first` 已并入 `design-to-frontend-delivery` 的 reference 层，不再作为独立 skill 维护。
 旧名已不再可安装，请改用 `design-to-frontend-delivery`。
 
@@ -209,6 +213,8 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `设计稿 + 导出 HTML -> React`：应进入 `convert-and-polish`。
 - `Figma/其他设计平台链接 + 已安装插件或 MCP`：应先读取平台可提供的结构、样式、tokens、组件映射或 reference code；能拿到结构化源时不得下载图当主基线。
 - `请 1:1 还原这个设计稿`：应理解为高保真视觉目标，优先用 Flex/Grid/flow、tokens 和响应式约束实现间距、对齐、字体、颜色和状态，不得用大量 absolute/left/top 坐标复刻普通页面布局。
+- `按设计稿做一个 React/Vue 页面`：应先识别当前工程路由、feature、components、fixtures、styles/assets 和测试约定；页面入口、组件、mock 数据、展示选择器、样式和测试按职责归位，不得全部堆进一个页面文件或随机新建的 mock/components 文件夹。
+- `静态 mock 列表页/详情页，未来由 BFF 返回数据`：应把 mock 数据集中为展示夹具或 BFF-shaped fixture，只保留当前 tab、选中项、弹框等轻量 UI 状态、薄展示选择器和演示级基础校验；不得在前端推导派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化或 API 状态机。
 - `已有 React 工程，只说补交互但实际缺校验`：应进入 `polish-existing-project`，并触发范围缺口检测，给出最小闭环扩围建议（如补校验与反馈态）。
 - `只有截图，没有 HTML`：应先做仅视觉降级确认，确认后再问目标端，默认推荐 React。
 - `我要做一个用户鉴权模块`：应优先给出现成方案与不建议直接自研的原因。

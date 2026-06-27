@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells, avoiding coordinate-copy layouts, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
+description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells, avoiding coordinate-copy layouts, following framework/project structure, keeping mock/BFF responsibilities separate, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
 ---
 
 # Design to Frontend Delivery
@@ -33,6 +33,36 @@ Absolute or fixed positioning is allowed for overlays, popovers, tooltips, badge
 
 If a normal page needs many absolute coordinates to look close to the design, stop before continuing and convert the implementation plan to Flex/Grid/flow layout. Record the exception if absolute positioning remains necessary.
 
+## Project Structure Contract
+
+Design delivery must follow the target framework and the existing project's directory conventions. Do not dump route entries, page orchestration, presentational components, fixtures, selectors, styles, assets, and tests into one arbitrary folder or one oversized file.
+
+Before adding files:
+
+- Inspect the current project's routing/page conventions, feature/module folders, shared component folders, mock/fixture locations, style/token system, asset handling, and test/story conventions.
+- Reuse the nearest existing pattern when it fits. If the target stack is new or the repository has no clear convention, use the framework's official or widely accepted structure before inventing names.
+- Separate responsibilities by change reason: route/page entry, feature orchestration, presentational components, mock/fixture data, display selectors/formatters, local UI state/hooks, styles/tokens/assets, and tests/stories.
+- Keep feature-private files close to the feature; move only genuinely shared components, utilities, fixtures, or tokens into shared folders with stable contracts.
+- For a one-file static HTML deliverable with no host project, self-contained output is acceptable, but keep data, rendering, styles, and interaction blocks internally separated and avoid turning it into the default for real projects.
+
+Do not create generic dumping grounds such as `components`, `utils`, `helpers`, `mock`, or `data` at random levels when the project already has stronger feature, route, or domain boundaries. Folder names are framework-dependent; responsibility boundaries are mandatory.
+
+## Mock/BFF Boundary Contract
+
+Static, prototype, visual-polish, and mock-data delivery is not API integration unless the user explicitly asks for real API wiring.
+
+In mock-stage frontend work:
+
+- Mock data is a presentation fixture. It may be shaped like a future BFF response to keep JSX clean and replaceable.
+- Frontend may keep only lightweight UI state: selected tab, selected item, expanded section, modal open/closed, local form draft, loading/error/empty demo surfaces.
+- Frontend may implement presentation-grade client validation and formatting when it is basic UI feedback, not domain eligibility, authorization, or workflow decision-making.
+- Frontend may use thin display selectors: grouping already-provided records, counting visible lists, validating tab keys, selecting a fixture by id, and mapping fixture fields into components.
+- BFF/domain-owned decisions must stay out of frontend mock logic: derived business metrics, lifecycle/status transitions, eligibility or authorization decisions, allowed-action decisions, integration-status normalization, domain labels derived from business codes, destination or next-action resolution, and cross-record workflow decisions.
+- Do not create fake API state machines, polling, caching, optimistic updates, retry policies, permission engines, or domain reducers just to support a static mock page.
+- If the future BFF contract is unknown, keep fixtures explicit and local. Name the seam as replaceable data, not as a guessed API contract.
+
+When real API integration is requested, switch scope explicitly: identify the contract source, loading/error/empty behavior, mutation side effects, cache policy, authorization assumptions, and verification path. Do not smuggle those decisions into a mock-only design delivery.
+
 ## Mandatory Reference Loading Rules
 
 Reference loading is required, not optional:
@@ -50,6 +80,7 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 
 1. Gate 1 (pre-start confirmation)
 - Lock mode, target stack, baseline artifacts, source-of-truth, scope, non-goals, and shell boundary.
+- Record the project/framework structure convention that will own new route entries, feature files, components, fixtures, styles, assets, and tests.
 - For design-platform inputs, record whether structured source was attempted and what result it returned before using screenshots/images as a baseline.
 
 2. Gate 2 (mode-aware middle gate)
