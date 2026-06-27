@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells, avoiding coordinate-copy layouts, following framework/project structure, keeping mock/BFF responsibilities separate, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
+description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells, avoiding coordinate-copy layouts, verifying fonts/assets in the project instead of relying on the local machine, following framework/project structure, keeping mock/BFF responsibilities separate, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
 ---
 
 # Design to Frontend Delivery
@@ -32,6 +32,18 @@ Do not use `position: absolute`, `left/top`, fixed pixel coordinates, or screens
 Absolute or fixed positioning is allowed for overlays, popovers, tooltips, badges, floating actions, intentional layered decoration, canvas/game/diagram surfaces, or small anchored elements inside a stable relative container.
 
 If a normal page needs many absolute coordinates to look close to the design, stop before continuing and convert the implementation plan to Flex/Grid/flow layout. Record the exception if absolute positioning remains necessary.
+
+## Typography and Asset Fidelity Contract
+
+Treat fonts, icons, images, videos, gradients, shadows, and brand media as implementation assets, not as local-environment assumptions.
+
+Before spending time on repeated visual tweaks:
+
+- Extract the intended font family, weight/style, variable axes if relevant, size, line-height, letter spacing, color, and text wrapping behavior from the strongest available source.
+- Verify the implementation can actually load the required font files or approved provider. Do not assume a font exists because it is installed on the agent's or user's machine.
+- If a required font, weight, icon, image, or media asset is missing, pause the fidelity loop and either add a licensed project asset, use the project's approved provider/package, or disclose a fallback decision. Do not keep tuning spacing, colors, or coordinates to compensate for a font that is not loaded.
+- Include only font files and media that the project has rights to use. When rights are unclear, ask for the asset or use an approved open/provider-backed alternative.
+- Validate in the browser after fonts and assets load. High-fidelity or "pixel-perfect" cannot be claimed while key fonts/assets are missing, 404ing, falling back silently, or unverified.
 
 ## Project Structure Contract
 
@@ -69,6 +81,7 @@ Reference loading is required, not optional:
 
 - When the input is a design-platform URL, connected plugin/MCP, design export, generated code, Dev Mode context, Code Connect/component mapping, or any artifact that may contain structure/style metadata, you must read [source-priority.md](./references/source-priority.md) before deciding whether the task is visual-only.
 - When there are multiple fact sources, source conflicts, or visual-only inputs, you must read [source-priority.md](./references/source-priority.md) before implementation decisions.
+- When the task involves high-fidelity visual match, typography, icons, images, media, design tokens, browser screenshots, or repeated "make it closer" polish, you must read [assets-and-visual-fidelity.md](./references/assets-and-visual-fidelity.md) before Gate 2 or any final fidelity claim.
 - After mode is locked, you must read exactly one mode reference before implementation details:
   - `convert-and-polish` -> [convert-and-polish.md](./references/convert-and-polish.md)
   - `polish-existing-project` -> [polish-existing-project.md](./references/polish-existing-project.md)
@@ -81,6 +94,7 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 1. Gate 1 (pre-start confirmation)
 - Lock mode, target stack, baseline artifacts, source-of-truth, scope, non-goals, and shell boundary.
 - Record the project/framework structure convention that will own new route entries, feature files, components, fixtures, styles, assets, and tests.
+- Record typography and asset facts: required font families/weights, image/icon/media sources, availability, license/provenance status when known, and fallback decision if any asset is missing.
 - For design-platform inputs, record whether structured source was attempted and what result it returned before using screenshots/images as a baseline.
 
 2. Gate 2 (mode-aware middle gate)
@@ -88,7 +102,7 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 - `polish-existing-project`: current-state audit plus scope-gap closure decision before implementation continues.
 
 3. Gate 3 (acceptance and closeout gate)
-- Verify demo-ready polish quality and produce final acceptance, risk, documentation update record, and next-step decision.
+- Verify demo-ready polish quality, including actual browser-loaded fonts/assets, and produce final acceptance, risk, documentation update record, and next-step decision.
 
 ## Must Ask vs Can Decide
 
@@ -131,6 +145,7 @@ In `polish-existing-project`, run scope-gap detection after current-state audit:
 ## References
 
 - [source-priority.md](./references/source-priority.md)
+- [assets-and-visual-fidelity.md](./references/assets-and-visual-fidelity.md)
 - [mode-routing.md](./references/mode-routing.md)
 - [convert-and-polish.md](./references/convert-and-polish.md)
 - [polish-existing-project.md](./references/polish-existing-project.md)

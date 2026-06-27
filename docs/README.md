@@ -6,6 +6,7 @@
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-documentation-governance-skill.md`（新增 documentation-governance 通用技能：用文档治理门禁区分 OpenSpec/change spec、ADR、正式 source-of-truth docs、索引、源码旁文档、交付证据、项目明确批准的 audit/evidence artifact、归档和不持久化内容，防止文档膨胀、重复真相和过程记录污染正式文档）
+- 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-assets-and-fonts.md`（将 design-to-frontend-delivery 的字体与资源真实性固化为高保真门禁：缺少字体、字重、图片、图标或媒体时先补项目可访问资源或明确 fallback/blocked，不继续用样式微调掩盖资源缺失）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-mock-bff-boundary.md`（将 design-to-frontend-delivery 的静态 mock 与真实 BFF/API 集成边界固化：mock 只做展示夹具和轻量 UI 状态，不提前实现 BFF/domain-owned 业务裁定或 API 状态机）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-project-structure.md`（将 design-to-frontend-delivery 的工程目录边界固化：先识别目标框架和项目目录约定，再按页面入口、feature 组件、fixtures、selectors/formatters、styles/assets、tests/stories 分责归位）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-document-routing.md`（将 production-delivery-manager 的文档归属门禁固化：正式 docs 只写长期事实，最终交付只写成果/关键改动/验证/风险/下一步，临时过程记录不得污染原有文档）
