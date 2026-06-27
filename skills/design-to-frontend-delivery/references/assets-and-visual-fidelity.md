@@ -32,7 +32,7 @@ Use the strongest available source: design-platform inspect data, Dev Mode/MCP, 
 3. Prefer WOFF2 for web delivery when a web font file is available; use `@font-face` with explicit `font-family`, `src`, `font-weight`, `font-style`, and `font-display`.
 4. Preload only critical above-the-fold web fonts that are known by URL and likely needed immediately. Do not preload every weight or decorative font.
 5. Do not commit commercial or user-provided fonts unless the user/project confirms usage rights. If rights are unclear, ask for a licensed asset or choose an approved open/provider-backed fallback.
-6. If only a fallback is available, document it as a visual risk. Do not claim exact/high-fidelity typography parity.
+6. If only a fallback is available, document it as a visual risk. Do not claim high-fidelity typography parity, and never claim literal pixel-level equality.
 7. For Figma/MCP workflows, remember that local desktop fonts may not be available to a server-side design agent. If the platform reports missing fonts, resolve by adding/uploading the font where the platform and implementation can access it, or by choosing an approved fallback.
 
 ## Asset Completeness Rules
@@ -72,4 +72,4 @@ A high-fidelity delivery closeout must state:
 - any fallback typography/media decisions and their visual risk;
 - whether screenshot/visual comparison happened after fonts were ready.
 
-If any critical font or asset is missing, the verdict cannot be "passed" for high-fidelity/pixel-perfect delivery. Use "conditional" or "blocked pending asset".
+If any critical font or asset is missing, the verdict cannot be "passed" for high-fidelity visual reconstruction. Use "conditional" or "blocked pending asset". Do not use "pixel-perfect" or "100% pixel match" as a delivery verdict.

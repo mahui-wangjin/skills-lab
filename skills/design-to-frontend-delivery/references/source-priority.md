@@ -118,7 +118,7 @@ Allowed only when required by target stack or build system:
 - Inventing missing states, content, or interactions from visual guesswork
 - Treating a design-platform URL as screenshot-only when Dev Mode-like metadata, MCP context, generated code, token data, or component mapping is available
 - Downloading rendered images as the primary implementation baseline when a structured source can be read
-- Treating "1:1" or "pixel-perfect" as permission to copy design-canvas coordinates with many `position: absolute`, `left/top`, fixed pixel coordinates, or screenshot overlays for ordinary page layout.
+- Treating "1:1" or "pixel-perfect" as a literal pixel-parity promise, or as permission to copy design-canvas coordinates with many `position: absolute`, `left/top`, fixed pixel coordinates, or screenshot overlays for ordinary page layout.
 
 ## Only-Visual Fallback
 
@@ -128,6 +128,6 @@ If target stack is also unclear at the same time, this fallback confirmation tak
 
 Use this confirmation wording before implementation:
 
-> 当前只有设计图或截图，没有导出 HTML、参考代码或现有实现。若继续，我只能按视觉稿还原，无法保证与设计产物 100% 一致。请确认：现在继续做视觉还原，还是你继续提供导出 HTML、参考代码或现有实现，我再按更强基线落地？
+> 当前只有设计图或截图，没有导出 HTML、参考代码或现有实现。若继续，我只能按视觉关系做高保真还原，无法保证像素级 100% 一致，尤其无法保证跨响应式断点、浏览器、系统字体渲染和动态内容完全一致。请确认：现在继续做视觉还原，还是你继续提供导出 HTML、参考代码或现有实现，我再按更强基线落地？
 
 Implementation starts only after user confirmation.

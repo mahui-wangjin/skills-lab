@@ -18,7 +18,7 @@ Route by [mode-routing.md](./references/mode-routing.md):
 
 ## Layout Fidelity Contract
 
-Treat "1:1", "pixel-perfect", "same as design", or similar user wording as a fidelity goal, not permission to reproduce design-tool coordinates.
+Treat "1:1", "pixel-perfect", "same as design", or similar user wording as a request for high-fidelity visual reconstruction, not a literal pixel-parity promise and not permission to reproduce design-tool coordinates.
 
 Professional frontend fidelity means preserving visual intent with maintainable implementation:
 
@@ -26,6 +26,7 @@ Professional frontend fidelity means preserving visual intent with maintainable 
 - Prefer semantic structure, reusable components, design tokens, CSS variables, Flexbox, CSS Grid, normal document flow, responsive constraints, and aspect-ratio.
 - Translate design-tool auto-layout, constraints, grids, spacing, and variants into frontend layout primitives.
 - Accept normal browser differences in font rendering, content length, breakpoints, and responsive wrapping when the visual relationship remains correct.
+- Do not claim literal 100% pixel equality across responsive breakpoints, browsers, operating systems, font renderers, or dynamic content states.
 
 Do not use `position: absolute`, `left/top`, fixed pixel coordinates, or screenshot-coordinate overlays to drive primary layout regions, repeated cards/rows, responsive columns, forms, dashboards, or ordinary content flow.
 
@@ -43,7 +44,7 @@ Before spending time on repeated visual tweaks:
 - Verify the implementation can actually load the required font files or approved provider. Do not assume a font exists because it is installed on the agent's or user's machine.
 - If a required font, weight, icon, image, or media asset is missing, pause the fidelity loop and either add a licensed project asset, use the project's approved provider/package, or disclose a fallback decision. Do not keep tuning spacing, colors, or coordinates to compensate for a font that is not loaded.
 - Include only font files and media that the project has rights to use. When rights are unclear, ask for the asset or use an approved open/provider-backed alternative.
-- Validate in the browser after fonts and assets load. High-fidelity or "pixel-perfect" cannot be claimed while key fonts/assets are missing, 404ing, falling back silently, or unverified.
+- Validate in the browser after fonts and assets load. High-fidelity visual reconstruction cannot be claimed while key fonts/assets are missing, 404ing, falling back silently, or unverified; literal pixel-perfect parity should not be claimed at all.
 
 ## Project Structure Contract
 
