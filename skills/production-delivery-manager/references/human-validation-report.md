@@ -12,7 +12,7 @@ Generate an HTML report when any report trigger applies. The report is the durab
 
 CI/workflow results are evidence sources, not the report itself. A workflow proves that a repeatable machine gate ran on a commit or branch. The report explains what that evidence proves, what it does not prove, and how it maps to architecture, core logic, browser behavior, and residual risk.
 
-Report once, at finalization. During implementation, do not keep rewriting `index.html` after every failed check or fix. Keep a compact evidence ledger and produce the report from the final verified state.
+Report once, at finalization. During implementation, do not keep rewriting `index.html` after every failed check or fix. Keep compact evidence notes and produce the report from the final verified state.
 
 The report must not be a chronology. Exclude:
 
@@ -21,7 +21,7 @@ The report must not be a chronology. Exclude:
 - raw command dumps
 - sub-agent transcripts
 - long diffs or file-by-file implementation commentary
-- process ledgers copied from working notes
+- process notes copied from working notes
 - "then I did..." narration
 
 Include failed or skipped checks only when they remain relevant to final acceptance, and summarize what they mean for risk.
@@ -32,7 +32,7 @@ Do not store report content or process evidence in arbitrary existing docs.
 
 - Formal docs receive long-lived facts only: accepted decisions, architecture boundaries, public contracts, product behavior, operating rules, and explicit follow-up commitments.
 - Human Validation Packet and HTML report receive final outcomes, key changes, evidence map, residual risk, and human checkpoints.
-- Evidence ledger stays in working notes during implementation. Persist it only in `.production-delivery-reports/.../evidence/` or a project-approved task-ledger path.
+- Evidence notes stay in working notes during implementation. Persist them only in `.production-delivery-reports/.../evidence/` or a project-approved audit/evidence artifact path.
 - Debug chronology, failed-attempt sequences, raw command dumps, and sub-agent transcripts are not durable artifacts unless the user explicitly asks for audit-trail detail.
 
 If project docs must be updated, write them as source-of-truth updates, not as delivery logs. A useful docs update should still make sense months later without knowing this agent session happened.
@@ -73,9 +73,9 @@ Rules:
 - If the report is part of merge/release evidence, keep it in the diff unless project policy says delivery reports are external artifacts.
 - If the report is local-only, state that it was not committed and why.
 
-## Evidence Ledger During Work
+## Evidence Notes During Work
 
-While implementation is still changing, use a short ledger instead of writing the HTML report:
+While implementation is still changing, use short evidence notes instead of writing the HTML report:
 
 ```md
 - Evidence: `<command/check/artifact path>`
@@ -84,7 +84,7 @@ While implementation is still changing, use a short ledger instead of writing th
   Limit: <what it does not prove>
 ```
 
-This ledger can live in the agent's working notes or final response preparation. Only persist it as a repository artifact when the project explicitly wants raw evidence.
+These notes can live in the agent's working notes or final response preparation. Only persist them as a repository artifact when the project explicitly wants raw evidence.
 
 ## Scaffold Script
 

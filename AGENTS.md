@@ -14,6 +14,7 @@
 
 ### Skill Enforcement Rules
 
+- 创建、修改、重组或审计长期项目文档、文档目录、README/docs 索引、OpenSpec/ADR/正式文档归属、交付证据与过程记录边界时，必须先使用 `documentation-governance`，并避免把临时过程记录、raw logs、失败重试或子 Agent transcript 写入正式 source-of-truth docs。
 - 当任务涉及新增依赖、新服务、新基础设施、新自研模块、重大重构时，必须先使用 `reuse-first-guard`。
 - 当任务明显在搭建高复用通用能力时，默认也必须先使用 `reuse-first-guard`；典型范围包括鉴权、支付、搜索、存储、消息、表单、上传、CMS、监控、工作流。
 - 若 `reuse-first-guard` 判断存在更低成本或更低维护代价的复用路径，默认先给出替代方案与推荐结论，再决定是否进入自研实现。

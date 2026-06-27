@@ -25,7 +25,7 @@ Examples:
 - Database Reviewer: inspect schema and migration risks.
 - Reviewer: inspect the final diff for correctness and missing tests.
 - E2E Runner: run browser validation while implementation polish continues.
-- Evidence Reporter: at finalization, assemble a human-readable validation packet or HTML report from accepted verification evidence without inventing results. During implementation, keep only an evidence ledger and do not polish the final report.
+- Evidence Reporter: at finalization, assemble a human-readable validation packet or HTML report from accepted verification evidence without inventing results. During implementation, keep only evidence notes and do not polish the final report.
 
 ## Minimum Quality Surfaces
 
@@ -34,7 +34,7 @@ For production-grade work, try to create at least one independent surface beyond
 - Architecture surface: Architect or Code Explorer maps boundaries before broad edits.
 - Risk surface: Reviewer, Security, Database, TypeScript, Performance, or silent-failure reviewer challenges failure modes.
 - Verification surface: Test or E2E runner validates user-visible flows, build/runtime checks, or regression tests.
-- Documentation/release surface: Docs or Release agent checks that handoff, ledgers, Human Validation Packet, HTML report, CI/workflow evidence, and acceptance evidence match the change.
+- Documentation/release surface: Docs or Release agent checks that handoff, evidence notes, Human Validation Packet, HTML report, CI/workflow evidence, and acceptance evidence match the change.
 
 Use the surfaces that match the task's risk. A backend data migration may need database/security review; a frontend product workflow may need E2E and accessibility review; a docs-only skill change may only need skill validation plus reviewer critique.
 

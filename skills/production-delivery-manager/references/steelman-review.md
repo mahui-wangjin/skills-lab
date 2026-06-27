@@ -39,7 +39,7 @@ Assume at least one of these is true and try to prove it:
 - Real sub-agents, specialist review, or independent verification were skipped without enough compensating evidence.
 - The final handoff is technically complete but not human-validatable: architecture, core logic, evidence, screenshots, CI/workflow status, or residual risks are not organized so the user can accept or reject the delivery.
 - A required HTML delivery report was skipped, incomplete, unlinked, local-only without explanation, or filled with raw logs instead of reviewable evidence.
-- Process ledgers, debug chronology, raw command dumps, sub-agent transcripts, or repeated attempts were written into formal project docs instead of the final handoff, `.production-delivery-reports/`, or an explicitly approved ledger path.
+- Process notes, debug chronology, raw command dumps, sub-agent transcripts, or repeated attempts were written into formal project docs instead of the final handoff, `.production-delivery-reports/`, or an explicitly approved audit/evidence artifact path.
 
 ## Method
 

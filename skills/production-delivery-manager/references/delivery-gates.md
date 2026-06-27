@@ -161,9 +161,9 @@ During implementation:
 - prefer established local conventions
 - avoid speculative abstractions
 - preserve unrelated user changes
-- update docs or ledgers required by project rules, after routing content to the right artifact type
+- update docs or approved audit/evidence artifacts required by project rules, after routing content to the right artifact type
 - stage broad changes through small, verifiable slices
-- keep report work out of the implementation loop; record only a terse evidence ledger when a command, screenshot, sub-agent review, CI run, or manual check produces evidence
+- keep report work out of the implementation loop; record only terse evidence notes when a command, screenshot, sub-agent review, CI run, or manual check produces evidence
 
 ### Gate 4.1: Document Routing
 
@@ -173,15 +173,15 @@ Before writing to any repository document, classify the content:
 | --- | --- | --- |
 | Long-lived product, architecture, API, workflow, operating rule, or accepted decision | Existing project docs, ADRs, specs, or source-adjacent docs | HTML report evidence-only sections |
 | Final delivery summary, key outcomes, evidence map, residual risk, human checkpoints | Final answer and, when triggered, `.production-delivery-reports/<date>_<slug>/index.html` | Product/architecture/development docs |
-| Temporary evidence ledger, command result notes, browser screenshots, short log excerpts | Agent working notes while implementing; report `evidence/` only when durable evidence is required | Formal docs unless the project explicitly has a task-ledger path |
+| Temporary evidence notes, command result notes, browser screenshots, short log excerpts | Agent working notes while implementing; report `evidence/` only when durable evidence is required | Formal docs unless the project explicitly has an approved audit/evidence artifact path |
 | Debug chronology, repeated failed attempts, raw command dumps, sub-agent transcripts | Normally nowhere durable; include only if the user explicitly asks for audit-trail detail | Existing project docs and result reports |
 
 Rules:
 
 - Formal docs are for durable facts, not the agent's work diary.
 - Do not create or repurpose an existing product, architecture, development, or governance doc to hold process notes.
-- If project rules require a task ledger, write only concise final task state: goal, key changes, verification, risk/blocker, next step. Do not paste execution chronology.
-- If uncertain whether a document is a ledger or source-of-truth doc, treat it as source-of-truth and keep process notes out.
+- If project rules require an approved audit/evidence artifact, write only concise final state: goal, key changes, verification, risk/blocker, next step. Do not paste execution chronology.
+- If uncertain whether a document is an evidence artifact or source-of-truth doc, treat it as source-of-truth and keep process notes out.
 
 If new information invalidates the plan, pause, report the conflict, and re-plan.
 
@@ -245,7 +245,7 @@ The user's default validation need is a final summary:
 
 Do not include process chronology unless the user explicitly asks for an audit trail.
 
-During implementation, maintain only a compact evidence ledger:
+During implementation, maintain only compact evidence notes:
 
 ```md
 - Evidence: <command/check/artifact>
@@ -254,7 +254,7 @@ During implementation, maintain only a compact evidence ledger:
   Limit: <one sentence>
 ```
 
-Do not repeatedly write or polish the HTML report while implementation is still changing. Generate or update the durable report after delivery-target integration, final verification, and steelman review, using the final evidence ledger.
+Do not repeatedly write or polish the HTML report while implementation is still changing. Generate or update the durable report after delivery-target integration, final verification, and steelman review, using the final evidence notes.
 
 Generate an HTML report under `.production-delivery-reports/<YYYY-MM-DD>_<slug>/index.html` when:
 

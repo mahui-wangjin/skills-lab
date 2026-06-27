@@ -1,0 +1,4 @@
+interface:
+  display_name: "Documentation Governance"
+  short_description: "Govern docs structure, routing, and lifecycle."
+  default_prompt: "Use $documentation-governance before creating, changing, reorganizing, or auditing project documentation. Classify whether content belongs in OpenSpec/change specs, ADRs, source-of-truth docs, README/index files, source-adjacent docs, delivery reports, approved audit/evidence artifacts, archives, or nowhere durable; enforce one fact one home, ownership, lifecycle, traceability, index updates, and single-file growth limits."

@@ -5,13 +5,14 @@
 - 项目级规则文件：`../AGENTS.md`
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
+- 当前新增设计文档：`./superpowers/specs/2026-06-27-documentation-governance-skill.md`（新增 documentation-governance 通用技能：用文档治理门禁区分 OpenSpec/change spec、ADR、正式 source-of-truth docs、索引、源码旁文档、交付证据、项目明确批准的 audit/evidence artifact、归档和不持久化内容，防止文档膨胀、重复真相和过程记录污染正式文档）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-mock-bff-boundary.md`（将 design-to-frontend-delivery 的静态 mock 与真实 BFF/API 集成边界固化：mock 只做展示夹具和轻量 UI 状态，不提前实现 BFF/domain-owned 业务裁定或 API 状态机）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-project-structure.md`（将 design-to-frontend-delivery 的工程目录边界固化：先识别目标框架和项目目录约定，再按页面入口、feature 组件、fixtures、selectors/formatters、styles/assets、tests/stories 分责归位）
-- 当前新增设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-document-routing.md`（将 production-delivery-manager 的文档归属门禁固化：正式 docs 只写长期事实，最终交付只写成果/关键改动/验证/风险/下一步，过程台账不得污染原有文档）
+- 当前新增设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-document-routing.md`（将 production-delivery-manager 的文档归属门禁固化：正式 docs 只写长期事实，最终交付只写成果/关键改动/验证/风险/下一步，临时过程记录不得污染原有文档）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-layout-fidelity.md`（将 design-to-frontend-delivery 的“1:1/高保真”口径收口为专业布局保真：视觉关系接近设计稿，但普通布局优先 Flex/Grid/flow，禁止用大量绝对定位复刻坐标）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-maintainability-guard-boundary-check.md`（将 maintainability-guard 从“800 行触发”强化为“轻量边界检查始终执行，可复用/重复/测试边界/依赖方向触发完整 Gate”）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-structured-source-first.md`（将 design-to-frontend-delivery 优化为平台无关的结构化源优先，设计平台/MCP/Dev Mode/组件映射/参考代码可用时不得降级为按截图复刻）
-- 上一轮设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-result-first-reporting.md`（将 production-delivery-manager 的 HTML 报告优化为结果优先验收面，实施中只维护 evidence ledger，最终一次性生成或补齐报告）
+- 上一轮设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-result-first-reporting.md`（将 production-delivery-manager 的 HTML 报告优化为结果优先验收面，实施中只维护 evidence notes，最终一次性生成或补齐报告）
 - 上一轮设计文档：`./superpowers/specs/2026-06-16-production-delivery-manager-human-validation-report.md`（补充 Human Validation Packet、HTML 交付报告、证据等级、截图限制、CI/workflow 证据和 `.production-delivery-reports/` 默认目录）
 - 上一轮设计文档：`./superpowers/specs/2026-05-29-production-delivery-manager-delegation-quality-gate.md`（补充复杂/生产级任务的 Delegation Quality Gate、独立专家视角和不委派钢人反审规则）
 - 已更新设计文档：`./superpowers/specs/2026-05-27-admin-ui-pattern-system-design.md`（补充非 CRUD 后台页面范式、完成门禁、降级规则和 Windows UTF-8 校验口径）
@@ -25,6 +26,7 @@
 - 新增 skill：`../skills/production-delivery-manager/`
 - 新增 skill：`../skills/maintainability-guard/`
 - 新增 skill：`../skills/admin-ui-pattern-system/`
+- 新增 skill：`../skills/documentation-governance/`
 
 ## 维护约定
 

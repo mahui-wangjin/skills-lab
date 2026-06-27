@@ -1,6 +1,6 @@
 # skills-lab
 
-个人 skills 仓库，当前包含“前端设计落地与精修”、“通用工程决策守门”、“生产级工程交付总控”、“通用可维护性守门”和“后台管理界面范式系统”五类 skill。
+个人 skills 仓库，当前包含“前端设计落地与精修”、“通用工程决策守门”、“生产级工程交付总控”、“通用可维护性守门”、“后台管理界面范式系统”和“软件工程文档治理”六类 skill。
 
 ## Installation & Discovery
 
@@ -40,6 +40,10 @@ npx skills add mahui-wangjin/skills-lab --skill maintainability-guard
 npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system
 ```
 
+```bash
+npx skills add mahui-wangjin/skills-lab --skill documentation-governance
+```
+
 全局安装并跳过确认：
 
 ```bash
@@ -60,6 +64,10 @@ npx skills add mahui-wangjin/skills-lab --skill maintainability-guard -g -y
 
 ```bash
 npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
+```
+
+```bash
+npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 ```
 
 安装完成后重启 Codex，让新 skill 生效。
@@ -106,9 +114,9 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
     manifest.json
 ```
 
-报告是结果验收面，不是开发过程流水账。实施过程中只维护简短 evidence ledger（检查/结果/证明什么/限制），不要在每次失败、修复、重跑后反复编辑 HTML。最终在交付目标回灌、验证和钢人反论之后，用 `skills/production-delivery-manager/scripts/create_report.py` 一次性生成或补齐结果优先的 `Production Delivery Outcome` 报告。CI workflow、release-candidate workflow、本地测试、浏览器截图、日志摘录和子 Agent 审查都可以进入报告证据区，但必须标注证据等级和限制；截图只能证明可见 UI 状态，不能单独证明权限、数据隔离、幂等、事务或后端正确性。CI/workflow 是可重复机器验证的证据来源，HTML 报告负责汇总、解释和映射最终证据，不替代 CI，也不记录已被最终实现取代的中间尝试。
+报告是结果验收面，不是开发过程流水。实施过程中只维护简短 evidence notes（检查/结果/证明什么/限制），不要在每次失败、修复、重跑后反复编辑 HTML。最终在交付目标回灌、验证和钢人反论之后，用 `skills/production-delivery-manager/scripts/create_report.py` 一次性生成或补齐结果优先的 `Production Delivery Outcome` 报告。CI workflow、release-candidate workflow、本地测试、浏览器截图、日志摘录和子 Agent 审查都可以进入报告证据区，但必须标注证据等级和限制；截图只能证明可见 UI 状态，不能单独证明权限、数据隔离、幂等、事务或后端正确性。CI/workflow 是可重复机器验证的证据来源，HTML 报告负责汇总、解释和映射最终证据，不替代 CI，也不记录已被最终实现取代的中间尝试。
 
-该 skill 还要求文档归属先行：正式项目文档只写长期事实，例如架构边界、接口契约、产品行为、操作规则和已接受决策；最终交付摘要只写关键成果、关键改动、最终验证、剩余风险和下一步；过程性 evidence ledger、调试流水、失败重试记录、raw logs 和子 Agent 过程记录不得写进原有产品/架构/开发/治理文档。需要持久验收证据时放入 `.production-delivery-reports/` 或项目明确的台账路径，并保持 outcome-first。
+该 skill 还要求文档归属先行：正式项目文档只写长期事实，例如架构边界、接口契约、产品行为、操作规则和已接受决策；最终交付摘要只写关键成果、关键改动、最终验证、剩余风险和下一步；临时 evidence notes、调试流水、失败重试记录、raw logs 和子 Agent 过程记录不得写进原有产品/架构/开发/治理文档。需要持久验收证据时放入 `.production-delivery-reports/` 或项目明确批准的 audit/evidence artifact，并保持 outcome-first。
 
 ### `maintainability-guard`
 
@@ -168,6 +176,32 @@ npx skills add mahui-wangjin/skills-lab --skill admin-ui-pattern-system -g -y
 - 输出必须标注证据等级：`full`、`candidate`、`local-fix` 或 `self-reviewed`，避免把未确认线稿或未验收实现说成完成。
 ```
 
+### `documentation-governance`
+
+用于创建、修改、重组、审计或决定不写软件工程项目文档时的文档治理门禁。它先判断内容到底属于 OpenSpec/变更规格、ADR、正式 source-of-truth docs、README/index、源码旁文档、交付报告证据、项目明确批准的 audit/evidence artifact、归档，还是根本不应该持久化。
+
+核心口径：
+- 正式文档只承载长期有效事实：当前产品行为、架构边界、接口契约、操作规则、工程约定和已接受决策。
+- OpenSpec 或等价 change spec 承载拟议/进行中的跨模块变更、验收标准、影响面、迁移和评审链；实现完成后要把当前事实回写到正式文档。
+- ADR 承载已接受的重要决策、备选方案、取舍、后果和 supersession 链，不承载实施计划、调试过程或普通小偏好。
+- 交付报告和项目明确批准的 audit/evidence artifact 只承载最终成果、关键改动、验证、风险和下一步；临时过程记录、raw logs、失败重试和子 Agent transcript 不得污染正式 docs。
+- 每个长期事实只有一个 canonical home；索引可以短摘要和链接，不能复制完整规则。
+- 单文件持续膨胀时按生命周期、受众、领域、owner、source-of-truth 责任拆分，不按 agent 会话或日期机械拆分。
+- 归档、弃用、superseded 和删除都必须显式标状态、替代入口、owner 和触发条件；不能让两个文档同时看起来都是 current。
+- 治理要同时优化搜索便捷性和修改复杂度：文档路径、文件名、标题、索引别名要能被搜到；同一个长期事实变化时应只有一个 canonical 编辑位置。
+
+推荐项目规则：
+
+```md
+- 创建、修改、重组或审计项目文档前，先使用 `documentation-governance` 做文档路由判断。
+- 任何文档写入前先判断内容是拟议变更、已接受决策、当前事实、接口契约、操作规程、最终验收证据、项目明确批准的 audit/evidence artifact、原始参考、历史归档还是临时过程信息。
+- 正式 source-of-truth docs 只写长期事实；过程记录、调试流水、raw logs、失败重试、子 Agent transcript 和 scratch reasoning 不得写入正式产品/架构/开发/治理文档。
+- OpenSpec/change spec 用于拟议或进行中的跨模块变更和验收；ADR 用于已接受且有重要取舍的决策；正式 docs 用于当前稳定事实；README/docs index 只做入口和链接。
+- 新增长期文档必须更新最近的索引；废弃内容必须标注 superseded/archived 并给出反向链接。
+- 单文件膨胀时优先按生命周期、受众、领域、owner 和 source-of-truth 责任拆分，避免把当前事实、计划、决策和临时过程记录混在一起。
+- 文档结构调整必须说明搜索入口和修改成本：读者怎样找到 canonical answer；下一次同一事实变化时需要改几个文件。
+```
+
 ## Repository Layout
 
 ```text
@@ -193,6 +227,10 @@ skills-lab/
       SKILL.md
       agents/openai.yaml
       references/
+    documentation-governance/
+      SKILL.md
+      agents/openai.yaml
+      references/
 ```
 
 ## Local Validation
@@ -206,6 +244,7 @@ python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/production-delivery-manager"
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/maintainability-guard"
 python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/admin-ui-pattern-system"
+python "<your-codex-home>/skills/.system/skill-creator/scripts/quick_validate.py" "./skills/documentation-governance"
 ```
 
 Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 读取 `SKILL.md` 并报 `UnicodeDecodeError`。
@@ -228,8 +267,8 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `用 production-delivery-manager 做完整产品化交付，质量比速度重要`：应把任务按复杂/生产级处理，显式输出 Delegation Quality Gate；默认安排至少一个独立专家视角（如 Architect、Reviewer、Security、Database、E2E、Docs/Release），除非说明真实子 Agent 不可用或任务确属小范围低风险。
 - `用 production-delivery-manager，但这个需求看起来很简单`：可以压缩流程，但必须说明为什么不派发子 Agent，并在最终钢人反论中挑战这个判断；不能只用“我自己更快”作为理由。
 - `用 production-delivery-manager，但当前环境没有真实子 Agent`：必须明示 no-delegation reason，用 targeted tests、typecheck、build、浏览器/E2E、安全/数据库检查或人工审阅补偿；无法补偿时只能交付 partial/candidate/self-reviewed。
-- `用 production-delivery-manager，并且最后给我可审的交付报告`：实施中只记录 evidence ledger，不反复写 HTML；最终在交付目标中生成 `.production-delivery-reports/<日期>_<slug>/index.html`，首页先给出 Delivered Capabilities 和 Human Validation Packet，后续展开架构、核心逻辑、证据地图、CI/workflow、本地验证、浏览器截图/限制、钢人反论、workspace 集成和残余风险。
-- `用 production-delivery-manager，但不要啰嗦过程，只要最终汇总`：最终输出应只包含关键成果、关键改动、最终验证、剩余风险和下一步；不得把过程台账、失败重试、子 Agent 流水或 raw logs 写进正式 docs。
+- `用 production-delivery-manager，并且最后给我可审的交付报告`：实施中只记录 evidence notes，不反复写 HTML；最终在交付目标中生成 `.production-delivery-reports/<日期>_<slug>/index.html`，首页先给出 Delivered Capabilities 和 Human Validation Packet，后续展开架构、核心逻辑、证据地图、CI/workflow、本地验证、浏览器截图/限制、钢人反论、workspace 集成和残余风险。
+- `用 production-delivery-manager，但不要啰嗦过程，只要最终汇总`：最终输出应只包含关键成果、关键改动、最终验证、剩余风险和下一步；不得把临时过程记录、失败重试、子 Agent 流水或 raw logs 写进正式 docs。
 - `做了浏览器测试并截了图`：截图应进入 HTML 报告的 Browser Evidence 或 Evidence Map，并标为 `screenshot` 证据；同时写明它证明的是可见状态，不替代后端/API/权限/数据隔离测试。
 - `CI release-candidate workflow 已经跑过`：应把 workflow 名称、提交/分支、结果、artifact 或链接写进 Evidence Map，并说明它证明的是可重复机器门禁，不等于用户已验收或生产已发布。
 - `用 production-delivery-manager 改一个单文件文案错字`：可直接做并简短报告验证和风险，不需要完整多 Agent 矩阵。
@@ -245,6 +284,9 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `我要做规则配置向导/数据导入映射/权限矩阵/运行监控/异常复核台`：应进入 `admin-ui-pattern-system` 的非 CRUD 范式，先确认主任务、步骤/矩阵/工作台/时间线/Diff 等布局，再进入实现。
 - `后台页面已经做完了但没有浏览器验收或线稿确认`：应降级为候选方案或局部修复，不能声称产品级完成。
 
+- `这个项目文档越来越乱，哪些要写 OpenSpec、哪些写 ADR、哪些写正式文档`：应进入 `documentation-governance`，先输出 Documentation Governance Gate，按拟议变更、已接受决策、当前事实、索引、证据 artifact、归档或不持久化来路由。
+- `这次实现过程我跑了很多命令和失败重试，要不要写进 docs`：默认不写进正式 docs；只在最终报告或项目明确批准的 audit/evidence artifact 中保留结果化证据，正式 docs 只更新长期事实和当前边界。
+- `一个开发规划文档一直被追加，已经很长`：应按生命周期、受众、领域、owner 和 source-of-truth 责任审查是否拆分、弃用、归档或改成索引，不能继续把当前事实、计划、ADR 和临时过程记录堆在同一文件。
 ## Publish This Repository
 
 ```bash
