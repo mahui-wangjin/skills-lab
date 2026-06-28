@@ -84,6 +84,8 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 该 skill 现在把“字体与资源真实性”作为高保真门禁：字体、字重、图标、图片、视频、SVG、Lottie、背景图和品牌媒体都必须作为项目可访问资源处理，而不是依赖本机是否安装。高保真调样式前要盘点字体 family/weight/style、资源来源、授权/来源状态和 fallback/blocked 决策；缺少关键字体或资源时，应先补齐授权资源、接入批准 provider，或明确降级为 fallback，不能继续靠间距、坐标、颜色微调掩盖缺失字体。最终截图或视觉比对必须在真实浏览器中确认字体与关键资源加载后进行。
 
+该 skill 现在进一步要求“图标与细节事实源锁定”：远端设计源、导出包、组件映射或项目资产中已经存在的图标、SVG、插画、logo 和装饰形状必须复用，不能手写一个相似图标、随便换另一套 icon library，或用截图裁切冒充资产。hover、active、pressed、focus-visible、selected、disabled、loading、error、success 等状态，以及 border、padding、radius、shadow、outline、opacity、transition/easing、hit area 和 cursor，都必须来自设计源、项目 token、组件 variant 或已记录的 fallback；找不到时要反馈对齐，不能静默自造。
+
 该 skill 还要求默认具备工程目录思维：设计落地前先识别目标框架和当前工程的路由、页面、feature/module、components、mock/fixtures、selectors/formatters、styles/tokens、assets、tests/stories 约定。页面入口只做接入和编排，组件、mock 数据、展示选择器、样式、资源和测试按职责归位；不得把整页实现、mock、状态、样式和测试堆到一个文件夹或一个大文件。若当前仓库没有约定，才按对应框架的官方或事实标准选择最小目录结构并记录原因。
 
 该 skill 现在要求先做 UI 层级归属判断：不能只看视觉上挨得近就把组件放在一起。设计或现有页面要先映射为 app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 这些 owner 层，并说明状态、portal/root、z-index/stacking、overflow clipping 和复用范围。页面标题、面包屑、页签、筛选和页面操作不能误放到卡片或列表项里；全局弹框/toast/drawer 不应在 feature card 内部自建；装饰层不能遮挡交互层。
@@ -93,6 +95,8 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 该 skill 现在还要求完成前做端到端自测：优先运行项目已有 E2E、smoke、browser、screenshot 或 Storybook 验收命令；没有现成命令时，至少用真实浏览器自测主流程、UI 层级、公共面、主要交互、弹层、桌面/移动视口、控制台错误、失败请求和字体/资源加载。无法执行时只能标为条件通过或 self-reviewed，不得声称 demo-ready 完成。
 
 该 skill 还要求区分“静态 mock 阶段”和“真实 BFF/API 集成阶段”：静态设计落地或视觉精修时，mock 数据只是展示夹具，可以做成 BFF-shaped fixture 便于未来替换；前端只保留 tab、选中项、弹框开关、loading/error/empty 等轻量 UI 状态、薄展示选择器和演示级基础校验。派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化、基于业务枚举组合推导领域文案、目标去向和跨记录工作流属于 BFF/domain-owned 决策，不应在静态 mock 页面里提前实现。
+
+该 skill 也覆盖设计落地后的后续前端开发：当任务变成真实 API/BFF 对接、功能修改、bugfix、回归修复或增量需求时，会进入 `frontend-continuation` 路径。开工前必须确认 accepted baseline、API/行为契约来源、影响面、共享消费者和回归面；实现时复用项目已有 API client、query/cache、form、validation、loading/empty/error、toast/confirm 和权限模式。修 bug 或接 API 不是重设计许可，不能顺手换图标、改圆角、拆壳层、打乱 UI 层级或影响其他页面；共享组件、token、hook、API client 或 store/cache 被改时必须做对应回归检查。
 
 `design-to-code-html-first` 已并入 `design-to-frontend-delivery` 的 reference 层，不再作为独立 skill 维护。
 旧名已不再可安装，请改用 `design-to-frontend-delivery`。
@@ -263,12 +267,16 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `Figma/其他设计平台链接 + 已安装插件或 MCP`：应先读取平台可提供的结构、样式、tokens、组件映射或 reference code；能拿到结构化源时不得下载图当主基线。
 - `请 1:1 还原这个设计稿`：应理解为高保真视觉关系目标，不承诺像素级 100%；优先用 Flex/Grid/flow、tokens 和响应式约束实现间距、对齐、字体、颜色和状态，不得用大量 absolute/left/top 坐标复刻普通页面布局。
 - `怎么调都不像，后来发现本机没有设计字体`：应立即进入字体/资源门禁，确认设计所需字体 family、字重、样式和版本是否作为项目资源、批准 provider 或系统 fallback 可加载；缺失时先补字体文件/授权来源或记录 fallback，不继续盲目微调。
+- `远端设计里明明有图标，但实现里自己画了一个`：应判定为图标事实源错误，回到结构化源、导出 assets、项目图标库或组件映射中找 exact icon；找不到时反馈缺失并等待资产或批准 fallback，不得静默自绘或换相似图标。
+- `hover 效果、边框、内边距、圆角和阴影看起来不像设计`：应检查 design tokens、生成 CSS、组件 variant 和已接受项目范式，确认 border/padding/radius/shadow/motion/state variants 的来源；缺失时记录 fallback/conditional，不用个人审美随便调。
 - `按设计稿做一个 React/Vue 页面`：应先识别当前工程路由、feature、components、fixtures、styles/assets 和测试约定；页面入口、组件、mock 数据、展示选择器、样式和测试按职责归位，不得全部堆进一个页面文件或随机新建的 mock/components 文件夹。
 - `设计图里页面标题、筛选、列表卡片、弹框和装饰背景混在一起`：应先输出 UI layer map，判断哪些属于 page frame、content section、repeated item、overlay/feedback、decoration/media、data/state；不能因为视觉邻近就把页面级组件塞进卡片或把全局弹框放进列表项。
 - `设计稿只画了业务内容区，但目标是现有后台/应用工程`：应先确认交付表面并复用现有 shell、顶部栏、侧边栏/导航、面包屑、工具栏、modal/drawer/toast/confirm roots；不能把孤立内容区当作完整产品页面交付。
 - `页面看起来像设计稿，但按钮、卡片、弹框和菜单不知道哪里能点`：应进入交互 affordance 审计，补语义控件、cursor、hover/active/focus-visible、disabled/loading、关闭/返回路径、失败反馈和移动端触控基本可用性。
 - `改完页面后准备交付`：应运行项目已有 E2E/smoke/browser/screenshot 自测，或执行最小真实浏览器自测；覆盖主流程、层级、弹层、桌面/移动、控制台错误、失败请求和资源加载。没跑就只能说 conditional/self-reviewed。
 - `静态 mock 列表页/详情页，未来由 BFF 返回数据`：应把 mock 数据集中为展示夹具或 BFF-shaped fixture，只保留当前 tab、选中项、弹框等轻量 UI 状态、薄展示选择器和演示级基础校验；不得在前端推导派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化或 API 状态机。
+- `设计页已经落地了，现在接真实 API`：应进入 `frontend-continuation`，先确认 API/BFF 契约来源、loading/empty/error、mutation 副作用、cache invalidation、鉴权假设和回归面，再实现；不得把展示组件改成领域状态机。
+- `修这个页面的 bug，但不能影响其他页面`：应先列出影响面和回归面，识别共享组件、token、hook、API client、store/cache、路由和 overlay roots 的其他消费者；改完运行聚焦测试/浏览器 smoke，不能只验证当前页面。
 - `已有 React 工程，只说补交互但实际缺校验`：应进入 `polish-existing-project`，并触发范围缺口检测，给出最小闭环扩围建议（如补校验与反馈态）。
 - `只有截图，没有 HTML`：应先做仅视觉降级确认，确认后再问目标端，默认推荐 React。
 - `我要做一个用户鉴权模块`：应优先给出现成方案与不建议直接自研的原因。

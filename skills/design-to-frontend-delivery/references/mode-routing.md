@@ -8,6 +8,8 @@
   -> `convert-and-polish`
 - 现有工程主语（已有代码基线，目标是继续补齐完成度）  
   -> `polish-existing-project`
+- 已接受前端实现主语（已落地页面/组件/流程，目标是 API 对接、功能修改、bugfix、回归修复或增量需求）
+  -> `frontend-continuation`
 
 ## 2. 自动分流条件
 
@@ -22,13 +24,20 @@
 - 用户明确“在当前工程继续补交互/补状态/补校验/补弹框/补动画/补验收”。
 - 当前工程已有可用结构，任务目标是精修而不是重建主结构。
 
+自动进入 `frontend-continuation`：
+
+- 用户明确“接 API / 接真实接口 / 接 BFF / 改功能 / 修 bug / 修回归 / 不影响其他页面 / 在已完成页面上继续开发”。
+- 当前工程已有 accepted implementation，任务目标不是重新按设计复刻，而是在保留既有设计和交互的前提下修改行为、数据或局部 UI。
+- 变更会触碰共享组件、hooks、API client、store/query cache、fixtures、tokens、路由、shell 或跨页面逻辑，需要先做影响面和回归边界。
+
 ## 3. 必须停下来确认的路由冲突
 
 同时存在“现有工程”与“新设计/HTML”且意图不清时，必须暂停并仅提一个路由问题：
 
 > 当前同时有现有工程和新设计/HTML。请确认这次以哪种目标为主：  
 > A. 以新设计/HTML 为主重建页面内容区（convert-and-polish）  
-> B. 以现有工程为主做精修补齐（polish-existing-project）
+> B. 以现有工程为主做视觉/交互精修补齐（polish-existing-project）
+> C. 在已接受实现上做 API、功能或 bugfix 增量变更，并保护其他页面（frontend-continuation）
 
 用户未选择前，不进入实现。
 

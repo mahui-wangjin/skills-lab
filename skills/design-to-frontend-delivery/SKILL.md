@@ -1,11 +1,11 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells and common UI surfaces, mapping UI layer/component ownership before coding, avoiding coordinate-copy layouts, verifying fonts/assets in the project instead of relying on the local machine, following framework/project structure, keeping mock/BFF responsibilities separate, making clickable/interactive affordances demo-ready, running end-to-end self-tests before completion, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
+description: Use when delivering a frontend implementation from design artifacts, polishing an existing frontend project, or continuing frontend work after design delivery, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells and common UI surfaces, reusing exact icons/assets/tokens instead of fabricating visual details, mapping UI layer/component ownership before coding, avoiding coordinate-copy layouts, verifying fonts/assets in the project instead of relying on the local machine, following framework/project structure, keeping mock/BFF/API responsibilities separate, making clickable/interactive affordances demo-ready, handling API integration/function changes/bug fixes without regressing unrelated pages, running end-to-end self-tests before completion, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
 ---
 
 # Design to Frontend Delivery
 
-## Single Entry, Two Modes
+## Single Entry, Three Modes
 
 One run must produce one target frontend result. Do not produce multiple target stacks in one run.
 
@@ -13,7 +13,8 @@ Route by [mode-routing.md](./references/mode-routing.md):
 
 - Auto enter `convert-and-polish` when design artifacts are the main input (design + exported HTML, or design-tool generated code) and the task is to deliver a target frontend implementation.
 - Treat design-platform URLs or connected plugins/MCPs that can expose structure, styles, tokens, component mappings, or reference code as design-tool context, not as image-only inputs.
-- Auto enter `polish-existing-project` when an accepted existing frontend project is the main baseline and the task is to keep polishing interactions, validation, states, modals, animation, or acceptance quality.
+- Auto enter `polish-existing-project` when an accepted existing frontend project is the main baseline and the task is to keep polishing visual fidelity, interactions, validation, states, modals, animation, or acceptance quality.
+- Auto enter `frontend-continuation` when an accepted frontend implementation already exists and the task is follow-up API/BFF wiring, functional changes, bug fixes, regression fixes, or incremental feature work that must preserve unrelated pages and accepted design behavior.
 - If both existing project and new design/HTML are present but intent is unclear, stop and ask which path is primary before implementation.
 
 ## Layout Fidelity Contract
@@ -45,6 +46,21 @@ Before spending time on repeated visual tweaks:
 - If a required font, weight, icon, image, or media asset is missing, pause the fidelity loop and either add a licensed project asset, use the project's approved provider/package, or disclose a fallback decision. Do not keep tuning spacing, colors, or coordinates to compensate for a font that is not loaded.
 - Include only font files and media that the project has rights to use. When rights are unclear, ask for the asset or use an approved open/provider-backed alternative.
 - Validate in the browser after fonts and assets load. High-fidelity visual reconstruction cannot be claimed while key fonts/assets are missing, 404ing, falling back silently, or unverified; literal pixel-perfect parity should not be claimed at all.
+
+## Source-Locked Asset and Detail Contract
+
+Do not fabricate visual assets or design details when the design source, project assets, or accepted implementation already provides them.
+
+Before implementing or polishing visible UI details:
+
+- Resolve every non-trivial icon, illustration, logo, bitmap, SVG, Lottie, decorative shape, gradient, shadow, radius, border, padding, gap, state color, hover/active/focus style, transition, and motion curve from the strongest available source: design tokens, component variants, Dev Mode/MCP inspect data, exported SVG/assets, generated CSS, accepted project components, or existing design-system variables.
+- Reuse the project icon system, exported vector asset, Code Connect/component mapping, or existing component variant when available. Do not hand-draw or substitute a similar icon because it is faster.
+- Treat hover, active, pressed, focus-visible, selected, disabled, loading, error, and success as state variants with design details, not as optional decoration.
+- Keep border width, border color, padding, radius, shadow, outline, opacity, cursor, transition duration/easing, and hit-area density consistent with tokens or the accepted component pattern.
+- If a referenced icon/detail asset cannot be found after checking the structured source and project assets, stop the fidelity loop and report the missing asset/detail decision. Ask for the asset, use an explicitly approved fallback, or mark the result conditional. Do not silently create a new icon or arbitrary radius/padding system.
+- When the design source and project design system conflict on a detail that affects recognizable identity or interaction behavior, ask which source wins. Do not merge them into a new visual language.
+
+Fabricated details are delivery defects. Examples include replacing a provided remote icon with a manually drawn SVG, using a generic icon from another library without approval, inventing hover colors, rounding sharp corners because it "looks modern", removing rounded corners because a component default is square, changing padding/radius/shadow to fit guessed taste, or using screenshots of icons instead of proper vector/component assets.
 
 ## Project Structure Contract
 
@@ -152,6 +168,21 @@ In mock-stage frontend work:
 
 When real API integration is requested, switch scope explicitly: identify the contract source, loading/error/empty behavior, mutation side effects, cache policy, authorization assumptions, and verification path. Do not smuggle those decisions into a mock-only design delivery.
 
+## Continuation Development and Regression Contract
+
+This skill also governs follow-up frontend work after the first design delivery. API wiring, functional changes, bug fixes, and later refinements must preserve accepted design structure, visual details, interaction behavior, and unrelated pages.
+
+Before changing an accepted frontend implementation:
+
+- Identify the accepted baseline: commit, route, design artifact, screenshot evidence, story, test, or user-approved current behavior.
+- Classify the work as visual refinement, API/BFF integration, functional change, bug fix, regression fix, or mixed scope.
+- Map the impact surface: routes/pages, shared shell, page frame, shared components, design tokens/assets, state stores, hooks, API clients, fixtures, tests/stories, and browser flows that may be affected.
+- Reuse existing API clients, query/cache patterns, form primitives, validation rules, error boundaries, loading/empty/error components, permission gates, and mutation feedback patterns before introducing new ones.
+- Keep API/BFF contracts separate from visual components. Components receive display-ready props or thin view models; they do not invent domain status transitions, authorization decisions, retry policies, or cross-page workflow rules.
+- Protect unrelated pages. If a shared component, token, API client, hook, selector, or fixture changes, run or add focused regression checks for the other known consumers.
+- Preserve design facts. A bug fix or API connection is not permission to replace icons, change radii, remove hover/focus states, collapse layers, or redesign shell/content boundaries unless that is explicitly in scope.
+- Close with a regression note: what changed, what was intentionally untouched, which affected surfaces were tested, and which risks remain.
+
 ## Mandatory Reference Loading Rules
 
 Reference loading is required, not optional:
@@ -162,6 +193,7 @@ Reference loading is required, not optional:
 - After mode is locked, you must read exactly one mode reference before implementation details:
   - `convert-and-polish` -> [convert-and-polish.md](./references/convert-and-polish.md)
   - `polish-existing-project` -> [polish-existing-project.md](./references/polish-existing-project.md)
+  - `frontend-continuation` -> [frontend-continuation.md](./references/frontend-continuation.md)
 - For all gate checks and final closeout output, you must read [delivery-checklists.md](./references/delivery-checklists.md) and follow its required artifacts.
 
 ## Three Gates
@@ -175,15 +207,16 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 - Record common surface decisions: existing shell/navigation/toolbar/modal/drawer/toast/confirm roots to reuse, public surfaces that are out of scope, and missing surfaces that affect demo readiness.
 - Record the minimum execution contract: what will be built, what will be reused, primary interactions/states, minimum closure level, non-goals, and the single blocking question if one remains.
 - Record the project/framework structure convention that will own new route entries, feature files, components, fixtures, styles, assets, and tests.
-- Record typography and asset facts: required font families/weights, image/icon/media sources, availability, license/provenance status when known, and fallback decision if any asset is missing.
+- Record typography, asset, and detail facts: required font families/weights, exact icon/image/media sources, design tokens, border/padding/radius/shadow/motion/state details, availability, license/provenance status when known, and fallback decision if any asset/detail is missing.
 - For design-platform inputs, record whether structured source was attempted and what result it returned before using screenshots/images as a baseline.
 
 2. Gate 2 (mode-aware middle gate)
 - `convert-and-polish`: structure mapping, UI layer ownership pass, common-surface pass, shell-boundary pass, and interaction-affordance pass before polish.
 - `polish-existing-project`: current-state audit, UI layer ownership audit, common-surface audit, interaction-affordance audit, plus scope-gap closure decision before implementation continues.
+- `frontend-continuation`: accepted baseline, impact surface, API/feature/bugfix contract, affected consumers, regression plan, and non-regression boundary before implementation continues.
 
 3. Gate 3 (acceptance and closeout gate)
-- Verify demo-ready polish quality with E2E/self-test evidence, including actual browser-loaded fonts/assets, layer ownership, public surfaces, and usable interactive affordances. Produce final acceptance, risk, documentation update record, and next-step decision.
+- Verify demo-ready polish quality or continuation-change safety with E2E/self-test evidence, including actual browser-loaded fonts/assets, exact icons/details, layer ownership, public surfaces, usable interactive affordances, and affected-regression coverage. Produce final acceptance, risk, documentation update record, and next-step decision.
 
 ## Must Ask vs Can Decide
 
@@ -197,15 +230,19 @@ Must ask:
 - A platform appears capable of structured context or reference code, but the agent cannot access it after a real attempt; ask whether to wait for the stronger source or proceed with a visual-only downgrade.
 - Shell preservation boundary is unclear (header/footer/layout/router).
 - Deliverable surface is unclear and cannot be inferred from repository conventions or provided artifacts: `content-only`, `inside-existing-shell`, or `full-page-with-shell`.
+- A required icon, illustration, token, radius/padding/shadow/motion detail, or state variant appears in the source but cannot be located in the project/assets after a real attempt.
+- API/BFF integration scope is requested but the contract source, mutation side effects, cache policy, authorization expectation, or regression surface cannot be inferred from project code/docs.
 
 Can decide without asking:
 
 - A design-platform URL or plugin/MCP returns structured design context, Dev Mode-style metadata, component mappings, tokens, generated code, exported HTML/CSS, or reference code: use that as the structure/style source and use screenshots only for visual validation.
 - Design plus exported HTML with clear target stack: go `convert-and-polish`.
 - Explicit request to continue polishing current project: go `polish-existing-project`.
+- Explicit request to wire API/BFF, modify behavior, fix bugs, or protect unrelated pages in an accepted frontend implementation: go `frontend-continuation`.
 - HTML and design are both provided without conflict: HTML is structure source, design is visual validation source.
 - Target stack is not stated but current project stack is explicit: keep the current stack.
 - Existing project has an accepted shell, route frame, shared modal/toast/drawer roots, or navigation pattern and the user did not ask to replace it: reuse the existing common surfaces and implement inside that boundary.
+- A matching icon/detail/token exists in the design export, project asset system, or accepted design-system component: reuse it and do not ask to substitute.
 
 ## Question Style Constraints
 
@@ -232,4 +269,5 @@ In `polish-existing-project`, run scope-gap detection after current-state audit:
 - [mode-routing.md](./references/mode-routing.md)
 - [convert-and-polish.md](./references/convert-and-polish.md)
 - [polish-existing-project.md](./references/polish-existing-project.md)
+- [frontend-continuation.md](./references/frontend-continuation.md)
 - [delivery-checklists.md](./references/delivery-checklists.md)

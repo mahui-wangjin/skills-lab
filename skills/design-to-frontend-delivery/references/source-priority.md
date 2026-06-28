@@ -79,6 +79,7 @@ The following are not accepted baseline by default:
 - Preserve structure before visual reinterpretation: section order, wrappers, major grouping, and interaction scaffolding.
 - Preserve platform/component semantics from structured sources: layer hierarchy, auto-layout/constraints, style variables, variants, component names, and code-mapped components.
 - Translate layer hierarchy into a frontend ownership map before coding: shell, page frame, content sections, repeated items, local controls, overlays/feedback, decoration/media, and data/state owners.
+- Preserve asset and detail identity from structured sources: icon/component names, exported SVGs, image/media IDs, design tokens, border/padding/radius/shadow values, state variants, and motion/easing details.
 - Preserve explicit shell constraints (shared header, footer, router frame, host layout) and replace only the bounded content area.
 - Preserve accepted common surfaces from the host project: sidebar/navigation, top bar, breadcrumbs, tabs, page toolbars, modal/drawer/confirm/toast roots, and loading/empty/error patterns.
 - Keep copy and structural anchors from stronger artifacts unless the user explicitly asks to change them.
@@ -121,6 +122,7 @@ Allowed only when required by target stack or build system:
 - Collapsing wrappers only for cleanliness
 - Replacing source structure with component-library reinterpretations
 - Inventing missing states, content, or interactions from visual guesswork
+- Replacing a provided icon, SVG, illustration, logo, component variant, border/radius/padding/shadow token, or hover/focus/disabled state with an invented or similar-looking substitute
 - Ignoring accepted project shell, navigation, overlay, or feedback systems because a design screenshot omitted them
 - Treating a design-platform URL as screenshot-only when Dev Mode-like metadata, MCP context, generated code, token data, or component mapping is available
 - Downloading rendered images as the primary implementation baseline when a structured source can be read

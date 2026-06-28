@@ -6,12 +6,12 @@
 
 1. 结构层：页面分区、DOM 层级、UI layer ownership、壳层接入、公共面复用、路由串联
 2. 布局层：Flex/Grid/正常文档流、响应式约束、间距节奏、对齐关系、绝对定位例外
-3. 内容层：文案、图片、图标、媒体、按钮归属、标题标签、资源来源
-4. 交互层：语义控件、cursor/hover/active/focus-visible、点击反馈、展开收起、弹框/抽屉/toast/confirm 开合、键盘/触控、联动与返回路径
-5. 数据边界层：静态 fixture、BFF-shaped mock、真实 API 集成、前端 UI 状态、BFF/domain-owned 状态
+3. 内容层：文案、图片、图标、媒体、按钮归属、标题标签、资源来源、不得自造已有远端/项目资产
+4. 交互层：语义控件、cursor/hover/active/focus-visible、点击反馈、展开收起、弹框/抽屉/toast/confirm 开合、键盘/触控、联动与返回路径、状态细节来源
+5. 数据边界层：静态 fixture、BFF-shaped mock、真实 API 集成、前端 UI 状态、BFF/domain-owned 状态、后续 API/功能变更影响面
 6. 校验层：必填/格式、错误提示、禁用态、提交与失败重试
 7. 状态层：加载/空态/成功/失败/不可操作/角色差异
-8. 表现层：字体实际加载、颜色、圆角、阴影、动效节奏、过渡一致性、反馈清晰度
+8. 表现层：字体实际加载、颜色、border、padding、圆角、阴影、动效节奏、过渡一致性、反馈清晰度、设计 token 映射
 
 ## 2. 三道闸门检查项与产出
 
@@ -19,7 +19,7 @@
 
 检查项：
 
-- 模式已锁定（`convert-and-polish` 或 `polish-existing-project`）
+- 模式已锁定（`convert-and-polish`、`polish-existing-project` 或 `frontend-continuation`）
 - 目标端明确（或沿用既有工程栈）
 - 设计基线与事实源明确
 - 若输入来自设计平台、插件/MCP、导出包或生成代码，已执行结构化源检查：结构/样式属性、tokens、组件映射、参考代码、导出 HTML/CSS 是否可用
@@ -31,8 +31,10 @@
 - 已确认最小执行合同：本轮做什么、复用什么、主交互和状态、最小闭环层级、非目标、是否仍有唯一阻塞问题
 - 已确认目标框架和项目目录约定：route/page、feature/module、components、mock/fixtures、selectors/formatters、styles/assets、tests/stories 的归属清晰；若无现成约定，已按框架官方或事实标准记录最小结构
 - 已确认字体与资源清单：关键字体 family/weight/style/变量轴、图片/图标/媒体、tokens、资源来源、项目可访问性、授权/来源状态（已知时）和缺失项 fallback/blocked 决策
+- 已确认图标与细节清单：远端/设计源/项目资产中已有图标、SVG、插画、logo、装饰形状、border/padding/radius/shadow/motion 和状态 variants 的来源明确；缺失时已记录 ask/fallback/blocked
 - 已确认高保真不依赖本机字体：关键字体必须来自项目可访问资源、批准 provider 或明确系统 fallback；缺失字体/字重时不得继续用微调掩盖
 - 已确认本轮数据范围：静态 fixture / BFF-shaped mock / 真实 API 集成；若不是 API 集成，已确认不实现 API 状态机或业务裁定
+- 若本轮是后续 API/功能/bugfix 变更，已确认 accepted baseline、API/行为契约来源、影响面、回归面和不影响的页面/组件
 - 已确认自测路径：项目已有 E2E/smoke/browser/screenshot/Storybook 命令，或无现成命令时的最小真实浏览器验收路径
 - 范围与非目标明确
 - 壳层是否保留明确
@@ -55,6 +57,7 @@
 - 主流程与路由可走通
 - 可交互对象已完成 affordance 审计：语义元素/组件、cursor、hover、active/pressed、focus-visible、disabled、loading/submitting、selected/current、移动端触控和键盘路径符合项目范式
 - 弹框、抽屉、popover、confirm、toast 已覆盖打开、关闭、取消/确认、失败反馈和返回主任务路径
+- 图标与细节保真已完成：已有远端/项目图标未被自绘、替换、截图化；border、padding、radius、shadow、state variants 和 motion 使用设计源、项目 token 或已记录 fallback
 - 无未经授权的再设计
 - 无下载图/截图替代结构化事实源的降级
 - 已完成布局策略记录：普通页面、卡片、列表、表单、仪表盘和内容布局优先 Flex/Grid/flow
@@ -70,17 +73,29 @@
 - 现有工程目录健康度已审计；混堆的页面入口、组件、fixtures、展示选择器、样式或测试已列入差距清单或修复范围
 - 现有布局健康度与绝对定位审计已完成；坐标式布局风险已列入差距清单或修复范围
 - 现有字体与资源健康度已审计；本机字体依赖、缺失字重、资源 404、placeholder、截图替代 UI 等风险已列入差距清单或修复范围
+- 现有图标与细节 token 健康度已审计；自绘图标、错用图标库、丢失 hover/focus/disabled/loading、随意改圆角/尖角、padding/radius/shadow/motion 脱离 token 等风险已列入差距清单或修复范围
 - 现有 mock/API 边界已审计；静态展示阶段不应承担的业务裁定已列入差距清单或修复范围
 - 现有公共面健康度已审计；shell、导航、页面工具栏、modal/drawer/toast/confirm roots、loading/empty/error 模式的复用或缺口已列入差距清单
 - 现有交互可用性已审计；点击目标、语义控件、cursor、hover/active/focus、禁用/加载、弹层关闭、移动端触控和返回路径缺口已列入差距清单
 - 点名范围与目标结果差距清单已明确
 - 最小闭环建议与本轮实施边界已确认
 - 若用户不扩围，风险与剩余差距已明确记录
+- `frontend-continuation` 路径：
+- accepted baseline 已确认，不把未确认 WIP 当作保留基线
+- 变更类型已确认：API/BFF integration、functional change、bug fix、regression fix 或 mixed
+- API/行为契约来源已确认：schema/OpenAPI/BFF route/typed client/mock contract/用户决策/现有代码
+- 影响面已列出：routes/pages、shared components、hooks、store/query cache、API clients、tokens/assets、fixtures、tests/stories、browser flows
+- 回归面已列出：受共享变更影响的其他页面、组件、故事、测试和关键路径
+- 已确认不会用 API/bugfix 任务顺手替换图标、改 token、重设计 shell、打乱 UI layer ownership 或改变无关页面
+- 已确认使用项目既有 API client、query/cache、form、validation、loading/empty/error、toast/confirm 和权限模式；若新增模式，原因明确
+- 已确认组件与 API/BFF/domain 边界：展示组件不承担生命周期、权限、资格、重试策略、跨记录 workflow 等领域裁定
+- 自测/回归路径已明确，至少覆盖被改路径和受影响消费者
 
 产出：
 
-- `convert-and-polish`：结构差异清单 + UI layer map + 交付表面/公共面决策 + 交互 affordance 审计 + 工程目录边界 + 布局策略与绝对定位审计 + 字体/资源清单 + mock/BFF 边界 + 进入精修的页面批次
-- `polish-existing-project`：现状审计快照 + UI layer ownership 健康度 + 公共面健康度 + 交互可用性健康度 + 字体/资源健康度 + 差距闭环决议 + 进入实施的页面批次
+- `convert-and-polish`：结构差异清单 + UI layer map + 交付表面/公共面决策 + 交互 affordance 审计 + 工程目录边界 + 布局策略与绝对定位审计 + 字体/资源/图标/细节 token 清单 + mock/BFF 边界 + 进入精修的页面批次
+- `polish-existing-project`：现状审计快照 + UI layer ownership 健康度 + 公共面健康度 + 交互可用性健康度 + 字体/资源/图标/细节 token 健康度 + 差距闭环决议 + 进入实施的页面批次
+- `frontend-continuation`：accepted baseline + API/行为契约来源 + 影响面 + 回归面 + 共享消费者 + 自测/回归计划 + 不变更边界
 
 ### 闸门 3：精修验收通过
 
@@ -92,9 +107,11 @@
 - UI layer ownership 符合 Gate 1：组件属于正确层级，状态 owner 清晰，page frame/content/repeated item/overlay/decoration/data-state 不错位，z-index/portal/overflow 没有掩盖错层
 - 新增文件遵循目标框架和项目目录约定；页面入口、组件、fixtures、展示选择器、样式/assets 和测试职责边界清晰
 - 设计还原以视觉关系一致为准：间距、对齐、字体层级、颜色、圆角、阴影、密度、状态接近设计稿；无为了坐标复刻牺牲响应式与可维护性
+- 图标和细节没有自造：已有远端/设计源/项目图标按来源复用，border/padding/radius/shadow/motion/state variants 来自设计源、项目 token/组件 variant 或已披露 fallback
 - 关键字体与资源已在真实浏览器中验证：字体 family/weight/style 实际加载，图片/图标/媒体无 404 或未披露 placeholder；截图或视觉比对在字体与关键资源加载后执行
 - 若关键字体或资源缺失，验收结论只能是条件通过或未通过，并写明 pending asset / fallback 视觉风险；不得把交付结论写成 pixel-perfect 或像素级 100%
 - 静态 mock 阶段未实现 BFF/API 业务状态机；真实 API 集成若在范围内，已明确契约来源、加载/错误/空态、mutation 副作用、缓存策略、鉴权假设和验证路径
+- 后续 API/功能/bugfix 变更若在范围内，已验证受影响页面、共享消费者和不应改变的页面；共享 token/component/hook/API client 变更有回归证据
 - 校验与反馈闭环完整（必填/格式、错误反馈、禁用态、加载/提交中、弹框/抽屉/toast/confirm 开合闭环）
 - 可交互元素 affordance 完整：真实 click targets 有语义、cursor、hover/active/focus-visible；disabled/non-clickable 不伪装可点击；移动端触控目标不遮挡、不溢出、可关闭
 - E2E/真实浏览器自测已执行并覆盖主流程、公共面、UI 层级、主要交互、弹层、桌面/窄屏或移动视口、console errors、failed requests、字体和关键资源加载
@@ -117,7 +134,7 @@
 ```md
 ### 交付收尾
 
-- 模式：<convert-and-polish | polish-existing-project>
+- 模式：<convert-and-polish | polish-existing-project | frontend-continuation>
 - 目标端：<React | Vue | 静态 HTML-H5 | 小程序 | 其他>
 - 本轮范围：<页面/模块 + 完成层级>
 - 事实源：<结构化源/参考代码/导出 HTML/已接受实现/视觉降级 + 是否做过结构化源检查>
@@ -127,7 +144,9 @@
 - 工程结构：<目标框架/项目目录约定 + 页面入口、组件、fixtures、selectors/formatters、styles/assets、tests/stories 归属>
 - 布局策略：<Flex/Grid/flow 优先 + 绝对定位例外与风险；无则写“无例外”>
 - 字体与资源：<关键字体/字重/图片/图标/媒体来源 + 实际加载验证 + fallback/blocked 风险>
+- 图标与细节：<图标/illustration/token 来源 + border/padding/radius/shadow/motion/state variants 映射 + fallback/blocked 风险>
 - 数据边界：<静态 fixture | BFF-shaped mock | 真实 API 集成；前端 UI 状态与 BFF/domain-owned 状态边界>
+- 后续变更影响面：<API/功能/bugfix 基线 + 影响页面/共享消费者 + 回归覆盖；非 continuation 写“无”>
 - 自测证据：<E2E/smoke/browser/screenshot 命令或手工浏览器路径 + 覆盖内容 + 未验收项>
 - 闸门结果：
   - Gate 1：<通过/未通过 + 关键确认项>

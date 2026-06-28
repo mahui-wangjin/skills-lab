@@ -5,6 +5,7 @@
 - 项目级规则文件：`../AGENTS.md`
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
+- 当前新增设计文档：`./superpowers/specs/2026-06-28-design-to-frontend-detail-and-continuation.md`（将 design-to-frontend-delivery 的图标/细节事实源和后续前端开发门禁固化：远端或项目已有图标、SVG、tokens、border/padding/radius/shadow/motion/state variants 必须复用或明确 fallback，不能静默自造；API/BFF 对接、功能修改和 bugfix 进入 frontend-continuation，先确认 accepted baseline、契约来源、影响面、回归面和共享消费者，避免误伤其他页面）
 - 当前新增设计文档：`./superpowers/specs/2026-06-28-design-to-frontend-layer-ownership-e2e.md`（将 design-to-frontend-delivery 的 UI 层级归属和 E2E 自测固化为交付门禁：设计或现有页面必须映射 app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 的 owner、状态和 stacking/portal/overflow 边界；完成前必须运行项目已有 E2E/smoke/browser/screenshot 路径或最小真实浏览器自测，无法执行时只能标为 conditional/self-reviewed）
 - 当前新增设计文档：`./superpowers/specs/2026-06-28-design-to-frontend-common-surface-interactions.md`（将 design-to-frontend-delivery 的公共面和交互可用性固化为演示级门禁：设计稿只画内容区时先确认 content-only/inside-existing-shell/full-page-with-shell 并复用现有 shell、导航和统一 overlay/feedback roots；可点击元素必须具备语义控件、cursor、hover/active/focus-visible、disabled/loading、弹层关闭、键盘/触控和返回反馈闭环）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-documentation-governance-skill.md`（新增 documentation-governance 通用技能：用文档治理门禁区分 OpenSpec/change spec、ADR、正式 source-of-truth docs、索引、源码旁文档、交付证据、项目明确批准的 audit/evidence artifact、归档和不持久化内容，防止文档膨胀、重复真相和过程记录污染正式文档）
