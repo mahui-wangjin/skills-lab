@@ -10,10 +10,12 @@
 - 结构化源检查结果（例如平台 Dev Mode/MCP 上下文、设计工具生成代码、导出 HTML/CSS、tokens、组件映射、参考代码是否可用）
 - 结构事实源（默认 HTML/设计工具代码）
 - 工程目录约定：路由/页面入口、feature/module、components、mock/fixtures、styles/tokens、assets、tests/stories 的现有归属
+- UI 层级归属：app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 的 owner 和边界
 - 交付表面：`content-only`、`inside-existing-shell` 或 `full-page-with-shell`
 - 公共面复用决策：现有 app layout、Header/Topbar、Sidebar/Nav、breadcrumbs、tabs、toolbar、modal/drawer/confirm/toast roots、loading/empty/error 模式是否复用，哪些明确不在本轮范围
 - 字体与资源清单：字体 family/weight/style/变量轴、图片/图标/媒体、tokens、资源来源、项目可访问性、授权/来源状态（已知时）和缺失项兜底决策
 - 主交互与状态：按钮、链接、tab、筛选、表单、卡片/行操作、弹框/抽屉、toast/confirm、路由返回、loading/error/empty/submitting/success/failure
+- 自测路径：项目已有 E2E/smoke/browser/screenshot 命令，或无现成命令时的最小真实浏览器验收路径
 - 复刻范围与非目标项
 - 是否保留宿主壳层（Header/Footer/Layout/Router）
 
@@ -26,8 +28,10 @@ Gate 1 的执行声明必须包含最小执行合同：
 ```md
 Minimum execution contract:
 - Deliverable surface: <content-only | inside-existing-shell | full-page-with-shell>
+- UI layer map: <shell / page frame / content / repeated items / local controls / overlays / decoration / data-state owners>
 - Common surfaces: <reuse / create / out of scope>
 - Primary interactions: <clicks, forms, overlays, navigation, feedback states>
+- E2E self-test path: <existing command/harness or minimum browser smoke path>
 - Minimum closure: <what makes this demo-ready without expanding into full product scope>
 - Non-goals: <real API, domain decisions, shell redesign, etc.>
 - Blocking question: <none or one question that changes scope/acceptance>
@@ -80,7 +84,28 @@ Minimum execution contract:
 - 如果公共面缺失会影响 demo-ready 结果，记录最小闭环建议：例如接入现有 layout、补页面标题/面包屑/返回、挂接项目统一弹框或 toast。
 - 如果用户明确只要 `content-only` 静态片段，公共面可列为非目标，但最终不得声称 full-page-with-shell 已完成。
 
-## 5. 工程目录与职责边界
+## 5. UI 层级归属映射
+
+结构事实源通过后，先做 UI layer map，再决定组件和文件归属：
+
+1. 把设计或现有页面拆成 layer tree：app shell -> page frame -> content sections -> collection items -> local controls -> overlays/feedback -> decoration/media -> data/state。
+2. 标注每个主要 UI 块的 owner：由 shell、route page、feature section、item component、overlay provider、design-system component、fixture 或 API/BFF 谁负责。
+3. 标注层级边界的契约：props、events、slots、render props、portal root、route outlet、layout slot、data fixture 或 API contract。
+4. 标注状态归属：页面编排状态、组件本地状态、overlay/provider 状态、表单草稿、展示 selector、fixture、真实 API/BFF、权限/领域状态。
+5. 标注布局归属：正常文档流、grid/flex slot、sticky/fixed shell、portal overlay、稳定锚定元素、装饰背景或 media frame。
+6. 标注 stacking/clipping 风险：z-index token、stacking context、overflow clipping、sticky header、drawer/modal portal、tooltip/popover anchor。
+
+常见错误必须先修正：
+
+- 页面标题、面包屑、页签、页面级筛选和主操作被放进卡片或列表项。
+- 表格行、卡片、树节点或时间线项拥有页面级状态、全局弹框状态或领域裁定。
+- 全局 modal/toast/drawer 在 feature card 内部自建，而不是接项目 overlay root。
+- 背景、插画、装饰 badge 或 skeleton shimmer 覆盖点击目标或创建意外滚动/层叠上下文。
+- 用更高 z-index 修补错误归属，而不是修正 portal、父容器、overflow 或 owner 边界。
+
+Gate 2 前必须输出一份简短 layer map；没有 layer map，不进入视觉精修。
+
+## 6. 工程目录与职责边界
 
 设计落地必须进入目标框架和当前工程的目录体系，而不是把所有内容堆到一个文件夹或一个页面文件里：
 
@@ -91,7 +116,7 @@ Minimum execution contract:
 5. 样式、tokens、assets 和 tests/stories 按目标框架与项目约定归位；没有现成约定时，先按框架官方或事实标准选择最小目录结构，并记录该选择。
 6. 一次性静态 HTML 且无宿主工程时可以自包含，但仍要在文件内部区分数据、渲染、样式和交互，不把这种临时结构推广到真实工程。
 
-## 6. Mock/BFF 边界
+## 7. Mock/BFF 边界
 
 若本轮是静态页、原型页、视觉精修或 mock 数据交付：
 
@@ -104,7 +129,7 @@ Minimum execution contract:
 
 若用户明确要求真实 API/BFF 接入，必须把范围从“设计落地/静态 mock”切换为“接口集成”，并先确认契约来源、加载/错误/空态、mutation 副作用、缓存策略、鉴权假设和验证路径。
 
-## 7. 交互可用性与反馈闭环
+## 8. 交互可用性与反馈闭环
 
 结构和公共面通过后，补齐可用性，不只调视觉：
 
@@ -115,11 +140,12 @@ Minimum execution contract:
 5. 移动端和窄屏不能依赖 hover-only 发现；触控目标、吸底操作、长文本和弹层高度要避免遮挡、溢出和不可关闭。
 6. 交互只闭合本轮 UI/demo 范围；不要为了“能点”提前实现真实权限、资格、业务流转或 API 状态机。
 
-## 8. 结构复刻通过后再进入精修（闸门 2）
+## 9. 结构复刻通过后再进入精修（闸门 2）
 
 结构阶段通过前，不进入交互精修。闸门 2 至少确认：
 
 - 结构映射已完成，主流程可走通
+- UI layer map 已完成，组件归属、状态 owner、overlay root、stacking/clipping 风险已记录
 - 关键文案、图片、按钮入口、弹框挂载点到位
 - 交付表面已确认，公共 shell/navigation/toolbar/overlay roots 的复用或非目标边界已记录
 - 可交互对象语义、cursor、hover/active/focus-visible、disabled/loading、移动端触控和返回路径已审计
@@ -133,7 +159,16 @@ Minimum execution contract:
 
 产出：结构差异清单 + 字体/资源清单 + 精修页面批次。
 
-## 9. 精修与交付（闸门 3）
+## 10. E2E 自测与交付（闸门 3）
 
-结构通过后按八层模型补齐布局、数据边界、交互、校验、状态与表现，并在真实浏览器中确认关键字体、资源和主要交互已可用，直至达到演示标准。
+结构通过后按八层模型补齐布局、数据边界、交互、校验、状态与表现，并在真实浏览器中确认关键字体、资源、UI 层级、公共面和主要交互已可用，直至达到演示标准。
+优先运行项目已有 E2E/smoke/browser/screenshot 命令；没有现成命令时，执行最小真实浏览器自测：
+
+- 打开目标路由或页面入口。
+- 验证 shell/page frame/content/repeated item/overlay/decoration/data-state 没有明显错层。
+- 点击或键盘触发主要操作，覆盖弹框/抽屉/toast/confirm 的打开、关闭、提交/取消、失败反馈和返回路径。
+- 检查桌面与窄屏/移动视口中的溢出、遮挡、重复滚动条、z-index/portal/overflow clipping。
+- 检查 console errors、failed requests、字体/图片/图标/媒体加载和关键文本溢出。
+
+若无法运行自测，最终结论只能是条件通过或 self-reviewed，并写明未验收项和人工检查清单。
 最终只交付一份单目标前端结果，不并行产出多端版本。

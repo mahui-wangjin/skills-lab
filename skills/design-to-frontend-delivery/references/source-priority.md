@@ -78,6 +78,7 @@ The following are not accepted baseline by default:
 
 - Preserve structure before visual reinterpretation: section order, wrappers, major grouping, and interaction scaffolding.
 - Preserve platform/component semantics from structured sources: layer hierarchy, auto-layout/constraints, style variables, variants, component names, and code-mapped components.
+- Translate layer hierarchy into a frontend ownership map before coding: shell, page frame, content sections, repeated items, local controls, overlays/feedback, decoration/media, and data/state owners.
 - Preserve explicit shell constraints (shared header, footer, router frame, host layout) and replace only the bounded content area.
 - Preserve accepted common surfaces from the host project: sidebar/navigation, top bar, breadcrumbs, tabs, page toolbars, modal/drawer/confirm/toast roots, and loading/empty/error patterns.
 - Keep copy and structural anchors from stronger artifacts unless the user explicitly asks to change them.
@@ -115,6 +116,7 @@ Allowed only when required by target stack or build system:
 ## Disallowed By Default
 
 - Redesigning layout, typography, color, hierarchy, or interaction order
+- Flattening structured layer hierarchy into visually nearby components without deciding ownership, state owner, portal/root, and stacking/clipping boundaries
 - Rewriting copy for style preferences
 - Collapsing wrappers only for cleanliness
 - Replacing source structure with component-library reinterpretations

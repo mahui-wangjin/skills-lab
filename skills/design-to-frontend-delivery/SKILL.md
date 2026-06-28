@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells and common UI surfaces, avoiding coordinate-copy layouts, verifying fonts/assets in the project instead of relying on the local machine, following framework/project structure, keeping mock/BFF responsibilities separate, making clickable/interactive affordances demo-ready, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
+description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells and common UI surfaces, mapping UI layer/component ownership before coding, avoiding coordinate-copy layouts, verifying fonts/assets in the project instead of relying on the local machine, following framework/project structure, keeping mock/BFF responsibilities separate, making clickable/interactive affordances demo-ready, running end-to-end self-tests before completion, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
 ---
 
 # Design to Frontend Delivery
@@ -60,6 +60,40 @@ Before adding files:
 
 Do not create generic dumping grounds such as `components`, `utils`, `helpers`, `mock`, or `data` at random levels when the project already has stronger feature, route, or domain boundaries. Folder names are framework-dependent; responsibility boundaries are mandatory.
 
+## UI Layer Ownership Contract
+
+Before coding or polishing, map each visible UI part to one owning layer. Do not place a component by visual proximity alone.
+
+Use these layer categories as a decision aid, adapting names to the target project:
+
+- App shell layer: persistent layout, global navigation, sidebar, top bar, account area, global route frame, app-wide providers.
+- Page frame layer: route-level title, breadcrumbs, page tabs, page toolbar, page-level filters, primary actions, page-level loading/error/empty.
+- Content section layer: domain sections inside the page body, grouped panels, forms, charts, summary areas, detail areas.
+- Collection item layer: repeated cards, table rows, list items, timeline entries, tree nodes, menu items.
+- Local control layer: field groups, inline validation, disclosure state, local menus, local popovers, local action groups.
+- Overlay and feedback layer: modal, drawer, confirm, toast, global popover, tooltip, notification, command palette, floating action.
+- Decoration and media layer: background, illustration, non-interactive ornament, image/video/media frame, badge decoration, skeleton shimmer.
+- Data/state layer: fixtures, display selectors, formatters, local UI state, BFF/API integration state, permissions, domain decisions.
+
+For each non-trivial component, record or infer:
+
+- Owner layer: which layer owns rendering, state, and lifecycle.
+- Parent-child contract: what props/events/slots flow across the boundary.
+- State owner: local component, page orchestration, shared shell, overlay provider, fixture, or real API/BFF.
+- Placement rule: normal document flow, grid/flex slot, portal/root overlay, or stable anchored element.
+- Stacking rule: whether it creates or depends on a stacking context, z-index token, portal root, sticky/fixed boundary, or clipping container.
+- Reuse scope: feature-private, page-private, shell/shared, or design-system component.
+
+Layer mistakes are delivery defects. Do not:
+
+- Put page title, breadcrumbs, tabs, page actions, or filters inside repeated cards or arbitrary content panels.
+- Put repeated item state, row actions, or item validation in the app shell or global provider.
+- Implement global modal/toast/drawer behavior inside a feature card when the project already has overlay roots.
+- Let decorative layers capture pointer events, create accidental scroll/stacking contexts, or cover interactive content.
+- Use z-index escalation to hide a wrong ownership decision. Fix the layer, portal, clipping, or parent boundary first.
+- Nest cards inside cards, page sections inside cards, or shell elements inside content sections unless the target design system explicitly does that.
+- Mix data/domain decisions into presentational components just because the visual grouping is nearby.
+
 ## Common Surface Contract
 
 Design delivery must account for the product surface around the designed content. If a design artifact only shows a content area, do not silently ignore host shell, navigation, or shared feedback surfaces.
@@ -86,6 +120,21 @@ For every button, link, menu item, tab, card action, row action, form control, d
 - Keep touch ergonomics in scope for mobile and narrow viewports: controls must be reachable, not overlap, not rely on hover-only discovery, and maintain a usable hit area within the target design system's density.
 - Modal, drawer, popover, confirm, and toast flows need open/close paths, overlay/close-button behavior, submit/cancel feedback, loading/failure states, and a non-blocked route back to the main task.
 - Do not invent domain decisions to make interactions feel complete. For mock-stage work, keep completion to UI feedback and route/demo flow unless real API/BFF integration is explicitly in scope.
+
+## End-to-End Self-Test Contract
+
+Do not claim a frontend delivery is complete until it has been exercised in the running target surface, not only inspected in code.
+
+Before final closeout:
+
+- Use the project's existing E2E, smoke, preview, Storybook, browser automation, or screenshot workflow when available. Prefer the project's proven command or test harness over inventing a new one.
+- If no harness exists, run the app in a real browser or browser automation path appropriate to the stack and perform the smallest meaningful smoke test.
+- Cover the main happy path plus the surfaces touched by the change: shell/page frame, layer ownership, main content, repeated items, overlays/feedback, forms, route/back paths, loading/empty/error where in scope.
+- Verify interactive affordances by doing the actions, not only checking markup: click/tap, keyboard focus where relevant, open/close overlays, submit/cancel, disabled/loading, route return, hover/focus-visible when practical.
+- Check desktop and narrow/mobile viewport when the deliverable is responsive or user-facing across viewports.
+- Check console errors, failed network/resource requests, missing fonts/assets, overflow/overlap, clipped overlays, blocked scroll, duplicate scrollbars, and z-index/portal issues.
+- Keep the self-test scoped to the delivery. Do not expand a mock-stage task into real API/BFF integration just to make E2E pass.
+- If E2E/browser verification cannot run, state why, mark the result as self-reviewed/conditional, and provide the smallest manual checklist. Do not call it demo-ready or complete.
 
 ## Mock/BFF Boundary Contract
 
@@ -121,6 +170,7 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 
 1. Gate 1 (pre-start confirmation)
 - Lock mode, target stack, baseline artifacts, source-of-truth, scope, non-goals, and shell boundary.
+- Record the UI layer ownership map for shell, page frame, content sections, repeated items, local controls, overlays/feedback, decoration/media, and data/state ownership.
 - Record the deliverable surface contract: `content-only`, `inside-existing-shell`, or `full-page-with-shell`.
 - Record common surface decisions: existing shell/navigation/toolbar/modal/drawer/toast/confirm roots to reuse, public surfaces that are out of scope, and missing surfaces that affect demo readiness.
 - Record the minimum execution contract: what will be built, what will be reused, primary interactions/states, minimum closure level, non-goals, and the single blocking question if one remains.
@@ -129,11 +179,11 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 - For design-platform inputs, record whether structured source was attempted and what result it returned before using screenshots/images as a baseline.
 
 2. Gate 2 (mode-aware middle gate)
-- `convert-and-polish`: structure mapping, common-surface pass, shell-boundary pass, and interaction-affordance pass before polish.
-- `polish-existing-project`: current-state audit, common-surface audit, interaction-affordance audit, plus scope-gap closure decision before implementation continues.
+- `convert-and-polish`: structure mapping, UI layer ownership pass, common-surface pass, shell-boundary pass, and interaction-affordance pass before polish.
+- `polish-existing-project`: current-state audit, UI layer ownership audit, common-surface audit, interaction-affordance audit, plus scope-gap closure decision before implementation continues.
 
 3. Gate 3 (acceptance and closeout gate)
-- Verify demo-ready polish quality, including actual browser-loaded fonts/assets and usable interactive affordances, and produce final acceptance, risk, documentation update record, and next-step decision.
+- Verify demo-ready polish quality with E2E/self-test evidence, including actual browser-loaded fonts/assets, layer ownership, public surfaces, and usable interactive affordances. Produce final acceptance, risk, documentation update record, and next-step decision.
 
 ## Must Ask vs Can Decide
 

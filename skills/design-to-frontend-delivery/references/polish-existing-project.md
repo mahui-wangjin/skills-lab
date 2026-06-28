@@ -6,6 +6,7 @@
 
 - 页面与路由覆盖：哪些页面已存在、哪些流程未串通
 - 八层覆盖度：结构、布局、内容、交互、数据边界、校验、状态、表现
+- UI 层级归属：app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 的 owner 是否清晰
 - 工程目录健康度：页面入口、feature/module、components、mock/fixtures、selectors/formatters、styles/assets、tests/stories 是否按当前框架和项目约定归位
 - 布局健康度：普通页面、卡片、列表、表单、仪表盘和内容布局是否使用 Flex/Grid/flow、tokens 和响应式约束
 - 绝对定位审计：主布局区域、重复卡片/行、响应式列、表单、仪表盘或内容流是否由 `position:absolute`、`left/top`、固定像素坐标或截图叠层驱动；若存在，判断是合理例外还是需要结构修复
@@ -25,8 +26,10 @@
 Minimum polish contract:
 - Accepted baseline: <current implementation evidence>
 - Deliverable surface: <content-only | inside-existing-shell | full-page-with-shell>
+- UI layer map: <owners and boundary risks for shell / page frame / content / repeated items / local controls / overlays / decoration / data-state>
 - Common surfaces: <reuse / repair / out of scope>
 - Interaction gaps: <click targets, overlays, forms, navigation, feedback states>
+- E2E self-test path: <existing command/harness or minimum browser smoke path>
 - Minimum closure: <smallest set that makes the named scope demo-ready>
 - Non-goals: <shell redesign, real API, domain decisions, etc.>
 - Blocking question: <none or one question that changes scope/acceptance>
@@ -56,6 +59,7 @@ Minimum polish contract:
 - 这些缺失会导致什么演示问题
 - 只做点名范围后的预计完成度
 - 若存在所有内容堆在一个文件或一个目录，说明页面入口、feature-private 组件、fixtures、展示选择器、样式/assets、测试应如何按当前框架约定拆开
+- 若存在 UI 层级归属错误，说明哪些组件放错层：shell/page frame/content section/repeated item/local control/overlay/decoration/data-state；谁应拥有渲染、状态、布局、overlay root 和 stacking context
 - 若存在坐标式布局，说明它对响应式、内容伸缩、可维护性和后续高保真精修的影响
 - 若存在字体或资源缺失，说明继续视觉微调会产生什么误判：文本宽度、换行、层级、密度、图标大小、图片裁切或截图对比都可能在真实资源补齐后改变
 - 若存在 mock/API 混杂，说明哪些逻辑应退回 fixture/BFF 返回字段，哪些轻量 UI 状态可以留在前端
@@ -70,11 +74,13 @@ Minimum polish contract:
 
 - 点名范围无法闭合主流程（例如能点但无法提交或无法回退）
 - 点名范围只要求补页面/补设计还原，但当前工程结构会继续把页面入口、组件、mock、展示选择器、样式或测试混堆到同一文件/目录
+- 页面标题、面包屑、页签、页面工具栏、筛选、卡片、列表项、弹框、toast、装饰层或数据状态放错 owner 层，导致视觉接近但结构和维护边界错误
 - 点名范围只要求“调得更像设计稿”，但当前布局依赖大量绝对定位或固定坐标，继续微调会扩大响应式和维护风险
 - 点名范围只要求“继续调像一点”，但关键字体、字重、图片、图标或媒体尚未作为项目资源加载，继续调样式会掩盖真正原因
 - 点名范围只要求静态展示或视觉精修，但当前页面已经把 BFF/API 的领域状态、授权/资格、可执行动作裁定、生命周期/状态流转或集成状态归一化写成前端推导
 - 点名范围只要求内容区还原，但 demo-ready 结果需要接入已有公共 shell、导航、页面工具栏、面包屑或统一 overlay/feedback 系统
 - 可点击对象没有明确手势、语义、键盘焦点、禁用/加载态、失败反馈或返回路径，导致用户不知道哪里能点或点完卡住
+- 没有端到端或真实浏览器自测路径，导致改完后只能凭代码和截图猜测是否可演示
 - 缺少基础校验与错误反馈，导致演示不可用
 - 缺少关键状态（加载/失败/空态）导致流程断裂
 
@@ -88,3 +94,14 @@ Minimum polish contract:
 - 未获确认前，不扩大实现范围。
 - 即便用户坚持只做点名项，也必须在阶段输出里写清剩余差距和风险。
 - 输出时标注“已完成项 / 未覆盖项 / 建议下一步最小闭环”。
+
+## 5. 完成前自测
+
+实施后必须按项目已有 E2E、smoke、browser、screenshot 或 Storybook 验收路径运行自测。没有现成路径时，执行最小真实浏览器自测：
+
+- 打开被精修页面和关键入口。
+- 验证 UI layer ownership：shell、page frame、content、repeated item、local control、overlay/feedback、decoration/media、data/state 没有明显错层。
+- 覆盖点名范围和最小闭环中的主操作、弹层开合、提交/取消、返回路径、禁用/加载/失败反馈。
+- 检查桌面与窄屏/移动视口、console errors、failed requests、资源加载、文本溢出、遮挡、重复滚动条和 z-index/portal/overflow 问题。
+
+无法完成自测时，不得声称 demo-ready 完成；只能输出 self-reviewed/conditional，并列出未验收路径。
