@@ -12,10 +12,25 @@
 - 字体与资源健康度：关键字体 family/weight/style 是否真实加载，图片/图标/媒体是否来自项目资源或批准来源，是否存在 404、placeholder、缺失字重、截图替代 UI 或仅依赖本机字体
 - mock/API 边界：当前数据是静态 fixture、BFF-shaped mock、已接 API，还是混杂不清；业务裁定是否被写进页面/组件
 - 已有壳层约束：Header/Footer/Layout/Router 是否必须保留
-- 当前阻塞项：缺失弹框、缺失禁用态、缺失错误反馈、不可回退路径
+- 公共面健康度：app layout、顶部栏、侧边栏/导航、面包屑、页签、页面工具栏、全局 modal/drawer/confirm/toast roots、loading/empty/error 模式是否复用现有项目范式
+- 交互可用性：可点击对象是否语义化，cursor、hover、active/pressed、focus-visible、disabled、loading/submitting、selected/current、移动端触控和键盘路径是否成立
+- 当前阻塞项：缺失弹框、缺失禁用态、缺失错误反馈、不可回退路径、点击目标不明显、弹层不可关闭、公共反馈面未接入
 
 输出一份“现状覆盖快照”，作为后续精修依据。
 该快照也是本模式 Gate 2 的输入之一。
+
+审计后还必须输出最小精修合同：
+
+```md
+Minimum polish contract:
+- Accepted baseline: <current implementation evidence>
+- Deliverable surface: <content-only | inside-existing-shell | full-page-with-shell>
+- Common surfaces: <reuse / repair / out of scope>
+- Interaction gaps: <click targets, overlays, forms, navigation, feedback states>
+- Minimum closure: <smallest set that makes the named scope demo-ready>
+- Non-goals: <shell redesign, real API, domain decisions, etc.>
+- Blocking question: <none or one question that changes scope/acceptance>
+```
 
 ## 1.5 基线身份判定（必须）
 
@@ -44,6 +59,8 @@
 - 若存在坐标式布局，说明它对响应式、内容伸缩、可维护性和后续高保真精修的影响
 - 若存在字体或资源缺失，说明继续视觉微调会产生什么误判：文本宽度、换行、层级、密度、图标大小、图片裁切或截图对比都可能在真实资源补齐后改变
 - 若存在 mock/API 混杂，说明哪些逻辑应退回 fixture/BFF 返回字段，哪些轻量 UI 状态可以留在前端
+- 若设计或现状只覆盖内容区，说明是否需要接入现有 shell、导航、面包屑、页面工具栏、modal/drawer/toast/confirm roots，或把它们明确列为本轮非目标
+- 若交互看得见但不好用，说明哪些点击对象缺少语义、cursor、hover/active/focus、disabled/loading、关闭/返回路径、移动端触控或反馈态
 
 当以上差距清单与最小闭环建议被确认后，视为本模式 Gate 2 通过，再进入具体实现。
 
@@ -56,11 +73,13 @@
 - 点名范围只要求“调得更像设计稿”，但当前布局依赖大量绝对定位或固定坐标，继续微调会扩大响应式和维护风险
 - 点名范围只要求“继续调像一点”，但关键字体、字重、图片、图标或媒体尚未作为项目资源加载，继续调样式会掩盖真正原因
 - 点名范围只要求静态展示或视觉精修，但当前页面已经把 BFF/API 的领域状态、授权/资格、可执行动作裁定、生命周期/状态流转或集成状态归一化写成前端推导
+- 点名范围只要求内容区还原，但 demo-ready 结果需要接入已有公共 shell、导航、页面工具栏、面包屑或统一 overlay/feedback 系统
+- 可点击对象没有明确手势、语义、键盘焦点、禁用/加载态、失败反馈或返回路径，导致用户不知道哪里能点或点完卡住
 - 缺少基础校验与错误反馈，导致演示不可用
 - 缺少关键状态（加载/失败/空态）导致流程断裂
 
 扩围建议应是“最小必要组合”，例如：  
-`交互 + 校验 + 对应反馈态`，而不是默认全量精修。
+`交互 + 校验 + 对应反馈态`，或 `内容区 + 既有 shell 接入 + 统一 toast/confirm`，而不是默认全量精修。
 
 ## 4. 不擅自扩做，但必须提示差距
 

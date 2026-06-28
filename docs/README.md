@@ -5,6 +5,7 @@
 - 项目级规则文件：`../AGENTS.md`
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
+- 当前新增设计文档：`./superpowers/specs/2026-06-28-design-to-frontend-common-surface-interactions.md`（将 design-to-frontend-delivery 的公共面和交互可用性固化为演示级门禁：设计稿只画内容区时先确认 content-only/inside-existing-shell/full-page-with-shell 并复用现有 shell、导航和统一 overlay/feedback roots；可点击元素必须具备语义控件、cursor、hover/active/focus-visible、disabled/loading、弹层关闭、键盘/触控和返回反馈闭环）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-documentation-governance-skill.md`（新增 documentation-governance 通用技能：用文档治理门禁区分 OpenSpec/change spec、ADR、正式 source-of-truth docs、索引、源码旁文档、交付证据、项目明确批准的 audit/evidence artifact、归档和不持久化内容，防止文档膨胀、重复真相和过程记录污染正式文档）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-assets-and-fonts.md`（将 design-to-frontend-delivery 的字体与资源真实性固化为高保真门禁：缺少字体、字重、图片、图标或媒体时先补项目可访问资源或明确 fallback/blocked，不继续用样式微调掩盖资源缺失）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-mock-bff-boundary.md`（将 design-to-frontend-delivery 的静态 mock 与真实 BFF/API 集成边界固化：mock 只做展示夹具和轻量 UI 状态，不提前实现 BFF/domain-owned 业务裁定或 API 状态机）

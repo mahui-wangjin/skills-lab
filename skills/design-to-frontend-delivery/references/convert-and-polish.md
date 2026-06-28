@@ -10,13 +10,28 @@
 - 结构化源检查结果（例如平台 Dev Mode/MCP 上下文、设计工具生成代码、导出 HTML/CSS、tokens、组件映射、参考代码是否可用）
 - 结构事实源（默认 HTML/设计工具代码）
 - 工程目录约定：路由/页面入口、feature/module、components、mock/fixtures、styles/tokens、assets、tests/stories 的现有归属
+- 交付表面：`content-only`、`inside-existing-shell` 或 `full-page-with-shell`
+- 公共面复用决策：现有 app layout、Header/Topbar、Sidebar/Nav、breadcrumbs、tabs、toolbar、modal/drawer/confirm/toast roots、loading/empty/error 模式是否复用，哪些明确不在本轮范围
 - 字体与资源清单：字体 family/weight/style/变量轴、图片/图标/媒体、tokens、资源来源、项目可访问性、授权/来源状态（已知时）和缺失项兜底决策
+- 主交互与状态：按钮、链接、tab、筛选、表单、卡片/行操作、弹框/抽屉、toast/confirm、路由返回、loading/error/empty/submitting/success/failure
 - 复刻范围与非目标项
 - 是否保留宿主壳层（Header/Footer/Layout/Router）
 
 若输入来自设计平台链接、插件、MCP、设计导出或生成代码，必须先按 `source-priority` 执行 Structured Source Gate。能获得结构、样式属性、tokens、组件映射、参考代码或导出 HTML/CSS 时，不得降级为按截图复刻。
 
 若结构化源不可用且只剩视觉稿，先走 `source-priority` 的仅视觉降级确认，不直接开工。
+
+Gate 1 的执行声明必须包含最小执行合同：
+
+```md
+Minimum execution contract:
+- Deliverable surface: <content-only | inside-existing-shell | full-page-with-shell>
+- Common surfaces: <reuse / create / out of scope>
+- Primary interactions: <clicks, forms, overlays, navigation, feedback states>
+- Minimum closure: <what makes this demo-ready without expanding into full product scope>
+- Non-goals: <real API, domain decisions, shell redesign, etc.>
+- Blocking question: <none or one question that changes scope/acceptance>
+```
 
 ## 2. Structured-source-first 结构映射
 
@@ -57,6 +72,14 @@
 - 仅替换页面内容区，不改共享 Header/Footer/Layout/Router 规则。
 - 壳层与内容区冲突时先确认边界，不静默改壳。
 
+若设计稿只画了内容区但目标是现有工程：
+
+- 先查当前工程是否已有 app layout、顶部栏、侧边栏、菜单、面包屑、页签、页面工具栏、全局弹框/抽屉/toast/confirm 容器。
+- 有已接受公共面时默认复用，把设计内容接入内容区或对应 route slot。
+- 不因为设计图未画公共面就新建平行 shell，也不把孤立页面当成完整产品面交付。
+- 如果公共面缺失会影响 demo-ready 结果，记录最小闭环建议：例如接入现有 layout、补页面标题/面包屑/返回、挂接项目统一弹框或 toast。
+- 如果用户明确只要 `content-only` 静态片段，公共面可列为非目标，但最终不得声称 full-page-with-shell 已完成。
+
 ## 5. 工程目录与职责边界
 
 设计落地必须进入目标框架和当前工程的目录体系，而不是把所有内容堆到一个文件夹或一个页面文件里：
@@ -81,12 +104,25 @@
 
 若用户明确要求真实 API/BFF 接入，必须把范围从“设计落地/静态 mock”切换为“接口集成”，并先确认契约来源、加载/错误/空态、mutation 副作用、缓存策略、鉴权假设和验证路径。
 
-## 7. 结构复刻通过后再进入精修（闸门 2）
+## 7. 交互可用性与反馈闭环
+
+结构和公共面通过后，补齐可用性，不只调视觉：
+
+1. 可点击对象必须有语义元素或项目可访问组件；不要用不可聚焦的 `div`/`span` 伪装按钮或链接。
+2. 指针设备上真实可点击对象应有 pointer affordance；禁用态、只读态和普通展示卡片不得表现为可点击。
+3. 每个主操作至少覆盖 default、hover、active/pressed、focus-visible、disabled、loading/submitting、success/failure 或等效项目状态。
+4. 弹框、抽屉、popover、confirm、toast 要有打开、关闭、取消/确认、失败反馈和返回主任务路径；不要让 demo 卡在覆盖层里。
+5. 移动端和窄屏不能依赖 hover-only 发现；触控目标、吸底操作、长文本和弹层高度要避免遮挡、溢出和不可关闭。
+6. 交互只闭合本轮 UI/demo 范围；不要为了“能点”提前实现真实权限、资格、业务流转或 API 状态机。
+
+## 8. 结构复刻通过后再进入精修（闸门 2）
 
 结构阶段通过前，不进入交互精修。闸门 2 至少确认：
 
 - 结构映射已完成，主流程可走通
 - 关键文案、图片、按钮入口、弹框挂载点到位
+- 交付表面已确认，公共 shell/navigation/toolbar/overlay roots 的复用或非目标边界已记录
+- 可交互对象语义、cursor、hover/active/focus-visible、disabled/loading、移动端触控和返回路径已审计
 - 无明显“按截图重设计”或“下载图替代结构化源”痕迹
 - 布局策略已记录，普通布局优先 Flex/Grid/flow，无大量绝对定位复刻坐标
 - 绝对定位例外已记录用途、边界和响应式风险
@@ -97,7 +133,7 @@
 
 产出：结构差异清单 + 字体/资源清单 + 精修页面批次。
 
-## 8. 精修与交付（闸门 3）
+## 9. 精修与交付（闸门 3）
 
-结构通过后按八层模型补齐布局、数据边界、交互、校验、状态与表现，并在真实浏览器中确认关键字体与资源已加载，直至达到演示标准。
+结构通过后按八层模型补齐布局、数据边界、交互、校验、状态与表现，并在真实浏览器中确认关键字体、资源和主要交互已可用，直至达到演示标准。
 最终只交付一份单目标前端结果，不并行产出多端版本。

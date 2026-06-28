@@ -19,12 +19,14 @@ Default from strongest to weakest:
 
 1. Platform or design-tool structured context with component/code mappings: Dev Mode-like inspect data, MCP design context, Code Connect/component maps, tokens, style variables, layer hierarchy, constraints, variants, and generated reference snippets.
 2. Exported HTML/CSS/JS or design-tool generated code.
-3. User-provided reference code or accepted existing implementation.
+3. User-provided reference code or accepted existing implementation, including accepted host shell, navigation frame, shared overlay/feedback roots, and reusable UI patterns.
 4. Explicit host-project shell constraints the user wants preserved.
 5. Design screenshots, downloaded renders, mockups, or static images.
 6. Agent inference.
 
 Hard-constraint override: when the user explicitly requires preserving host shell boundaries (such as shared header, footer, router frame, or host layout), that shell-preservation rule is mandatory and overrides tier comparison for shell scope. Evidence ladder ranking is applied inside the allowed content scope.
+
+Accepted project shell and shared surface patterns are also strong project facts. If the target is an existing app and the design artifact only shows a content area, inspect and reuse accepted project surfaces before treating the artifact as a full-page design.
 
 When stronger and weaker sources conflict, do not silently merge them into a new hybrid structure.
 
@@ -77,6 +79,7 @@ The following are not accepted baseline by default:
 - Preserve structure before visual reinterpretation: section order, wrappers, major grouping, and interaction scaffolding.
 - Preserve platform/component semantics from structured sources: layer hierarchy, auto-layout/constraints, style variables, variants, component names, and code-mapped components.
 - Preserve explicit shell constraints (shared header, footer, router frame, host layout) and replace only the bounded content area.
+- Preserve accepted common surfaces from the host project: sidebar/navigation, top bar, breadcrumbs, tabs, page toolbars, modal/drawer/confirm/toast roots, and loading/empty/error patterns.
 - Keep copy and structural anchors from stronger artifacts unless the user explicitly asks to change them.
 - Preserve design intent, not raw canvas coordinates: spacing relationships, alignment, typography, color, hierarchy, component states, and responsive behavior matter more than copying `x/y` positions.
 
@@ -116,6 +119,7 @@ Allowed only when required by target stack or build system:
 - Collapsing wrappers only for cleanliness
 - Replacing source structure with component-library reinterpretations
 - Inventing missing states, content, or interactions from visual guesswork
+- Ignoring accepted project shell, navigation, overlay, or feedback systems because a design screenshot omitted them
 - Treating a design-platform URL as screenshot-only when Dev Mode-like metadata, MCP context, generated code, token data, or component mapping is available
 - Downloading rendered images as the primary implementation baseline when a structured source can be read
 - Treating "1:1" or "pixel-perfect" as a literal pixel-parity promise, or as permission to copy design-canvas coordinates with many `position: absolute`, `left/top`, fixed pixel coordinates, or screenshot overlays for ordinary page layout.

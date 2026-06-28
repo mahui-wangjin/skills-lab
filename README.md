@@ -86,6 +86,8 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 该 skill 还要求默认具备工程目录思维：设计落地前先识别目标框架和当前工程的路由、页面、feature/module、components、mock/fixtures、selectors/formatters、styles/tokens、assets、tests/stories 约定。页面入口只做接入和编排，组件、mock 数据、展示选择器、样式、资源和测试按职责归位；不得把整页实现、mock、状态、样式和测试堆到一个文件夹或一个大文件。若当前仓库没有约定，才按对应框架的官方或事实标准选择最小目录结构并记录原因。
 
+该 skill 现在把“公共面与可交互性”作为演示级交付门禁：当设计稿只画内容区时，必须先确认交付表面是 `content-only`、`inside-existing-shell` 还是 `full-page-with-shell`，并优先复用现有工程的 app layout、顶部栏、侧边栏/导航、面包屑、工具栏、modal/drawer/confirm/toast roots 和 loading/empty/error 模式。所有可点击元素必须有语义控件、cursor、hover/active/focus-visible、disabled/loading、键盘/触控基础路径和弹层关闭/返回/反馈闭环；不能等用户指出“这里应该能点”后才补。
+
 该 skill 还要求区分“静态 mock 阶段”和“真实 BFF/API 集成阶段”：静态设计落地或视觉精修时，mock 数据只是展示夹具，可以做成 BFF-shaped fixture 便于未来替换；前端只保留 tab、选中项、弹框开关、loading/error/empty 等轻量 UI 状态、薄展示选择器和演示级基础校验。派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化、基于业务枚举组合推导领域文案、目标去向和跨记录工作流属于 BFF/domain-owned 决策，不应在静态 mock 页面里提前实现。
 
 `design-to-code-html-first` 已并入 `design-to-frontend-delivery` 的 reference 层，不再作为独立 skill 维护。
@@ -258,6 +260,8 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `请 1:1 还原这个设计稿`：应理解为高保真视觉关系目标，不承诺像素级 100%；优先用 Flex/Grid/flow、tokens 和响应式约束实现间距、对齐、字体、颜色和状态，不得用大量 absolute/left/top 坐标复刻普通页面布局。
 - `怎么调都不像，后来发现本机没有设计字体`：应立即进入字体/资源门禁，确认设计所需字体 family、字重、样式和版本是否作为项目资源、批准 provider 或系统 fallback 可加载；缺失时先补字体文件/授权来源或记录 fallback，不继续盲目微调。
 - `按设计稿做一个 React/Vue 页面`：应先识别当前工程路由、feature、components、fixtures、styles/assets 和测试约定；页面入口、组件、mock 数据、展示选择器、样式和测试按职责归位，不得全部堆进一个页面文件或随机新建的 mock/components 文件夹。
+- `设计稿只画了业务内容区，但目标是现有后台/应用工程`：应先确认交付表面并复用现有 shell、顶部栏、侧边栏/导航、面包屑、工具栏、modal/drawer/toast/confirm roots；不能把孤立内容区当作完整产品页面交付。
+- `页面看起来像设计稿，但按钮、卡片、弹框和菜单不知道哪里能点`：应进入交互 affordance 审计，补语义控件、cursor、hover/active/focus-visible、disabled/loading、关闭/返回路径、失败反馈和移动端触控基本可用性。
 - `静态 mock 列表页/详情页，未来由 BFF 返回数据`：应把 mock 数据集中为展示夹具或 BFF-shaped fixture，只保留当前 tab、选中项、弹框等轻量 UI 状态、薄展示选择器和演示级基础校验；不得在前端推导派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化或 API 状态机。
 - `已有 React 工程，只说补交互但实际缺校验`：应进入 `polish-existing-project`，并触发范围缺口检测，给出最小闭环扩围建议（如补校验与反馈态）。
 - `只有截图，没有 HTML`：应先做仅视觉降级确认，确认后再问目标端，默认推荐 React。

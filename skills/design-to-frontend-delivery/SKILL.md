@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells, avoiding coordinate-copy layouts, verifying fonts/assets in the project instead of relying on the local machine, following framework/project structure, keeping mock/BFF responsibilities separate, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
+description: Use when delivering a frontend implementation from design artifacts or polishing an existing frontend project, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells and common UI surfaces, avoiding coordinate-copy layouts, verifying fonts/assets in the project instead of relying on the local machine, following framework/project structure, keeping mock/BFF responsibilities separate, making clickable/interactive affordances demo-ready, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
 ---
 
 # Design to Frontend Delivery
@@ -60,6 +60,33 @@ Before adding files:
 
 Do not create generic dumping grounds such as `components`, `utils`, `helpers`, `mock`, or `data` at random levels when the project already has stronger feature, route, or domain boundaries. Folder names are framework-dependent; responsibility boundaries are mandatory.
 
+## Common Surface Contract
+
+Design delivery must account for the product surface around the designed content. If a design artifact only shows a content area, do not silently ignore host shell, navigation, or shared feedback surfaces.
+
+Before implementation:
+
+- Classify the deliverable as `content-only`, `inside-existing-shell`, or `full-page-with-shell`.
+- Inspect the target project for existing layout shells and shared surfaces: app layout, header/top bar, sidebar/navigation, breadcrumbs, tabs, action toolbars, user/account area, notification entry, modal/drawer/confirm/toast roots, empty/error/loading patterns, and route guards.
+- Reuse the accepted host shell and shared components when the target is an existing project. Do not rebuild parallel headers, sidebars, modal systems, toasts, drawers, or navigation frames because the design screenshot omitted them.
+- If the design artifact conflicts with an accepted project shell, preserve the shell boundary and apply the design inside the allowed content area unless the user explicitly chooses replacement.
+- If the intended surface cannot be inferred from repository code, project docs, or provided artifacts, ask one scope question before implementation. Do not ask when the repository already makes the shell contract clear.
+- If a demo-ready result requires missing public surfaces, recommend the minimum closure set instead of pretending the page is complete.
+
+## Interaction Affordance Contract
+
+Frontend delivery must be usable, not only visible. Every interactive element should communicate that it can be used and should provide a complete local feedback loop for the scope of the deliverable.
+
+For every button, link, menu item, tab, card action, row action, form control, disclosure, dialog, drawer, toast, tooltip, picker, uploader, and route entry:
+
+- Prefer semantic native elements or the project's accessible component primitives. Do not use inert `div`/`span` click targets when `button`, `a`, `input`, `select`, or a proven headless/framework primitive fits.
+- Provide appropriate cursor behavior for pointer devices: real click targets use pointer affordance; disabled or non-clickable surfaces must not pretend to be clickable.
+- Cover visible states: default, hover, active/pressed, focus-visible, disabled, loading/submitting, selected/current, success, error, and empty where relevant.
+- Preserve keyboard and assistive affordances: focus order, focus ring, Escape/close behavior for overlays, aria labels only where semantics do not already express the control, and return paths after closing or completing a flow.
+- Keep touch ergonomics in scope for mobile and narrow viewports: controls must be reachable, not overlap, not rely on hover-only discovery, and maintain a usable hit area within the target design system's density.
+- Modal, drawer, popover, confirm, and toast flows need open/close paths, overlay/close-button behavior, submit/cancel feedback, loading/failure states, and a non-blocked route back to the main task.
+- Do not invent domain decisions to make interactions feel complete. For mock-stage work, keep completion to UI feedback and route/demo flow unless real API/BFF integration is explicitly in scope.
+
 ## Mock/BFF Boundary Contract
 
 Static, prototype, visual-polish, and mock-data delivery is not API integration unless the user explicitly asks for real API wiring.
@@ -94,16 +121,19 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 
 1. Gate 1 (pre-start confirmation)
 - Lock mode, target stack, baseline artifacts, source-of-truth, scope, non-goals, and shell boundary.
+- Record the deliverable surface contract: `content-only`, `inside-existing-shell`, or `full-page-with-shell`.
+- Record common surface decisions: existing shell/navigation/toolbar/modal/drawer/toast/confirm roots to reuse, public surfaces that are out of scope, and missing surfaces that affect demo readiness.
+- Record the minimum execution contract: what will be built, what will be reused, primary interactions/states, minimum closure level, non-goals, and the single blocking question if one remains.
 - Record the project/framework structure convention that will own new route entries, feature files, components, fixtures, styles, assets, and tests.
 - Record typography and asset facts: required font families/weights, image/icon/media sources, availability, license/provenance status when known, and fallback decision if any asset is missing.
 - For design-platform inputs, record whether structured source was attempted and what result it returned before using screenshots/images as a baseline.
 
 2. Gate 2 (mode-aware middle gate)
-- `convert-and-polish`: structure mapping and shell-boundary pass before polish.
-- `polish-existing-project`: current-state audit plus scope-gap closure decision before implementation continues.
+- `convert-and-polish`: structure mapping, common-surface pass, shell-boundary pass, and interaction-affordance pass before polish.
+- `polish-existing-project`: current-state audit, common-surface audit, interaction-affordance audit, plus scope-gap closure decision before implementation continues.
 
 3. Gate 3 (acceptance and closeout gate)
-- Verify demo-ready polish quality, including actual browser-loaded fonts/assets, and produce final acceptance, risk, documentation update record, and next-step decision.
+- Verify demo-ready polish quality, including actual browser-loaded fonts/assets and usable interactive affordances, and produce final acceptance, risk, documentation update record, and next-step decision.
 
 ## Must Ask vs Can Decide
 
@@ -116,6 +146,7 @@ Must ask:
 - Only visual artifacts are provided (no exported HTML, no reference code, no accepted implementation).
 - A platform appears capable of structured context or reference code, but the agent cannot access it after a real attempt; ask whether to wait for the stronger source or proceed with a visual-only downgrade.
 - Shell preservation boundary is unclear (header/footer/layout/router).
+- Deliverable surface is unclear and cannot be inferred from repository conventions or provided artifacts: `content-only`, `inside-existing-shell`, or `full-page-with-shell`.
 
 Can decide without asking:
 
@@ -124,6 +155,7 @@ Can decide without asking:
 - Explicit request to continue polishing current project: go `polish-existing-project`.
 - HTML and design are both provided without conflict: HTML is structure source, design is visual validation source.
 - Target stack is not stated but current project stack is explicit: keep the current stack.
+- Existing project has an accepted shell, route frame, shared modal/toast/drawer roots, or navigation pattern and the user did not ask to replace it: reuse the existing common surfaces and implement inside that boundary.
 
 ## Question Style Constraints
 
