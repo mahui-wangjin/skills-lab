@@ -15,7 +15,7 @@ Continuation contract:
 - API or behavior contract source: <OpenAPI/schema/docs/code/current BFF/mock/user decision>
 - Impact surface: <routes, shared components, hooks, store/cache, API clients, tokens/assets, tests/stories>
 - Regression surface: <known consumers and flows that must not change>
-- Self-test path: <existing command/harness or minimum browser smoke path>
+- Self-test path: <real-browser acceptance path; smoke/unit/component checks only as supporting evidence>
 - Blocking question: <none or one question that changes scope/acceptance>
 ```
 
@@ -51,8 +51,9 @@ Before closeout:
 - Other known consumers of changed shared code still render or test correctly.
 - API/BFF states cover loading, empty, error, success, submitting, disabled, and failure feedback when relevant.
 - Overlay/feedback flows still open, close, submit/cancel, recover from failure, and return to the main task.
-- Console errors, failed requests, missing assets/fonts/icons, overflow, clipping, duplicate scrollbars, and z-index regressions have been checked in the touched flow.
-- If full E2E is too heavy, run the smallest meaningful focused smoke path plus targeted unit/component tests for changed logic.
+- Console errors, failed requests, missing assets/fonts/icons, overflow, clipping, duplicate scrollbars, and z-index regressions have been checked in the touched flow through a real browser or browser engine.
+- If full E2E is too heavy, run the smallest meaningful focused real-browser path plus targeted unit/component tests for changed logic. Smoke-only evidence is conditional and cannot prove frontend UI quality.
+- If browser debugging cannot run, remind the user before closeout that console/network/runtime/layout/screenshot evidence is missing, name the blocked tool or access path, and downgrade the result to conditional/code-level candidate.
 
 ## 5. Closeout Requirement
 
@@ -65,4 +66,4 @@ Final output for this mode must include:
 - regression checks run;
 - untested or conditional risk.
 
-If regression checks cannot run, mark the result conditional/self-reviewed and provide a manual route-by-route checklist. Do not claim the change is safe for unrelated pages without evidence.
+If regression checks or browser debugging cannot run, mark the result conditional/self-reviewed, remind the user what evidence is missing and what is needed to obtain it, and provide a manual route-by-route checklist. Do not claim the change is safe for unrelated pages without evidence.

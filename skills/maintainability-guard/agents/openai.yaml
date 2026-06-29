@@ -1,4 +1,4 @@
 interface:
   display_name: "Maintainability Guard"
-  short_description: "Guard maintainability, reuse, and boundaries before changes."
-  default_prompt: "Use $maintainability-guard before adding behavior to large, mixed-responsibility, or likely-reused code. Always run a lightweight boundary check, even for small files: identify the new responsibility, caller/use-case pressure, reuse or duplication signals, test boundary, dependency direction, and whether extraction would create a real contract or only a pass-through wrapper."
+  short_description: "Guard maintainability, reuse, test bloat, and boundaries before changes."
+  default_prompt: "Use $maintainability-guard before adding behavior to large, mixed-responsibility, or likely-reused code, including smoke/E2E/browser automation and validation scripts. Always run a lightweight boundary check, even for small files: identify the new responsibility, caller/use-case pressure, reuse or duplication signals, test boundary, dependency direction, and whether extraction would create a real contract or only a pass-through wrapper. For test automation, keep runner/bootstrap, fixtures, selectors, actions, assertions, evidence capture, reporting, and cleanup as explicit responsibilities instead of dumping them into one giant script."

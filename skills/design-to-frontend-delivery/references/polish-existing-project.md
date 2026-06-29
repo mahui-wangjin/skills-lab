@@ -31,7 +31,7 @@ Minimum polish contract:
 - Common surfaces: <reuse / repair / out of scope>
 - Asset/detail source: <icons, tokens, borders, padding, radii, shadows, motion and state variants source>
 - Interaction gaps: <click targets, overlays, forms, navigation, feedback states>
-- E2E self-test path: <existing command/harness or minimum browser smoke path>
+- Browser acceptance path: <existing real-browser command/harness or minimum real-browser acceptance path; smoke only as health check>
 - Minimum closure: <smallest set that makes the named scope demo-ready>
 - Non-goals: <shell redesign, real API, domain decisions, etc.>
 - Blocking question: <none or one question that changes scope/acceptance>
@@ -101,7 +101,7 @@ Minimum polish contract:
 
 ## 5. 完成前自测
 
-实施后必须按项目已有 E2E、smoke、browser、screenshot 或 Storybook 验收路径运行自测。没有现成路径时，执行最小真实浏览器自测：
+实施后必须以真实浏览器验收作为主自测路径。优先运行项目已有 E2E、agent-browser、Playwright、Cypress、browser、screenshot 或 Storybook-in-browser 流程；smoke 只作为健康检查。没有现成路径时，执行最小真实浏览器自测：
 
 - 打开被精修页面和关键入口。
 - 验证 UI layer ownership：shell、page frame、content、repeated item、local control、overlay/feedback、decoration/media、data/state 没有明显错层。
@@ -109,4 +109,4 @@ Minimum polish contract:
 - 验证图标和细节状态：远端/项目已有图标未被替换或手绘，hover/active/focus-visible/disabled/loading、border/padding/radius/shadow/motion 与设计源或项目组件范式一致。
 - 检查桌面与窄屏/移动视口、console errors、failed requests、资源加载、文本溢出、遮挡、重复滚动条和 z-index/portal/overflow 问题。
 
-无法完成自测时，不得声称 demo-ready 完成；只能输出 self-reviewed/conditional，并列出未验收路径。
+无法完成真实浏览器自测或浏览器调试时，必须提醒用户缺少 console/network/runtime/layout/screenshot 证据，并说明需要的环境、工具或访问方式。不得声称 demo-ready 完成；只能输出 self-reviewed/conditional 或代码级候选结果，并列出未验收路径。smoke-only 结果不能替代前端质量验收。

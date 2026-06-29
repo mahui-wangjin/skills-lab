@@ -1,6 +1,6 @@
 ---
 name: maintainability-guard
-description: Use when adding or changing source files, modules, pages, services, jobs, scripts, test helpers, or components where file size is growing, responsibilities are mixing, reuse or duplication is likely, tests are hard, dependency direction is unclear, or the task risks continuing a "just patch the same file" pattern; also when the user asks about maintainability, extensibility, architecture, refactoring, or avoiding overgrown code.
+description: Use when adding or changing source files, modules, pages, services, jobs, scripts, smoke/E2E/browser automation tests, validation scripts, test helpers, or components where file size is growing, responsibilities are mixing, reuse or duplication is likely, tests are hard, dependency direction is unclear, or the task risks continuing a "just patch the same file" pattern; also when the user asks about maintainability, extensibility, architecture, refactoring, code splitting, test script bloat, or avoiding overgrown code.
 ---
 
 # Maintainability Guard
@@ -8,6 +8,8 @@ description: Use when adding or changing source files, modules, pages, services,
 ## Purpose
 
 Use this skill to decide whether a change can safely continue in place or must first split responsibilities, clarify interfaces, or reduce coupling.
+
+Test and automation code is code. Apply this skill to smoke scripts, E2E tests, browser automation, validation/reporting scripts, fixtures, selectors, and helpers with the same seriousness as application code.
 
 This is not a small-file rule. Do not split code just because it is long. Split when boundaries are unclear, change reasons diverge, reuse appears, testing is hard, or implementation details leak across modules.
 
@@ -35,6 +37,7 @@ Before modifying code, perform this lightweight check even when the target is un
 3. Does a second caller, second use case, likely follow-up use case, or similar existing implementation exist?
 4. Would tests become simpler if this behavior had a named input/output contract?
 5. Would extraction hide details, or would it only create a pass-through wrapper?
+6. For test or automation code, are runner/bootstrap, fixtures, selectors, actions, assertions, screenshots/evidence, reporting, and cleanup mixed in one place?
 
 If the answer reveals reuse, duplication, a new change reason, unclear testing, or dependency-direction risk, do not rely on line count. Emit the Maintainability Gate before planning or implementation.
 
@@ -65,6 +68,8 @@ Emit the Maintainability Gate before planning or implementation when any trigger
 - Similar logic exists elsewhere, or a second caller/use case is likely enough that the code would be copied soon.
 - Tests would need private internals, framework lifecycle tricks, large unrelated setup, or manual-only verification.
 - A high-level decision depends directly on database, transport, DOM, queue, vendor, or framework details.
+- A smoke, E2E, browser automation, or validation script mixes runner/bootstrap, fixtures, selectors, actions, assertions, evidence capture, reporting, and cleanup.
+- A smoke test is growing into a product acceptance harness instead of staying a small health check.
 - The user asks about maintainability, extensibility, architecture, refactoring, reuse, avoiding overgrown code, or why agents keep patching the same file.
 
 ## Maintainability Gate
@@ -186,6 +191,25 @@ These names are examples of responsibility shapes, not required folders. Adapt t
 - Callers must know internal ordering, flags, storage shape, rendering details, or framework lifecycle.
 - You are using line count as the only reason to continue in place or the only reason to split.
 
+## Test And Automation Code
+
+Keep smoke, E2E, browser automation, validation, and reporting code maintainable. Do not treat these files as disposable merely because they verify other code.
+
+Use smoke tests as a narrow health gate: app starts, critical routes load, basic shell renders, and fatal console or network failures are surfaced. Do not use smoke-only results as final frontend product acceptance for layout, overlays, responsive behavior, interaction polish, screenshots, or user-visible workflow quality.
+
+For frontend delivery, prefer real-browser E2E, agent-browser, Playwright, Cypress, or the project's accepted browser automation path for product acceptance. Smoke can support that path, but it must not replace browser-level validation when UI behavior matters.
+
+Structure automation code around explicit responsibilities:
+
+- runner/bootstrap and environment setup
+- fixtures, accounts, and test data
+- selectors, page objects, and action helpers
+- assertions and expected states
+- screenshot, console, network, and evidence capture
+- reporting, cleanup, and retry policy
+
+If a test or automation file combines three or more of these responsibilities, emit the Maintainability Gate before adding scenarios. If it is already over 1200 lines, split one clear responsibility before expanding it except for a narrow bug fix. If it is over 2000 lines, do not add new scenarios until a recovery slice exists. If it is over 3000 lines, treat it as a maintainability incident.
+
 ## Framework Examples
 
 Use examples only to recognize responsibility shape:
@@ -193,7 +217,7 @@ Use examples only to recognize responsibility shape:
 - In a UI project, a page that owns data loading, table columns, dialogs, permission rules, charts, import/export, and audit views should usually split presentation blocks, state hooks, constants, and adapters.
 - In a backend project, an endpoint handler that owns request parsing, validation, permission checks, transaction control, persistence, domain decisions, and audit logging should usually delegate to explicit boundaries.
 - In a worker or job project, scheduling, claiming, execution, retry, compensation, and audit should not all remain tangled once the workflow becomes production-critical.
-- In a script-heavy project, parsing, planning, file mutation, error reporting, and CLI output deserve separate functions once reuse or testing matters.
+- In a script-heavy or test-heavy project, parsing, planning, file mutation, browser/session setup, selectors, assertions, evidence capture, error reporting, and CLI output deserve separate functions once reuse or testing matters.
 
 Do not turn these examples into universal folder names.
 
@@ -219,6 +243,7 @@ Match verification to the boundary:
 - Extracted pure logic: unit tests or focused contract tests.
 - UI extraction: typecheck plus runtime/browser check for the affected state.
 - Backend extraction: unit/integration tests for success, denial, error, transaction, and audit paths as relevant.
+- Test automation extraction: run the affected smoke/E2E/browser command and confirm the same scenarios still execute with equivalent evidence.
 - Dependency boundary: lint, dependency-cruiser, Semgrep, or review of import direction.
 - Size gate: line-count or complexity script, if available.
 

@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering a frontend implementation from design artifacts, polishing an existing frontend project, or continuing frontend work after design delivery, especially when fidelity depends on choosing the right source of truth, using structured design/platform context before screenshots, preserving accepted shells and common UI surfaces, reusing exact icons/assets/tokens instead of fabricating visual details, mapping UI layer/component ownership before coding, avoiding coordinate-copy layouts, verifying fonts/assets in the project instead of relying on the local machine, following framework/project structure, keeping mock/BFF/API responsibilities separate, making clickable/interactive affordances demo-ready, handling API integration/function changes/bug fixes without regressing unrelated pages, running end-to-end self-tests before completion, and bringing static pages to presentation-ready quality across React, Vue, static HTML, mini-program, or similar targets.
+description: Use when delivering frontend from design artifacts, polishing an existing frontend project, or continuing after design delivery with API/BFF wiring, functional changes, bug fixes, regression fixes, interactions, validation, states, modals, animation, or acceptance quality. Use when fidelity depends on source-of-truth choice, structured design/platform context, accepted shell/common surfaces, exact icons/assets/tokens, UI layer ownership, framework/project structure, mock/BFF/API separation, clickable affordances, real-browser acceptance as the primary frontend quality gate, smoke-only limitations, maintainable smoke/E2E/browser automation, or presentation-ready React/Vue/static HTML/mini-program output.
 ---
 
 # Design to Frontend Delivery
@@ -139,18 +139,23 @@ For every button, link, menu item, tab, card action, row action, form control, d
 
 ## End-to-End Self-Test Contract
 
-Do not claim a frontend delivery is complete until it has been exercised in the running target surface, not only inspected in code.
+Do not claim a frontend delivery is complete until it has been exercised in the running target surface through a real browser or real browser engine, not only inspected in code or checked by a smoke script.
+
+Real-browser acceptance is the primary frontend quality gate. Unit tests, component tests, typecheck, lint, and smoke scripts are supporting evidence; they do not prove layout quality, overlay behavior, responsive fit, asset loading, console/network cleanliness, or user workflow usability by themselves.
 
 Before final closeout:
 
-- Use the project's existing E2E, smoke, preview, Storybook, browser automation, or screenshot workflow when available. Prefer the project's proven command or test harness over inventing a new one.
-- If no harness exists, run the app in a real browser or browser automation path appropriate to the stack and perform the smallest meaningful smoke test.
+- Use the project's existing real-browser E2E, agent-browser, Playwright, Cypress, browser automation, screenshot, preview, or Storybook-in-browser workflow when available. Prefer the project's proven browser-level path over inventing a new one.
+- If no browser harness exists, run the app in a real browser or browser automation path appropriate to the stack and perform the smallest meaningful browser acceptance path.
+- Treat smoke as a fast health gate: app starts, critical routes load, basic shell renders, and fatal console or network failures surface. Smoke is not final product acceptance for frontend UI quality.
+- Use real-browser E2E, agent-browser, Playwright, Cypress, or the project's accepted browser automation path when checking layout, overlays, responsive behavior, interaction, screenshots, console errors, failed requests, fonts/assets, clipping, and workflow usability.
+- If a smoke/E2E/browser script grows beyond a small route health check or mixes runner setup, fixtures, selectors, actions, assertions, screenshots, reporting, and cleanup, apply maintainability review and split the automation code before adding more scenarios.
 - Cover the main happy path plus the surfaces touched by the change: shell/page frame, layer ownership, main content, repeated items, overlays/feedback, forms, route/back paths, loading/empty/error where in scope.
 - Verify interactive affordances by doing the actions, not only checking markup: click/tap, keyboard focus where relevant, open/close overlays, submit/cancel, disabled/loading, route return, hover/focus-visible when practical.
 - Check desktop and narrow/mobile viewport when the deliverable is responsive or user-facing across viewports.
 - Check console errors, failed network/resource requests, missing fonts/assets, overflow/overlap, clipped overlays, blocked scroll, duplicate scrollbars, and z-index/portal issues.
 - Keep the self-test scoped to the delivery. Do not expand a mock-stage task into real API/BFF integration just to make E2E pass.
-- If E2E/browser verification cannot run, state why, mark the result as self-reviewed/conditional, and provide the smallest manual checklist. Do not call it demo-ready or complete.
+- If real-browser verification or browser debugging cannot run, explicitly remind the user before final acceptance which console/network/runtime/layout/screenshot evidence is missing, what environment/tool/access is needed, and which user-visible risks remain. Mark the result as self-reviewed/conditional or code-level candidate only. Do not call it demo-ready, accepted, fixed, or complete from smoke-only evidence.
 
 ## Mock/BFF Boundary Contract
 
@@ -181,6 +186,7 @@ Before changing an accepted frontend implementation:
 - Keep API/BFF contracts separate from visual components. Components receive display-ready props or thin view models; they do not invent domain status transitions, authorization decisions, retry policies, or cross-page workflow rules.
 - Protect unrelated pages. If a shared component, token, API client, hook, selector, or fixture changes, run or add focused regression checks for the other known consumers.
 - Preserve design facts. A bug fix or API connection is not permission to replace icons, change radii, remove hover/focus states, collapse layers, or redesign shell/content boundaries unless that is explicitly in scope.
+- If browser debugging cannot run for a bug, visual defect, interaction defect, or regression, remind the user that browser evidence is missing and downgrade the result to conditional/code-level candidate.
 - Close with a regression note: what changed, what was intentionally untouched, which affected surfaces were tested, and which risks remain.
 
 ## Mandatory Reference Loading Rules

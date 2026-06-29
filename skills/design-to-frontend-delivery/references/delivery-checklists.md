@@ -35,7 +35,7 @@
 - 已确认高保真不依赖本机字体：关键字体必须来自项目可访问资源、批准 provider 或明确系统 fallback；缺失字体/字重时不得继续用微调掩盖
 - 已确认本轮数据范围：静态 fixture / BFF-shaped mock / 真实 API 集成；若不是 API 集成，已确认不实现 API 状态机或业务裁定
 - 若本轮是后续 API/功能/bugfix 变更，已确认 accepted baseline、API/行为契约来源、影响面、回归面和不影响的页面/组件
-- 已确认自测路径：项目已有 E2E/smoke/browser/screenshot/Storybook 命令，或无现成命令时的最小真实浏览器验收路径
+- 已确认真实浏览器验收路径：项目已有 E2E/agent-browser/Playwright/Cypress/browser/screenshot/Storybook-in-browser 命令，或无现成命令时的最小真实浏览器验收路径；smoke 只作为健康检查
 - 范围与非目标明确
 - 壳层是否保留明确
 
@@ -114,8 +114,8 @@
 - 后续 API/功能/bugfix 变更若在范围内，已验证受影响页面、共享消费者和不应改变的页面；共享 token/component/hook/API client 变更有回归证据
 - 校验与反馈闭环完整（必填/格式、错误反馈、禁用态、加载/提交中、弹框/抽屉/toast/confirm 开合闭环）
 - 可交互元素 affordance 完整：真实 click targets 有语义、cursor、hover/active/focus-visible；disabled/non-clickable 不伪装可点击；移动端触控目标不遮挡、不溢出、可关闭
-- E2E/真实浏览器自测已执行并覆盖主流程、公共面、UI 层级、主要交互、弹层、桌面/窄屏或移动视口、console errors、failed requests、字体和关键资源加载
-- 若 E2E/真实浏览器自测未执行，验收结论只能是条件通过或 self-reviewed，并写明未验收原因与人工检查清单；不得声称 demo-ready 完成
+- E2E/真实浏览器自测已执行并覆盖主流程、公共面、UI 层级、主要交互、弹层、桌面/窄屏或移动视口、console errors、failed requests、字体和关键资源加载；smoke/unit/component/typecheck 只作为补充证据
+- 若 E2E/真实浏览器自测或浏览器调试未执行，验收结论只能是条件通过、self-reviewed 或代码级候选结果；必须提醒用户缺少 console/network/runtime/layout/screenshot 证据，说明需要的环境/工具/访问方式，并写明人工检查清单；不得用 smoke-only 结果声称 demo-ready 完成
 - 动画克制且统一，不破坏主流程感知
 - 交付相关文档记录已同步更新（若本轮有文档变更）
 - 关键风险和残留项已标注
@@ -147,7 +147,7 @@
 - 图标与细节：<图标/illustration/token 来源 + border/padding/radius/shadow/motion/state variants 映射 + fallback/blocked 风险>
 - 数据边界：<静态 fixture | BFF-shaped mock | 真实 API 集成；前端 UI 状态与 BFF/domain-owned 状态边界>
 - 后续变更影响面：<API/功能/bugfix 基线 + 影响页面/共享消费者 + 回归覆盖；非 continuation 写“无”>
-- 自测证据：<E2E/smoke/browser/screenshot 命令或手工浏览器路径 + 覆盖内容 + 未验收项>
+- 自测证据：<真实浏览器 E2E/agent-browser/Playwright/Cypress/browser/screenshot 命令或手工浏览器路径 + smoke/单元/组件补充证据 + 覆盖内容 + 未验收项 + 若浏览器验收/调试不可用则写明用户提醒内容>
 - 闸门结果：
   - Gate 1：<通过/未通过 + 关键确认项>
   - Gate 2：<通过/未通过 + 路径对应摘要（结构复刻或审计闭环）>

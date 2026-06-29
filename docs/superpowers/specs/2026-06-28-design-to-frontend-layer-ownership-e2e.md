@@ -52,7 +52,7 @@ Agent 按视觉位置写组件：
 
 必须完成的自测：
 
-- 优先运行项目已有 E2E、smoke、browser、screenshot 或 Storybook 验收命令。
+- 优先运行项目已有真实浏览器 E2E、browser、screenshot 或 Storybook 验收命令；2026-06-29 后 smoke 仅作为健康检查，不再与真实浏览器验收并列。
 - 没有现成命令时，执行最小真实浏览器自测。
 - 覆盖主流程、公共面、UI 层级、主要交互、弹层、桌面与窄屏/移动视口、console errors、failed requests、字体和资源加载。
 - 无法自测时，只能标为 conditional 或 self-reviewed，不得声称 demo-ready 完成。
