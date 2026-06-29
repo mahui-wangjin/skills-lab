@@ -1,6 +1,6 @@
 # skills-lab
 
-个人 skills 仓库，当前包含“前端设计落地与精修”、“通用工程决策守门”、“生产级工程交付总控”、“通用可维护性守门”、“后台管理界面范式系统”和“软件工程文档治理”六类 skill。
+个人 skills 仓库，当前包含“前端交付、开发与精修”、“通用工程决策守门”、“生产级工程交付总控”、“通用可维护性守门”、“后台管理界面范式系统”和“软件工程文档治理”六类 skill。
 
 ## Installation & Discovery
 
@@ -76,7 +76,7 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 ### `design-to-frontend-delivery`
 
-覆盖从设计输入解析、基线选择、工程转换到还原验收与精修交付的完整前端设计落地流程。
+覆盖前端设计落地、既有 UI 精修、后续 API/BFF 接入、功能开发、bugfix、回归修复和验收交付的通用前端工程标准。
 
 该 skill 现在采用“结构化源优先”原则：当 Figma、Stitch、Framer、Webflow 或其他设计/原型平台能够提供 Dev Mode 类属性、MCP design context、Code Connect/组件映射、tokens、样式变量、生成代码、导出 HTML/CSS 或参考实现时，必须先读取这些强事实源。Figma 场景优先读取目标 node/selection/frame 的 Dev Mode/MCP/Code Connect 上下文，不默认下载或渲染整张设计文件、整页 canvas 或整图截图。截图、下载图和静态渲染图只能用于视觉验收、差异检查或位图资产提取，不能在强事实源可用时降级为按图复刻。
 
@@ -88,7 +88,9 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 该 skill 现在增加“可见元素清单与浏览器对账”门禁：Figma、设计平台、高保真还原或反复精修任务在编码/最终精修前，必须先列出非平凡可见元素并建立 source -> implementation 映射。清单覆盖图标、按钮、链接、tabs、chips、badges、进度条、列表/表格行、分割线、边框容器、关键文案/数字/状态标签、hover/focus/disabled/loading 等状态 variants，以及重复组数量和代表性变体。最终必须在真实浏览器按清单对账，漏图标、漏按钮、漏边线/分割线、数量不一致、资源 404、文本溢出、遮挡或未批准 fallback 都是验收缺陷；无法浏览器对账时只能标为 conditional/self-reviewed 或代码级候选结果。
 
-该 skill 还要求默认具备工程目录思维：设计落地前先识别目标框架和当前工程的路由、页面、feature/module、components、mock/fixtures、selectors/formatters、styles/tokens、assets、tests/stories 约定。页面入口只做接入和编排，组件、mock 数据、展示选择器、样式、资源和测试按职责归位；不得把整页实现、mock、状态、样式和测试堆到一个文件夹或一个大文件。若当前仓库没有约定，才按对应框架的官方或事实标准选择最小目录结构并记录原因。
+该 skill 现在新增“框架布局与页面范式先定版”门禁：真实项目、多页面交付、前端开发或精修前，必须先锁定目标框架/项目的 frontend foundation，包括 app shell、route layout、page wrapper、content slot、scroll container、toolbar/tabs/breadcrumbs、overlay roots、grid/spacing/breakpoints、页面 archetype、组件体系映射、token/theme、route/menu/permission、table/list、form/validation、状态矩阵、真实数据压力和性能假设。已有 layout primitive、组件、token、表格/表单/弹层/路由权限 pattern 能承载时，不得自造 page-local shell/container/grid/scroll/toolbar/table/list/form shell、组件体系、校验体系、权限导航逻辑或 spacing/radius/color scale；第一个同类页面是 pattern seed，第二个同类页面开始必须复用或记录例外。
+
+该 skill 还要求默认具备工程目录思维：页面实现或修改前先识别目标框架和当前工程的路由、页面、feature/module、components、mock/fixtures、selectors/formatters、styles/tokens、assets、tests/stories 约定。页面入口只做接入和编排，组件、mock 数据、展示选择器、样式、资源和测试按职责归位；不得把整页实现、mock、状态、样式和测试堆到一个文件夹或一个大文件。若当前仓库没有约定，才按对应框架的官方或事实标准选择最小目录结构并记录原因。
 
 该 skill 现在要求先做 UI 层级归属判断：不能只看视觉上挨得近就把组件放在一起。设计或现有页面要先映射为 app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 这些 owner 层，并说明状态、portal/root、z-index/stacking、overflow clipping 和复用范围。页面标题、面包屑、页签、筛选和页面操作不能误放到卡片或列表项里；全局弹框/toast/drawer 不应在 feature card 内部自建；装饰层不能遮挡交互层。
 
@@ -96,9 +98,9 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 该 skill 现在要求把真实浏览器验收作为前端质量主门禁：优先运行项目已有真实浏览器 E2E、agent-browser、Playwright、Cypress、browser automation、浏览器驱动截图/trace 或 Storybook-in-browser 流程；没有现成命令时，至少用真实浏览器自测主流程、UI 层级、公共面、主要交互、弹层、桌面/移动视口、控制台错误、失败请求和字体/资源加载。smoke 只作为启动、关键路由和基础壳层健康检查，不能替代产品体验验收。AI 浏览器验收必须以可复核证据为准，例如命令结果、断言、trace、截图、console/network 日志和明确交互步骤；跨多路由、多视口、多轮视觉 diff/精修、大范围回归、登录/第三方流程或慢速远端环境等高成本 AI 探索式 E2E，需要先向用户确认覆盖范围、时间或 token 成本、停止条件和人工复核项。无法进行真实浏览器验收或浏览器调试时，必须提醒用户缺少 console/network/runtime/layout/screenshot 证据，说明需要的环境、工具或访问方式，并把结果降级为 conditional、self-reviewed 或代码级候选结果。
 
-该 skill 还要求区分“静态 mock 阶段”和“真实 BFF/API 集成阶段”：静态设计落地或视觉精修时，mock 数据只是展示夹具，可以做成 BFF-shaped fixture 便于未来替换；前端只保留 tab、选中项、弹框开关、loading/error/empty 等轻量 UI 状态、薄展示选择器和演示级基础校验。派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化、基于业务枚举组合推导领域文案、目标去向和跨记录工作流属于 BFF/domain-owned 决策，不应在静态 mock 页面里提前实现。
+该 skill 还要求区分“静态 mock 阶段”和“真实 BFF/API 集成阶段”：静态页面、原型或视觉精修时，mock 数据只是展示夹具，可以做成 BFF-shaped fixture 便于未来替换；前端只保留 tab、选中项、弹框开关、loading/error/empty 等轻量 UI 状态、薄展示选择器和演示级基础校验。派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化、基于业务枚举组合推导领域文案、目标去向和跨记录工作流属于 BFF/domain-owned 决策，不应在静态 mock 页面里提前实现。
 
-该 skill 也覆盖设计落地后的后续前端开发：当任务变成真实 API/BFF 对接、功能修改、bugfix、回归修复或增量需求时，会进入 `frontend-continuation` 路径。开工前必须确认 accepted baseline、API/行为契约来源、影响面、共享消费者和回归面；实现时复用项目已有 API client、query/cache、form、validation、loading/empty/error、toast/confirm 和权限模式。修 bug 或接 API 不是重设计许可，不能顺手换图标、改圆角、拆壳层、打乱 UI 层级或影响其他页面；共享组件、token、hook、API client 或 store/cache 被改时必须做对应回归检查。
+该 skill 也覆盖既有前端 UI 上的继续开发：真实 API/BFF 对接、功能修改、bugfix、回归修复或增量需求会进入 `frontend-continuation` 路径。开工前必须确认 accepted baseline、API/行为契约来源、影响面、共享消费者和回归面；实现时复用项目已有 API client、query/cache、form、validation、loading/empty/error、toast/confirm 和权限模式。修 bug 或接 API 不是重设计许可，不能顺手换图标、改圆角、拆壳层、打乱 UI 层级或影响其他页面；共享组件、token、hook、API client 或 store/cache 被改时必须做对应回归检查。
 
 `design-to-code-html-first` 已并入 `design-to-frontend-delivery` 的 reference 层，不再作为独立 skill 维护。
 旧名已不再可安装，请改用 `design-to-frontend-delivery`。
@@ -273,6 +275,8 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `hover 效果、边框、内边距、圆角和阴影看起来不像设计`：应检查 design tokens、生成 CSS、组件 variant 和已接受项目范式，确认 border/padding/radius/shadow/motion/state variants 的来源；缺失时记录 fallback/conditional，不用个人审美随便调。
 - `Figma 页面高保真还原总漏图标、按钮、边线或状态标签`：应先建立可见元素清单，按 source -> implementation 映射图标、按钮、tabs、chips、progress、列表/表格行、分割线、边框容器、关键文案/数字/状态 variants，再在真实浏览器逐项对账；没有清单或没有浏览器对账时不能声称高保真完成。
 - `按设计稿做一个 React/Vue 页面`：应先识别当前工程路由、feature、components、fixtures、styles/assets 和测试约定；页面入口、组件、mock 数据、展示选择器、样式和测试按职责归位，不得全部堆进一个页面文件或随机新建的 mock/components 文件夹。
+- `按 Figma 连续做多个页面，后来发现框架已有现成布局/页面容器`：应先做 framework foundation discovery，锁定 route layout、page wrapper、content slot、scroll container、toolbar/tabs/breadcrumbs、overlay roots、grid/spacing/breakpoints、页面 archetype、组件映射、token/theme、route/menu/permission、table/list、form/validation、状态矩阵、真实数据压力和性能策略，再写第一个页面；第一个同类页面形成 pattern seed，后续同类页面复用或记录 variant/exception，不得每页自造一套 layout、组件、样式 scale 或状态体系。
+- `没有设计稿，只是新增或修改一个前端页面/功能`：仍应先进入前端基础门禁，锁定页面范式、组件体系、token/theme、route/menu/permission、table/list、form/validation、状态矩阵、真实数据压力、性能策略和真实浏览器验收路径；不能因为没有 Figma 就每页自造布局和组件。
 - `设计图里页面标题、筛选、列表卡片、弹框和装饰背景混在一起`：应先输出 UI layer map，判断哪些属于 page frame、content section、repeated item、overlay/feedback、decoration/media、data/state；不能因为视觉邻近就把页面级组件塞进卡片或把全局弹框放进列表项。
 - `设计稿只画了业务内容区，但目标是现有后台/应用工程`：应先确认交付表面并复用现有 shell、顶部栏、侧边栏/导航、面包屑、工具栏、modal/drawer/toast/confirm roots；不能把孤立内容区当作完整产品页面交付。
 - `页面看起来像设计稿，但按钮、卡片、弹框和菜单不知道哪里能点`：应进入交互 affordance 审计，补语义控件、cursor、hover/active/focus-visible、disabled/loading、关闭/返回路径、失败反馈和移动端触控基本可用性。

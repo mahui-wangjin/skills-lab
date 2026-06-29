@@ -13,8 +13,8 @@ Continuation contract:
 - Scope: <pages/components/flows to change>
 - Non-goals: <visual redesign / shell replacement / unrelated pages / domain policy changes>
 - API or behavior contract source: <OpenAPI/schema/docs/code/current BFF/mock/user decision>
-- Impact surface: <routes, shared components, hooks, store/cache, API clients, tokens/assets, tests/stories>
-- Regression surface: <known consumers and flows that must not change>
+- Impact surface: <routes, layout primitives, page archetypes, shared components, table/list patterns, form/validation patterns, hooks, store/cache, API clients, route/menu/permission, tokens/assets, tests/stories>
+- Regression surface: <known consumers, page patterns, states, viewports, and flows that must not change>
 - Self-test path: <real-browser acceptance path; smoke/unit/component checks only as supporting evidence; high-cost AI exploratory E2E budget/stop condition if needed>
 - Blocking question: <none or one question that changes scope/acceptance>
 ```
@@ -39,15 +39,17 @@ For feature changes and fixes:
 1. Reproduce or locate the current behavior first when possible: route, story, test, screenshot, or browser path.
 2. Make the smallest change that satisfies the contract. Do not use a bugfix as permission to restructure unrelated layout, replace icons, change visual tokens, or redesign flows.
 3. Preserve accepted detail facts: icon identity, copy, component hierarchy, page frame, shell boundary, border/padding/radius/shadow, hover/focus/disabled/loading states, and responsive behavior unless explicitly in scope.
-4. If the fix touches shared components, shared tokens, hooks, selectors, API clients, store/cache, route guards, overlay roots, or form primitives, identify every known consumer and run a focused regression check.
+4. If the fix touches shared components, shared tokens, layout primitives, page archetypes, table/list patterns, form/validation primitives, hooks, selectors, API clients, store/cache, route/menu/permission, route guards, overlay roots, or form primitives, identify every known consumer and run a focused regression check.
 5. If a shared change is risky, prefer a feature-local adapter, prop, variant, or wrapper over changing global behavior.
-6. Do not create parallel duplicate implementations for the same API, formatter, component, modal, toast, or validation pattern unless the existing pattern is proven unsuitable.
+6. Do not create parallel duplicate implementations for the same API, formatter, component, layout shell, page container, table/list shell, form state, modal, toast, permission check, breadcrumb, token scale, or validation pattern unless the existing pattern is proven unsuitable.
 
 ## 4. Non-Regression Checklist
 
 Before closeout:
 
 - The changed route/page still preserves accepted shell, page frame, UI layer ownership, public surfaces, icons/assets, state variants, and design token details.
+- Framework layout, page archetype, component system, token/theme, table/list pattern, form/validation pattern, route/menu/permission ownership, and overlay roots still match the accepted project pattern or documented exception.
+- State/data resilience still holds for loading, empty, error, permission denied, disabled, submitting, success, failure, long text, null/empty values, long lists, formatted fields, expected data volume, and narrow viewport behavior where affected.
 - Other known consumers of changed shared code still render or test correctly.
 - API/BFF states cover loading, empty, error, success, submitting, disabled, and failure feedback when relevant.
 - Overlay/feedback flows still open, close, submit/cancel, recover from failure, and return to the main task.

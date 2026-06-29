@@ -6,6 +6,14 @@
 
 - 页面与路由覆盖：哪些页面已存在、哪些流程未串通
 - 八层覆盖度：结构、布局、内容、交互、数据边界、校验、状态、表现
+- 框架布局一致性：当前页面是否复用项目/框架已有 app shell、route layout、page wrapper、content slot、scroll container、page title/breadcrumbs/tabs、toolbar/action area、filter/search region、overlay roots、grid/spacing/breakpoints 和 loading/empty/error surfaces
+- 页面范式一致性：当前实现属于 list、detail、create/edit、dashboard/workbench、wizard、settings/configuration、approval/workflow、graph/canvas、monitoring/logs、report/analytics、search/selection 或其他项目已有 page archetype；是否复用同类 pattern 或形成了未经记录的 page-local variant
+- 组件体系一致性：button/card/tabs/table/list/modal/drawer/popover/tooltip/toast/confirm/form/field/menu/filter/search/status/chart/icon 是否复用项目组件、组件 variant、headless primitive 或已记录 exception；是否页面级自造通用组件
+- token/theme 一致性：颜色、字体、间距、圆角、阴影、密度、动效、断点、component variants 是否来自项目 theme、CSS variables、design tokens、utility config 或 approved fallback；是否存在 page-local spacing/radius/color scale
+- 路由/菜单/权限/面包屑一致性：page title、breadcrumbs、menu active、return path、route guard、permission-driven actions、hidden/disabled behavior 是否接入项目体系，还是硬编码在页面里
+- 表格/列表 pattern 健康度：筛选区、工具栏、列设置、分页、排序、批量操作、行操作、详情入口、loading/empty/error 和窄屏策略是否复用项目 pattern
+- 表单/校验 pattern 健康度：form state、field binding、schema/validation、错误提示、提交中、禁用态、接口错误映射、成功/失败反馈和返回/重置路径是否复用项目 pattern
+- 状态/数据/性能健康度：loading、empty、error、permission denied、disabled、submitting、success、failure、长文本、空值、长列表、真实格式化字段、数据量、分页/虚拟列表/懒加载、图表/canvas 渲染成本是否已有处理
 - UI 层级归属：app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 的 owner 是否清晰
 - 工程目录健康度：页面入口、feature/module、components、mock/fixtures、selectors/formatters、styles/assets、tests/stories 是否按当前框架和项目约定归位
 - 布局健康度：普通页面、卡片、列表、表单、仪表盘和内容布局是否使用 Flex/Grid/flow、tokens 和响应式约束
@@ -16,6 +24,7 @@
 - mock/API 边界：当前数据是静态 fixture、BFF-shaped mock、已接 API，还是混杂不清；业务裁定是否被写进页面/组件
 - 已有壳层约束：Header/Footer/Layout/Router 是否必须保留
 - 公共面健康度：app layout、顶部栏、侧边栏/导航、面包屑、页签、页面工具栏、全局 modal/drawer/confirm/toast roots、loading/empty/error 模式是否复用现有项目范式
+- page-local layout 健康度：是否每页自造 shell/container/grid/spacing scale/scroll root/toolbar/tabs/breadcrumb/table/list/form shell/overlay root，或把框架已有布局 primitive 复制成局部变体
 - 交互可用性：可点击对象是否语义化，cursor、hover、active/pressed、focus-visible、disabled、loading/submitting、selected/current、移动端触控和键盘路径是否成立
 - 当前阻塞项：缺失弹框、缺失禁用态、缺失错误反馈、不可回退路径、点击目标不明显、弹层不可关闭、公共反馈面未接入
 
@@ -28,6 +37,9 @@
 Minimum polish contract:
 - Accepted baseline: <current implementation evidence>
 - Deliverable surface: <content-only | inside-existing-shell | full-page-with-shell>
+- Framework layout gap: <existing layout primitives/page archetype expected vs current implementation; reuse/variant/new primitive/exception decision>
+- Component/token gap: <project component mapping + token/theme mapping + missing/parallel local systems>
+- Route/list/form/state-data gap: <route/menu/permission + table/list + form/validation + state matrix + data/performance risks>
 - UI layer map: <owners and boundary risks for shell / page frame / content / repeated items / local controls / overlays / decoration / data-state>
 - Common surfaces: <reuse / repair / out of scope>
 - Asset/detail source: <icons, tokens, borders, padding, radii, shadows, motion and state variants source>
@@ -63,6 +75,11 @@ Minimum polish contract:
 - 这些缺失会导致什么演示问题
 - 只做点名范围后的预计完成度
 - 若存在所有内容堆在一个文件或一个目录，说明页面入口、feature-private 组件、fixtures、展示选择器、样式/assets、测试应如何按当前框架约定拆开
+- 若存在布局体系未复用，说明当前实现偏离了哪些项目/框架 layout primitives 或 page archetypes，以及继续保留 page-local shell/container/grid/scroll/toolbar/tabs/table/list/form shell 会带来的迁移、复用、响应式、测试和后续多页面一致性成本
+- 若存在组件体系未复用，说明哪些通用组件、表格/列表、表单/校验、弹层/反馈或图表控件被页面级自造，以及继续保留会造成的交互、状态、a11y、测试和视觉一致性成本
+- 若存在 token/theme 未锁定，说明哪些颜色、间距、圆角、阴影、密度、动效或断点脱离项目 token/theme，后续跨页面统一会如何变难
+- 若存在路由/菜单/权限/面包屑硬编码，说明它与项目 route meta、menu schema、permission gates、return paths 和 disabled/hidden actions 的冲突成本
+- 若状态/数据/性能矩阵缺失，说明 loading/empty/error/permission denied/submitting/failure、长文本、空值、长列表、格式化字段、数据规模或图表/canvas 性能会怎样破坏演示和真实接入
 - 若存在 UI 层级归属错误，说明哪些组件放错层：shell/page frame/content section/repeated item/local control/overlay/decoration/data-state；谁应拥有渲染、状态、布局、overlay root 和 stacking context
 - 若存在坐标式布局，说明它对响应式、内容伸缩、可维护性和后续高保真精修的影响
 - 若存在字体或资源缺失，说明继续视觉微调会产生什么误判：文本宽度、换行、层级、密度、图标大小、图片裁切或截图对比都可能在真实资源补齐后改变
@@ -80,6 +97,10 @@ Minimum polish contract:
 
 - 点名范围无法闭合主流程（例如能点但无法提交或无法回退）
 - 点名范围只要求补页面/补设计还原，但当前工程结构会继续把页面入口、组件、mock、展示选择器、样式或测试混堆到同一文件/目录
+- 点名范围只要求补视觉或交互，但当前页面未接入项目/框架已有 route layout、page wrapper、content slot、scroll container、toolbar/tabs/breadcrumb pattern、overlay root 或同类 page archetype，继续局部修会扩大后续重构/迁移成本
+- 点名范围只要求还原设计，但当前页面自造 button/card/tabs/table/list/modal/form/toast/confirm/tooltip 或 validation pattern，继续精修会固化并行组件体系
+- 点名范围只要求调样式，但当前页面自造 token/theme/spacing/radius/color/breakpoint scale，继续调样式会固化不可维护的局部视觉语言
+- 点名范围只要求补交互，但 route/menu/permission/breadcrumb、table/list、form/validation、state matrix 或真实数据压力未对齐项目 pattern，补交互会变成局部状态机
 - 页面标题、面包屑、页签、页面工具栏、筛选、卡片、列表项、弹框、toast、装饰层或数据状态放错 owner 层，导致视觉接近但结构和维护边界错误
 - 点名范围只要求“调得更像设计稿”，但当前布局依赖大量绝对定位或固定坐标，继续微调会扩大响应式和维护风险
 - 点名范围只要求“继续调像一点”，但关键字体、字重、图片、图标或媒体尚未作为项目资源加载，继续调样式会掩盖真正原因
@@ -107,6 +128,9 @@ Minimum polish contract:
 实施后必须以真实浏览器验收作为主自测路径。优先运行项目已有 E2E、agent-browser、Playwright、Cypress、browser automation、浏览器驱动截图/trace 或 Storybook-in-browser 流程；smoke 只作为健康检查。AI 浏览器验收应以可复核证据为准：断言结果、trace、截图、console/network 日志和明确交互步骤，不以“模型觉得可以”作为结论。没有现成路径时，执行最小真实浏览器自测：
 
 - 打开被精修页面和关键入口。
+- 确认页面在选定 shell/route layout/page wrapper/content slot/scroll container 中运行，desktop 与窄屏/移动 viewport 下 page toolbar、tabs、breadcrumbs、filters、overlay roots、grid/spacing/breakpoints 与项目页面范式一致。
+- 确认通用组件、表格/列表、表单/校验、route/menu/permission/breadcrumb、token/theme 和 overlay/feedback 复用项目 pattern；无 page-local 并行体系。
+- 用长文本、空值、长列表、格式化字段和关键状态矩阵 spot-check 当前修复；数据量或图表/canvas 明显影响体验时，确认分页、虚拟列表、懒加载或渲染成本策略。
 - 按可见元素差距清单对账，确认已修复的图标、按钮、tabs、chips、badges、进度条、列表/表格行、分割线、边框容器、状态标签和关键文案真实出现在浏览器中，且数量、可见性、资源加载和交互状态与设计/accepted baseline 对齐。
 - 验证 UI layer ownership：shell、page frame、content、repeated item、local control、overlay/feedback、decoration/media、data/state 没有明显错层。
 - 覆盖点名范围和最小闭环中的主操作、弹层开合、提交/取消、返回路径、禁用/加载/失败反馈。
