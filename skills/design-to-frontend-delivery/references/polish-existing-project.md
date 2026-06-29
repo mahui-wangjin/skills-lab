@@ -31,7 +31,7 @@ Minimum polish contract:
 - Common surfaces: <reuse / repair / out of scope>
 - Asset/detail source: <icons, tokens, borders, padding, radii, shadows, motion and state variants source>
 - Interaction gaps: <click targets, overlays, forms, navigation, feedback states>
-- Browser acceptance path: <existing real-browser command/harness or minimum real-browser acceptance path; smoke only as health check>
+- Browser acceptance path: <existing real-browser command/harness or minimum real-browser acceptance path; smoke only as health check; high-cost AI exploratory E2E budget/stop condition if needed>
 - Minimum closure: <smallest set that makes the named scope demo-ready>
 - Non-goals: <shell redesign, real API, domain decisions, etc.>
 - Blocking question: <none or one question that changes scope/acceptance>
@@ -101,12 +101,14 @@ Minimum polish contract:
 
 ## 5. 完成前自测
 
-实施后必须以真实浏览器验收作为主自测路径。优先运行项目已有 E2E、agent-browser、Playwright、Cypress、browser、screenshot 或 Storybook-in-browser 流程；smoke 只作为健康检查。没有现成路径时，执行最小真实浏览器自测：
+实施后必须以真实浏览器验收作为主自测路径。优先运行项目已有 E2E、agent-browser、Playwright、Cypress、browser automation、浏览器驱动截图/trace 或 Storybook-in-browser 流程；smoke 只作为健康检查。AI 浏览器验收应以可复核证据为准：断言结果、trace、截图、console/network 日志和明确交互步骤，不以“模型觉得可以”作为结论。没有现成路径时，执行最小真实浏览器自测：
 
 - 打开被精修页面和关键入口。
 - 验证 UI layer ownership：shell、page frame、content、repeated item、local control、overlay/feedback、decoration/media、data/state 没有明显错层。
 - 覆盖点名范围和最小闭环中的主操作、弹层开合、提交/取消、返回路径、禁用/加载/失败反馈。
 - 验证图标和细节状态：远端/项目已有图标未被替换或手绘，hover/active/focus-visible/disabled/loading、border/padding/radius/shadow/motion 与设计源或项目组件范式一致。
 - 检查桌面与窄屏/移动视口、console errors、failed requests、资源加载、文本溢出、遮挡、重复滚动条和 z-index/portal/overflow 问题。
+
+最小真实浏览器自测可以由 agent 直接执行；但跨多页面/多角色/多视口的大范围回归、多轮视觉 diff 与反复精修、登录或第三方系统流程、慢速远端环境，或预计会明显增加时间/token 的 AI 探索式 E2E，必须先向用户确认目标流程、视口、证据、预计成本/时间、停止条件和人工复核项。
 
 无法完成真实浏览器自测或浏览器调试时，必须提醒用户缺少 console/network/runtime/layout/screenshot 证据，并说明需要的环境、工具或访问方式。不得声称 demo-ready 完成；只能输出 self-reviewed/conditional 或代码级候选结果，并列出未验收路径。smoke-only 结果不能替代前端质量验收。

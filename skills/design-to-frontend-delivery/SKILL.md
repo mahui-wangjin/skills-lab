@@ -145,8 +145,11 @@ Real-browser acceptance is the primary frontend quality gate. Unit tests, compon
 
 Before final closeout:
 
-- Use the project's existing real-browser E2E, agent-browser, Playwright, Cypress, browser automation, screenshot, preview, or Storybook-in-browser workflow when available. Prefer the project's proven browser-level path over inventing a new one.
+- Use the project's existing real-browser E2E, agent-browser, Playwright, Cypress, browser automation, browser-backed screenshot/trace, preview, or Storybook-in-browser workflow when available. Prefer the project's proven browser-level path over inventing a new one.
 - If no browser harness exists, run the app in a real browser or browser automation path appropriate to the stack and perform the smallest meaningful browser acceptance path.
+- Treat AI-driven browser work as evidence collection, not a blank check for open-ended exploration. Prefer deterministic browser commands, assertions, traces, screenshots, console/network logs, and targeted interaction checks over long free-form AI browsing loops.
+- Separate the mandatory minimum browser acceptance path from high-cost AI exploratory E2E. The agent may run the minimum path without asking when it is scoped to the changed page/flow. Ask the user before broad or iterative AI E2E work that spans many routes, many viewports, repeated visual-diff/polish loops, large regression sweeps, authenticated or third-party flows, slow remote environments, or materially high time/token cost.
+- When asking about high-cost AI E2E, present a short acceptance budget: target flows, viewports, evidence to collect, expected cost/time, stopping condition, and what will remain for human review. Do not ask whether to perform the minimum real-browser quality gate.
 - Treat smoke as a fast health gate: app starts, critical routes load, basic shell renders, and fatal console or network failures surface. Smoke is not final product acceptance for frontend UI quality.
 - Use real-browser E2E, agent-browser, Playwright, Cypress, or the project's accepted browser automation path when checking layout, overlays, responsive behavior, interaction, screenshots, console errors, failed requests, fonts/assets, clipping, and workflow usability.
 - If a smoke/E2E/browser script grows beyond a small route health check or mixes runner setup, fixtures, selectors, actions, assertions, screenshots, reporting, and cleanup, apply maintainability review and split the automation code before adding more scenarios.
@@ -238,6 +241,7 @@ Must ask:
 - Deliverable surface is unclear and cannot be inferred from repository conventions or provided artifacts: `content-only`, `inside-existing-shell`, or `full-page-with-shell`.
 - A required icon, illustration, token, radius/padding/shadow/motion detail, or state variant appears in the source but cannot be located in the project/assets after a real attempt.
 - API/BFF integration scope is requested but the contract source, mutation side effects, cache policy, authorization expectation, or regression surface cannot be inferred from project code/docs.
+- Browser acceptance would require high-cost AI exploratory E2E: broad cross-route coverage, many viewports, repeated visual-diff/polish loops, large regression sweeps, authenticated or third-party flows, slow remote environments, or materially high time/token cost. Ask for the acceptance budget and stop condition before running that expanded scope.
 
 Can decide without asking:
 
@@ -249,6 +253,7 @@ Can decide without asking:
 - Target stack is not stated but current project stack is explicit: keep the current stack.
 - Existing project has an accepted shell, route frame, shared modal/toast/drawer roots, or navigation pattern and the user did not ask to replace it: reuse the existing common surfaces and implement inside that boundary.
 - A matching icon/detail/token exists in the design export, project asset system, or accepted design-system component: reuse it and do not ask to substitute.
+- Minimum browser acceptance scoped to the changed page or flow: open the route, check console/network/resource failures, exercise the primary changed interactions, and spot-check the relevant desktop and narrow/mobile viewport. This is the default quality gate, not a user-budget decision.
 
 ## Question Style Constraints
 

@@ -15,7 +15,7 @@ Continuation contract:
 - API or behavior contract source: <OpenAPI/schema/docs/code/current BFF/mock/user decision>
 - Impact surface: <routes, shared components, hooks, store/cache, API clients, tokens/assets, tests/stories>
 - Regression surface: <known consumers and flows that must not change>
-- Self-test path: <real-browser acceptance path; smoke/unit/component checks only as supporting evidence>
+- Self-test path: <real-browser acceptance path; smoke/unit/component checks only as supporting evidence; high-cost AI exploratory E2E budget/stop condition if needed>
 - Blocking question: <none or one question that changes scope/acceptance>
 ```
 
@@ -53,6 +53,8 @@ Before closeout:
 - Overlay/feedback flows still open, close, submit/cancel, recover from failure, and return to the main task.
 - Console errors, failed requests, missing assets/fonts/icons, overflow, clipping, duplicate scrollbars, and z-index regressions have been checked in the touched flow through a real browser or browser engine.
 - If full E2E is too heavy, run the smallest meaningful focused real-browser path plus targeted unit/component tests for changed logic. Smoke-only evidence is conditional and cannot prove frontend UI quality.
+- AI browser work must collect reviewable evidence: commands, assertions, traces/screenshots, console/network logs, and interaction steps. Do not use model judgment alone as the acceptance result.
+- Ask before high-cost AI exploratory E2E: broad cross-route regression, many viewports, repeated visual-diff/polish loops, authenticated or third-party flows, slow remote environments, or materially high time/token cost. Confirm scope, evidence, budget, stopping condition, and human-review items before running that expanded scope.
 - If browser debugging cannot run, remind the user before closeout that console/network/runtime/layout/screenshot evidence is missing, name the blocked tool or access path, and downgrade the result to conditional/code-level candidate.
 
 ## 5. Closeout Requirement

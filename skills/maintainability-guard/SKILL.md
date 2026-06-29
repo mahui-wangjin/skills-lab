@@ -199,6 +199,8 @@ Use smoke tests as a narrow health gate: app starts, critical routes load, basic
 
 For frontend delivery, prefer real-browser E2E, agent-browser, Playwright, Cypress, or the project's accepted browser automation path for product acceptance. Smoke can support that path, but it must not replace browser-level validation when UI behavior matters.
 
+AI-driven browser or E2E work must not become unbounded trial-and-error. Keep it evidence-oriented: explicit target flows, viewports, assertions, screenshots/traces, console/network logs, and a stopping condition. If the browser work is broad, iterative, slow, authenticated, third-party dependent, or materially high in time/token cost, confirm the acceptance budget before expanding it.
+
 Structure automation code around explicit responsibilities:
 
 - runner/bootstrap and environment setup

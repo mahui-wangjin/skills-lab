@@ -92,7 +92,7 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 该 skill 现在把“公共面与可交互性”作为演示级交付门禁：当设计稿只画内容区时，必须先确认交付表面是 `content-only`、`inside-existing-shell` 还是 `full-page-with-shell`，并优先复用现有工程的 app layout、顶部栏、侧边栏/导航、面包屑、工具栏、modal/drawer/confirm/toast roots 和 loading/empty/error 模式。所有可点击元素必须有语义控件、cursor、hover/active/focus-visible、disabled/loading、键盘/触控基础路径和弹层关闭/返回/反馈闭环；不能等用户指出“这里应该能点”后才补。
 
-该 skill 现在要求把真实浏览器验收作为前端质量主门禁：优先运行项目已有真实浏览器 E2E、agent-browser、Playwright、Cypress、browser、screenshot 或 Storybook-in-browser 流程；没有现成命令时，至少用真实浏览器自测主流程、UI 层级、公共面、主要交互、弹层、桌面/移动视口、控制台错误、失败请求和字体/资源加载。smoke 只作为启动、关键路由和基础壳层健康检查，不能替代产品体验验收。无法进行真实浏览器验收或浏览器调试时，必须提醒用户缺少 console/network/runtime/layout/screenshot 证据，说明需要的环境、工具或访问方式，并把结果降级为 conditional、self-reviewed 或代码级候选结果。
+该 skill 现在要求把真实浏览器验收作为前端质量主门禁：优先运行项目已有真实浏览器 E2E、agent-browser、Playwright、Cypress、browser automation、浏览器驱动截图/trace 或 Storybook-in-browser 流程；没有现成命令时，至少用真实浏览器自测主流程、UI 层级、公共面、主要交互、弹层、桌面/移动视口、控制台错误、失败请求和字体/资源加载。smoke 只作为启动、关键路由和基础壳层健康检查，不能替代产品体验验收。AI 浏览器验收必须以可复核证据为准，例如命令结果、断言、trace、截图、console/network 日志和明确交互步骤；跨多路由、多视口、多轮视觉 diff/精修、大范围回归、登录/第三方流程或慢速远端环境等高成本 AI 探索式 E2E，需要先向用户确认覆盖范围、时间或 token 成本、停止条件和人工复核项。无法进行真实浏览器验收或浏览器调试时，必须提醒用户缺少 console/network/runtime/layout/screenshot 证据，说明需要的环境、工具或访问方式，并把结果降级为 conditional、self-reviewed 或代码级候选结果。
 
 该 skill 还要求区分“静态 mock 阶段”和“真实 BFF/API 集成阶段”：静态设计落地或视觉精修时，mock 数据只是展示夹具，可以做成 BFF-shaped fixture 便于未来替换；前端只保留 tab、选中项、弹框开关、loading/error/empty 等轻量 UI 状态、薄展示选择器和演示级基础校验。派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化、基于业务枚举组合推导领域文案、目标去向和跨记录工作流属于 BFF/domain-owned 决策，不应在静态 mock 页面里提前实现。
 
@@ -132,7 +132,7 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 ### `maintainability-guard`
 
-用于在前端、后端、worker、脚本、测试辅助、smoke/E2E/browser automation 和验证脚本等代码继续堆功能前做可维护性守门。它不按行数洁癖强拆，也不把 800 行当作唯一触发点；每次改代码都先做轻量边界检查，再按职责分离、关注点分离、高内聚低耦合、单一抽象层级、变化轴、复用/重复压力、测试边界、依赖方向和稳定接口判断是否允许继续原地开发、需要小步拆分，或必须先做结构恢复。测试代码也是代码：runner/bootstrap、fixtures、selectors/actions、assertions、evidence capture、reporting 和 cleanup 不能长期堆在一个巨型脚本里。
+用于在前端、后端、worker、脚本、测试辅助、smoke/E2E/browser automation 和验证脚本等代码继续堆功能前做可维护性守门。它不按行数洁癖强拆，也不把 800 行当作唯一触发点；每次改代码都先做轻量边界检查，再按职责分离、关注点分离、高内聚低耦合、单一抽象层级、变化轴、复用/重复压力、测试边界、依赖方向和稳定接口判断是否允许继续原地开发、需要小步拆分，或必须先做结构恢复。测试代码也是代码：runner/bootstrap、fixtures、selectors/actions、assertions、evidence capture、reporting 和 cleanup 不能长期堆在一个巨型脚本里；AI 驱动 browser/E2E 也要有目标流程、视口、证据、停止条件和必要的验收预算确认，不能变成无边界试错。
 
 #### 推荐项目规则
 
@@ -273,7 +273,8 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `设计图里页面标题、筛选、列表卡片、弹框和装饰背景混在一起`：应先输出 UI layer map，判断哪些属于 page frame、content section、repeated item、overlay/feedback、decoration/media、data/state；不能因为视觉邻近就把页面级组件塞进卡片或把全局弹框放进列表项。
 - `设计稿只画了业务内容区，但目标是现有后台/应用工程`：应先确认交付表面并复用现有 shell、顶部栏、侧边栏/导航、面包屑、工具栏、modal/drawer/toast/confirm roots；不能把孤立内容区当作完整产品页面交付。
 - `页面看起来像设计稿，但按钮、卡片、弹框和菜单不知道哪里能点`：应进入交互 affordance 审计，补语义控件、cursor、hover/active/focus-visible、disabled/loading、关闭/返回路径、失败反馈和移动端触控基本可用性。
-- `改完页面后准备交付`：应运行真实浏览器 E2E、agent-browser、Playwright、Cypress、browser/screenshot 或 Storybook-in-browser 验收路径，或执行最小真实浏览器自测；覆盖主流程、层级、弹层、桌面/移动、控制台错误、失败请求和资源加载。smoke 只证明健康检查，不能替代产品体验验收。没跑真实浏览器验收就只能说 conditional/self-reviewed/代码级候选结果，并提醒用户缺少哪些浏览器证据。
+- `改完页面后准备交付`：应运行真实浏览器 E2E、agent-browser、Playwright、Cypress、browser automation、浏览器驱动截图/trace 或 Storybook-in-browser 验收路径，或执行最小真实浏览器自测；覆盖主流程、层级、弹层、桌面/移动、控制台错误、失败请求和资源加载。smoke 只证明健康检查，不能替代产品体验验收。没跑真实浏览器验收就只能说 conditional/self-reviewed/代码级候选结果，并提醒用户缺少哪些浏览器证据。
+- `精修阶段要不要让 AI 做完整端到端验收`：应区分最小真实浏览器验收和高成本 AI 探索式 E2E。最小验收可直接执行；跨多路由/多视口/多轮视觉 diff/大范围回归/登录或第三方流程等高成本验收，需要先给出覆盖范围、预计时间或 token 成本、停止条件和人工复核项，请用户确认后再跑。
 - `静态 mock 列表页/详情页，未来由 BFF 返回数据`：应把 mock 数据集中为展示夹具或 BFF-shaped fixture，只保留当前 tab、选中项、弹框等轻量 UI 状态、薄展示选择器和演示级基础校验；不得在前端推导派生业务指标、生命周期/状态流转、授权/资格、可执行动作裁定、集成状态归一化或 API 状态机。
 - `设计页已经落地了，现在接真实 API`：应进入 `frontend-continuation`，先确认 API/BFF 契约来源、loading/empty/error、mutation 副作用、cache invalidation、鉴权假设和回归面，再实现；不得把展示组件改成领域状态机。
 - `修这个页面的 bug，但不能影响其他页面`：应先列出影响面和回归面，识别共享组件、token、hook、API client、store/cache、路由和 overlay roots 的其他消费者；改完运行聚焦测试和真实浏览器回归路径。若无法浏览器调试，必须提醒用户缺少 console/network/runtime/layout/screenshot 证据，不能只靠代码阅读或 smoke 说已修复。
