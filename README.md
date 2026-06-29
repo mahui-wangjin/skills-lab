@@ -86,6 +86,8 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 该 skill 现在进一步要求“图标与细节事实源锁定”：远端设计源、导出包、组件映射或项目资产中已经存在的图标、SVG、插画、logo 和装饰形状必须复用，不能手写一个相似图标、随便换另一套 icon library，或用截图裁切冒充资产。hover、active、pressed、focus-visible、selected、disabled、loading、error、success 等状态，以及 border、padding、radius、shadow、outline、opacity、transition/easing、hit area 和 cursor，都必须来自设计源、项目 token、组件 variant 或已记录的 fallback；找不到时要反馈对齐，不能静默自造。
 
+该 skill 现在增加“可见元素清单与浏览器对账”门禁：Figma、设计平台、高保真还原或反复精修任务在编码/最终精修前，必须先列出非平凡可见元素并建立 source -> implementation 映射。清单覆盖图标、按钮、链接、tabs、chips、badges、进度条、列表/表格行、分割线、边框容器、关键文案/数字/状态标签、hover/focus/disabled/loading 等状态 variants，以及重复组数量和代表性变体。最终必须在真实浏览器按清单对账，漏图标、漏按钮、漏边线/分割线、数量不一致、资源 404、文本溢出、遮挡或未批准 fallback 都是验收缺陷；无法浏览器对账时只能标为 conditional/self-reviewed 或代码级候选结果。
+
 该 skill 还要求默认具备工程目录思维：设计落地前先识别目标框架和当前工程的路由、页面、feature/module、components、mock/fixtures、selectors/formatters、styles/tokens、assets、tests/stories 约定。页面入口只做接入和编排，组件、mock 数据、展示选择器、样式、资源和测试按职责归位；不得把整页实现、mock、状态、样式和测试堆到一个文件夹或一个大文件。若当前仓库没有约定，才按对应框架的官方或事实标准选择最小目录结构并记录原因。
 
 该 skill 现在要求先做 UI 层级归属判断：不能只看视觉上挨得近就把组件放在一起。设计或现有页面要先映射为 app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 这些 owner 层，并说明状态、portal/root、z-index/stacking、overflow clipping 和复用范围。页面标题、面包屑、页签、筛选和页面操作不能误放到卡片或列表项里；全局弹框/toast/drawer 不应在 feature card 内部自建；装饰层不能遮挡交互层。
@@ -269,6 +271,7 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `怎么调都不像，后来发现本机没有设计字体`：应立即进入字体/资源门禁，确认设计所需字体 family、字重、样式和版本是否作为项目资源、批准 provider 或系统 fallback 可加载；缺失时先补字体文件/授权来源或记录 fallback，不继续盲目微调。
 - `远端设计里明明有图标，但实现里自己画了一个`：应判定为图标事实源错误，回到结构化源、导出 assets、项目图标库或组件映射中找 exact icon；找不到时反馈缺失并等待资产或批准 fallback，不得静默自绘或换相似图标。
 - `hover 效果、边框、内边距、圆角和阴影看起来不像设计`：应检查 design tokens、生成 CSS、组件 variant 和已接受项目范式，确认 border/padding/radius/shadow/motion/state variants 的来源；缺失时记录 fallback/conditional，不用个人审美随便调。
+- `Figma 页面高保真还原总漏图标、按钮、边线或状态标签`：应先建立可见元素清单，按 source -> implementation 映射图标、按钮、tabs、chips、progress、列表/表格行、分割线、边框容器、关键文案/数字/状态 variants，再在真实浏览器逐项对账；没有清单或没有浏览器对账时不能声称高保真完成。
 - `按设计稿做一个 React/Vue 页面`：应先识别当前工程路由、feature、components、fixtures、styles/assets 和测试约定；页面入口、组件、mock 数据、展示选择器、样式和测试按职责归位，不得全部堆进一个页面文件或随机新建的 mock/components 文件夹。
 - `设计图里页面标题、筛选、列表卡片、弹框和装饰背景混在一起`：应先输出 UI layer map，判断哪些属于 page frame、content section、repeated item、overlay/feedback、decoration/media、data/state；不能因为视觉邻近就把页面级组件塞进卡片或把全局弹框放进列表项。
 - `设计稿只画了业务内容区，但目标是现有后台/应用工程`：应先确认交付表面并复用现有 shell、顶部栏、侧边栏/导航、面包屑、工具栏、modal/drawer/toast/confirm roots；不能把孤立内容区当作完整产品页面交付。

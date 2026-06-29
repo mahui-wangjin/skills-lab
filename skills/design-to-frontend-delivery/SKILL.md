@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering frontend from design artifacts, polishing an existing frontend project, or continuing after design delivery with API/BFF wiring, functional changes, bug fixes, regression fixes, interactions, validation, states, modals, animation, or acceptance quality. Use when fidelity depends on Figma/Dev Mode/MCP/Code Connect source context, source-of-truth choice, structured design/platform context, accepted shell/common surfaces, exact icons/assets/tokens, UI layer ownership, framework/project structure, mock/BFF/API separation, clickable affordances, real-browser acceptance as the primary frontend quality gate, smoke-only limitations, maintainable smoke/E2E/browser automation, or presentation-ready React/Vue/static HTML/mini-program output.
+description: Use when delivering frontend from design artifacts, polishing an existing frontend project, or continuing after design delivery with API/BFF wiring, functional changes, bug fixes, regression fixes, interactions, validation, states, modals, animation, or acceptance quality. Use when fidelity depends on Figma/Dev Mode/MCP/Code Connect source context, source-of-truth choice, structured design/platform context, accepted shell/common surfaces, exact icons/assets/tokens, visible-element inventories, missing icons/buttons/dividers/borders/states, UI layer ownership, framework/project structure, mock/BFF/API separation, clickable affordances, real-browser acceptance as the primary frontend quality gate, smoke-only limitations, maintainable smoke/E2E/browser automation, or presentation-ready React/Vue/static HTML/mini-program output.
 ---
 
 # Design to Frontend Delivery
@@ -61,6 +61,28 @@ Before implementing or polishing visible UI details:
 - When the design source and project design system conflict on a detail that affects recognizable identity or interaction behavior, ask which source wins. Do not merge them into a new visual language.
 
 Fabricated details are delivery defects. Examples include replacing a provided remote icon with a manually drawn SVG, using a generic icon from another library without approval, inventing hover colors, rounding sharp corners because it "looks modern", removing rounded corners because a component default is square, changing padding/radius/shadow to fit guessed taste, or using screenshots of icons instead of proper vector/component assets.
+
+## Fidelity Inventory and Reconciliation Contract
+
+For Figma, design-platform, high-fidelity, or repeated visual-polish work, build a compact visible-element inventory before coding or final polish. The inventory is not a coordinate-copy plan; it is the contract for what must exist, where it comes from, how it is implemented, and how it will be checked.
+
+The inventory must cover the non-trivial visible elements in scope:
+
+- App shell, page frame, content sections, repeated items, local controls, overlays/feedback, decoration/media, and data/state surfaces.
+- Icons, illustrations, logos, avatars, bitmaps, SVGs, media, decorative shapes, and asset-backed backgrounds.
+- Buttons, links, tabs, chips, badges, progress indicators, table/list rows, dividers, border containers, cards/panels, form controls, menus, and toolbars.
+- Key text, labels, numbers, status copy, empty/error/loading/success messages, and state-dependent variants.
+- Borders, dividers, radius, shadow, padding, gap, opacity, colors, cursor, hover, focus, disabled, loading, selected, error, and success details.
+
+For each non-trivial item or repeated group, map:
+
+- Source: Figma node/component/asset/token, Dev Mode/MCP field, Code Connect mapping, generated CSS, exported asset, accepted project component, or screenshot-only fallback.
+- Implementation: code component/file, project token, asset path, icon import, fixture/state owner, or browser-rendered selector.
+- Status: exact reuse, project component/token mapping, approved fallback, missing/blocked, or intentionally out of scope.
+
+Keep this inventory compact. Summarize repeated rows/cards/items by group count and representative variants instead of listing every duplicate child. Do not let the inventory become a pixel checklist, but do not skip recognizable elements such as icons, buttons, dividers, borders, tabs, progress bars, status pills, or visible action entries.
+
+No final high-fidelity claim may stand without inventory reconciliation. In Gate 3, use the running browser to compare the implementation against the inventory: missing icons/buttons/borders/dividers/states, wrong item counts, hidden or inert controls, substituted assets, resource 404s, text overflow, overlap, clipping, and incorrect state variants are defects. If browser reconciliation cannot run, mark the result self-reviewed/conditional or code-level candidate and list the unverified inventory items.
 
 ## Project Structure Contract
 
@@ -217,15 +239,16 @@ Canonical gate checks and closeout outputs are defined in [delivery-checklists.m
 - Record the minimum execution contract: what will be built, what will be reused, primary interactions/states, minimum closure level, non-goals, and the single blocking question if one remains.
 - Record the project/framework structure convention that will own new route entries, feature files, components, fixtures, styles, assets, and tests.
 - Record typography, asset, and detail facts: required font families/weights, exact icon/image/media sources, design tokens, border/padding/radius/shadow/motion/state details, availability, license/provenance status when known, and fallback decision if any asset/detail is missing.
+- Record the visible-element fidelity inventory: key icons/assets, buttons/actions, dividers/borders, repeated groups, status elements, state variants, and their intended source-to-implementation mapping.
 - For design-platform inputs, record whether structured source was attempted and what result it returned before using screenshots/images as a baseline.
 
 2. Gate 2 (mode-aware middle gate)
-- `convert-and-polish`: structure mapping, UI layer ownership pass, common-surface pass, shell-boundary pass, and interaction-affordance pass before polish.
-- `polish-existing-project`: current-state audit, UI layer ownership audit, common-surface audit, interaction-affordance audit, plus scope-gap closure decision before implementation continues.
+- `convert-and-polish`: structure mapping, UI layer ownership pass, common-surface pass, shell-boundary pass, visible-element implementation mapping, and interaction-affordance pass before polish.
+- `polish-existing-project`: current-state audit, UI layer ownership audit, common-surface audit, visible-element inventory gap audit, interaction-affordance audit, plus scope-gap closure decision before implementation continues.
 - `frontend-continuation`: accepted baseline, impact surface, API/feature/bugfix contract, affected consumers, regression plan, and non-regression boundary before implementation continues.
 
 3. Gate 3 (acceptance and closeout gate)
-- Verify demo-ready polish quality or continuation-change safety with E2E/self-test evidence, including actual browser-loaded fonts/assets, exact icons/details, layer ownership, public surfaces, usable interactive affordances, and affected-regression coverage. Produce final acceptance, risk, documentation update record, and next-step decision.
+- Verify demo-ready polish quality or continuation-change safety with E2E/self-test evidence, including actual browser-loaded fonts/assets, visible-element inventory reconciliation, exact icons/details, layer ownership, public surfaces, usable interactive affordances, and affected-regression coverage. Produce final acceptance, risk, documentation update record, and next-step decision.
 
 ## Must Ask vs Can Decide
 

@@ -12,6 +12,7 @@
 - 绝对定位审计：主布局区域、重复卡片/行、响应式列、表单、仪表盘或内容流是否由 `position:absolute`、`left/top`、固定像素坐标或截图叠层驱动；若存在，判断是合理例外还是需要结构修复
 - 字体与资源健康度：关键字体 family/weight/style 是否真实加载，图片/图标/媒体是否来自项目资源或批准来源，是否存在 404、placeholder、缺失字重、截图替代 UI 或仅依赖本机字体
 - 图标与细节 token 健康度：图标是否复用项目图标系统/导出 SVG/组件映射，边框、内边距、圆角、阴影、hover/active/focus/disabled/loading/error/success 和动效是否来自项目 token/组件 variant，而不是手写自造
+- 可见元素差距：当前实现相对设计/accepted baseline 是否漏掉图标、按钮、链接、tabs、chips、badges、进度条、列表/表格行、分割线、边框容器、关键文案/数字/状态标签或状态 variants
 - mock/API 边界：当前数据是静态 fixture、BFF-shaped mock、已接 API，还是混杂不清；业务裁定是否被写进页面/组件
 - 已有壳层约束：Header/Footer/Layout/Router 是否必须保留
 - 公共面健康度：app layout、顶部栏、侧边栏/导航、面包屑、页签、页面工具栏、全局 modal/drawer/confirm/toast roots、loading/empty/error 模式是否复用现有项目范式
@@ -30,6 +31,7 @@ Minimum polish contract:
 - UI layer map: <owners and boundary risks for shell / page frame / content / repeated items / local controls / overlays / decoration / data-state>
 - Common surfaces: <reuse / repair / out of scope>
 - Asset/detail source: <icons, tokens, borders, padding, radii, shadows, motion and state variants source>
+- Fidelity inventory gap: <missing or mismapped icons/buttons/tabs/chips/progress/list rows/borders/dividers/status details>
 - Interaction gaps: <click targets, overlays, forms, navigation, feedback states>
 - Browser acceptance path: <existing real-browser command/harness or minimum real-browser acceptance path; smoke only as health check; high-cost AI exploratory E2E budget/stop condition if needed>
 - Minimum closure: <smallest set that makes the named scope demo-ready>
@@ -65,6 +67,7 @@ Minimum polish contract:
 - 若存在坐标式布局，说明它对响应式、内容伸缩、可维护性和后续高保真精修的影响
 - 若存在字体或资源缺失，说明继续视觉微调会产生什么误判：文本宽度、换行、层级、密度、图标大小、图片裁切或截图对比都可能在真实资源补齐后改变
 - 若存在图标或细节 token 缺失，说明哪些远端/项目已有图标被替换、自绘或截图化，哪些 hover、边框、padding、圆角、阴影、动效和状态样式脱离了设计源或项目范式
+- 若存在可见元素清单差距，说明哪些图标、按钮、tabs、chips、badges、进度条、列表/表格行、分割线、边框容器、关键文案/数字/状态标签、状态 variants 被遗漏、数量不一致、不可见或映射到错误组件/资源
 - 若存在 mock/API 混杂，说明哪些逻辑应退回 fixture/BFF 返回字段，哪些轻量 UI 状态可以留在前端
 - 若设计或现状只覆盖内容区，说明是否需要接入现有 shell、导航、面包屑、页面工具栏、modal/drawer/toast/confirm roots，或把它们明确列为本轮非目标
 - 若交互看得见但不好用，说明哪些点击对象缺少语义、cursor、hover/active/focus、disabled/loading、关闭/返回路径、移动端触控或反馈态
@@ -104,6 +107,7 @@ Minimum polish contract:
 实施后必须以真实浏览器验收作为主自测路径。优先运行项目已有 E2E、agent-browser、Playwright、Cypress、browser automation、浏览器驱动截图/trace 或 Storybook-in-browser 流程；smoke 只作为健康检查。AI 浏览器验收应以可复核证据为准：断言结果、trace、截图、console/network 日志和明确交互步骤，不以“模型觉得可以”作为结论。没有现成路径时，执行最小真实浏览器自测：
 
 - 打开被精修页面和关键入口。
+- 按可见元素差距清单对账，确认已修复的图标、按钮、tabs、chips、badges、进度条、列表/表格行、分割线、边框容器、状态标签和关键文案真实出现在浏览器中，且数量、可见性、资源加载和交互状态与设计/accepted baseline 对齐。
 - 验证 UI layer ownership：shell、page frame、content、repeated item、local control、overlay/feedback、decoration/media、data/state 没有明显错层。
 - 覆盖点名范围和最小闭环中的主操作、弹层开合、提交/取消、返回路径、禁用/加载/失败反馈。
 - 验证图标和细节状态：远端/项目已有图标未被替换或手绘，hover/active/focus-visible/disabled/loading、border/padding/radius/shadow/motion 与设计源或项目组件范式一致。

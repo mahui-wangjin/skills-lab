@@ -26,6 +26,35 @@ Typography and asset inventory:
 
 Use the strongest available source: design-platform inspect data, Dev Mode/MCP, generated code, exported HTML/CSS, token JSON, component mapping, or accepted implementation. Screenshots are only visual evidence unless no stronger source exists.
 
+## Visible-Element Fidelity Inventory
+
+For Figma, design-platform, high-fidelity, or repeated polish work, add a compact visible-element inventory. This is the anti-omission gate for common failures such as missing icons, missing buttons, removed dividers, absent borders, wrong status pills, incomplete tabs, and hidden actions.
+
+Use this shape:
+
+```md
+Visible-element fidelity inventory:
+- Shell/page frame: <header/sidebar/breadcrumb/title/tabs/toolbar/user area; source -> implementation/status>
+- Content sections: <section names, cards/panels, progress areas, lists/tables; source -> implementation/status>
+- Repeated groups: <group name + expected count + representative variants/states; source -> implementation/status>
+- Controls/actions: <buttons, links, tabs, chips, menus, form controls, row actions; source -> implementation/status>
+- Assets/icons/media: <icon/logo/avatar/illustration/SVG/bitmap/media/decorative shape; source -> implementation/status>
+- Lines/containers/details: <dividers, borders, radius, shadows, padding/gap, opacity, colors; source -> implementation/status>
+- State variants: <hover/focus/disabled/loading/selected/error/success/empty; source -> implementation/status>
+- Text/numbers/status copy: <critical labels, counts, headings, badges, state copy; source -> implementation/status>
+- Missing/blocked/fallback: <item + attempted sources + user/project decision>
+```
+
+Status values should be explicit: `exact reuse`, `project component/token`, `approved fallback`, `missing/blocked`, or `out of scope`.
+
+Rules:
+
+- Inventory only non-trivial visible elements and repeated groups. Do not list every duplicate child in a long table, but do record the group count and important variants.
+- Treat generated React/Tailwind or MCP reference code as a source to inspect, not as proof the final implementation contains every element.
+- Do not turn the inventory into absolute-position instructions. It answers "what must be present and checked", not "copy these x/y coordinates".
+- Do not silently drop visual lines. Borders, dividers, progress tracks, separator rules, container outlines, and disabled-state outlines are visible product details.
+- When an item cannot be implemented from an exact source, record the fallback or blocked state before continuing.
+
 ## Font Loading Rules
 
 1. Match the actual design font family, weight/style, line-height, letter spacing, and variable axes when available.
@@ -68,6 +97,7 @@ Before Gate 3, validate in the running target:
 5. Inspect rendered icons and state variants, not only static layout. Confirm clickable controls show the intended cursor/hover/focus/disabled/loading details where practical.
 6. Capture desktop and mobile screenshots only after fonts and assets have loaded. Note that screenshot baselines are environment-sensitive; compare in a stable OS/browser setup.
 7. Inspect console and network errors. Broken fonts/assets make the fidelity result conditional at best.
+8. Reconcile the visible-element inventory in the browser. Check that expected buttons, icons, tabs, chips, badges, progress indicators, dividers, borders, repeated rows/cards, status labels, and state variants are present, visible, non-overlapping, and not replaced by unapproved placeholders.
 
 ## Failure Responses
 
@@ -86,6 +116,7 @@ A high-fidelity delivery closeout must state:
 
 - whether required fonts/assets are bundled, provided by an approved provider, inherited from the existing project, or missing;
 - whether required icons/details/tokens were reused, mapped, or marked fallback/conditional;
+- whether the visible-element inventory was reconciled in the browser, including any missing buttons/icons/dividers/borders/states or count mismatches;
 - whether browser verification confirmed actual font loading, asset requests, rendered icon identity, and key state details;
 - any fallback typography/media/icon/detail decisions and their visual risk;
 - whether screenshot/visual comparison happened after fonts were ready.

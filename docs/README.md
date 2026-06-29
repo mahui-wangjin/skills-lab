@@ -5,6 +5,7 @@
 - 项目级规则文件：`../AGENTS.md`
 - Memory MCP 项目标识：`skills-lab`
 - 设计规格文档目录：`./superpowers/specs/`
+- 当前新增设计文档：`./superpowers/specs/2026-06-29-design-to-frontend-fidelity-inventory.md`（将 design-to-frontend-delivery 的高保真可见元素清单固化为门禁：Figma/设计平台/高保真/反复精修任务在编码或最终精修前先建立 compact visible-element inventory，覆盖图标、按钮、tabs、chips、progress、列表/表格行、分割线、边框容器、关键文案/数字/状态 variants，并建立 source -> implementation 映射；Gate 3 必须在真实浏览器按清单对账，无法浏览器对账时只能降级为 conditional/self-reviewed 或代码级候选结果）
 - 当前新增设计文档：`./superpowers/specs/2026-06-29-design-to-frontend-browser-acceptance-and-test-automation.md`（将前端交付验收收紧为真实浏览器优先：smoke 只作健康检查，单元/组件/typecheck 只作补充证据；AI 浏览器验收以命令、断言、trace、截图和 console/network 日志等可复核证据为准，高成本 AI 探索式 E2E 先确认覆盖范围、时间或 token 成本、停止条件和人工复核项；无法进行真实浏览器验收或浏览器调试时必须提醒用户缺少 console/network/runtime/layout/screenshot 证据并降级结论；同时将 smoke/E2E/browser automation 脚本纳入 maintainability-guard，防止测试代码堆成巨型脚本）
 - 当前新增设计文档：`./superpowers/specs/2026-06-28-design-to-frontend-detail-and-continuation.md`（将 design-to-frontend-delivery 的图标/细节事实源和后续前端开发门禁固化：远端或项目已有图标、SVG、tokens、border/padding/radius/shadow/motion/state variants 必须复用或明确 fallback，不能静默自造；API/BFF 对接、功能修改和 bugfix 进入 frontend-continuation，先确认 accepted baseline、契约来源、影响面、回归面和共享消费者，避免误伤其他页面）
 - 当前新增设计文档：`./superpowers/specs/2026-06-28-design-to-frontend-layer-ownership-e2e.md`（将 design-to-frontend-delivery 的 UI 层级归属和 E2E 自测固化为交付门禁：设计或现有页面必须映射 app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 的 owner、状态和 stacking/portal/overflow 边界；其中自测优先级已由 2026-06-29 浏览器验收文档进一步收紧）
