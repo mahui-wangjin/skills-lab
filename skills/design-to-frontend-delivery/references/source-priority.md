@@ -13,6 +13,8 @@ This is platform-agnostic. Examples include Figma Dev Mode / MCP `get_design_con
 
 Screenshots, downloaded renders, and exported images are visual validation or asset evidence. They are not a substitute for available structured source.
 
+For Figma, use the narrowest structured target first: the URL's node, the user's current selection, or the component/frame being implemented. Do not fetch, download, screenshot, or rasterize the entire file/page/canvas as the default first step. Whole-file/page/canvas imagery is allowed only when the user explicitly asks for an overview image or when structured node access fails after a real attempt. After structured context has been read, visual validation or bitmap extraction should use the target node, local selection, node-level screenshot, or exported node asset instead of whole-canvas imagery.
+
 ## Evidence Ladder
 
 Default from strongest to weakest:
@@ -43,11 +45,14 @@ If yes, attempt the structured path first and record the result in Gate 1:
 ```md
 Structured source check:
 - Source attempted: <platform/tool/artifact>
+- Target scope: <node/selection/frame/export/package; not whole file unless explicitly justified>
 - Result: <available / unavailable / inaccessible / conflicting>
 - Baseline decision: <structured source / accepted implementation / visual-only downgrade>
 ```
 
 Do not skip this check because a screenshot is easier to access.
+
+For Figma/MCP flows, a valid first attempt is node-level design context, Dev Mode-like inspect data, Code Connect/component mapping, variables/tokens, generated reference code, or exported node assets. A full-file image download, full-page screenshot, or whole-canvas raster export is not a valid structured-source attempt.
 
 ## No Raster Downgrade Rule
 
@@ -126,6 +131,7 @@ Allowed only when required by target stack or build system:
 - Ignoring accepted project shell, navigation, overlay, or feedback systems because a design screenshot omitted them
 - Treating a design-platform URL as screenshot-only when Dev Mode-like metadata, MCP context, generated code, token data, or component mapping is available
 - Downloading rendered images as the primary implementation baseline when a structured source can be read
+- Fetching or rasterizing an entire Figma file/page/canvas before attempting the target node's Dev Mode/MCP/code context
 - Treating "1:1" or "pixel-perfect" as a literal pixel-parity promise, or as permission to copy design-canvas coordinates with many `position: absolute`, `left/top`, fixed pixel coordinates, or screenshot overlays for ordinary page layout.
 
 ## Only-Visual Fallback

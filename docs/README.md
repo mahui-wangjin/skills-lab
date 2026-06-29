@@ -16,7 +16,7 @@
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-document-routing.md`（将 production-delivery-manager 的文档归属门禁固化：正式 docs 只写长期事实，最终交付只写成果/关键改动/验证/风险/下一步，临时过程记录不得污染原有文档）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-layout-fidelity.md`（将 design-to-frontend-delivery 的“1:1/高保真”口径收口为专业布局保真：追求高保真视觉关系，不承诺像素级 100%，普通布局优先 Flex/Grid/flow，禁止用大量绝对定位复刻坐标）
 - 当前新增设计文档：`./superpowers/specs/2026-06-27-maintainability-guard-boundary-check.md`（将 maintainability-guard 从“800 行触发”强化为“轻量边界检查始终执行，可复用/重复/测试边界/依赖方向触发完整 Gate”）
-- 当前新增设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-structured-source-first.md`（将 design-to-frontend-delivery 优化为平台无关的结构化源优先，设计平台/MCP/Dev Mode/组件映射/参考代码可用时不得降级为按截图复刻）
+- 已更新设计文档：`./superpowers/specs/2026-06-27-design-to-frontend-structured-source-first.md`（将 design-to-frontend-delivery 优化为平台无关的结构化源优先，设计平台/MCP/Dev Mode/组件映射/参考代码可用时不得降级为按截图复刻；2026-06-29 追加 Figma 节点级规则：优先读取目标 node/selection/frame 的 Dev Mode/MCP/Code Connect 上下文，不默认下载或渲染整张设计文件、整页 canvas 或整图截图）
 - 上一轮设计文档：`./superpowers/specs/2026-06-27-production-delivery-manager-result-first-reporting.md`（将 production-delivery-manager 的 HTML 报告优化为结果优先验收面，实施中只维护 evidence notes，最终一次性生成或补齐报告）
 - 上一轮设计文档：`./superpowers/specs/2026-06-16-production-delivery-manager-human-validation-report.md`（补充 Human Validation Packet、HTML 交付报告、证据等级、截图限制、CI/workflow 证据和 `.production-delivery-reports/` 默认目录）
 - 上一轮设计文档：`./superpowers/specs/2026-05-29-production-delivery-manager-delegation-quality-gate.md`（补充复杂/生产级任务的 Delegation Quality Gate、独立专家视角和不委派钢人反审规则）

@@ -22,8 +22,9 @@
 - 模式已锁定（`convert-and-polish`、`polish-existing-project` 或 `frontend-continuation`）
 - 目标端明确（或沿用既有工程栈）
 - 设计基线与事实源明确
-- 若输入来自设计平台、插件/MCP、导出包或生成代码，已执行结构化源检查：结构/样式属性、tokens、组件映射、参考代码、导出 HTML/CSS 是否可用
+- 若输入来自设计平台、插件/MCP、导出包或生成代码，已执行结构化源检查：结构/样式属性、tokens、组件映射、参考代码、导出 HTML/CSS 是否可用；Figma 场景已优先尝试目标 node/selection/frame 的 Dev Mode/MCP/Code Connect 上下文
 - 已确认未把可读结构化源降级为截图、下载图或纯视觉猜测
+- 已确认没有把整张 Figma 文件/页面/canvas 图片下载或渲染作为默认第一步；如使用整图，已记录用户明确要求或结构化源不可访问的原因
 - 已确认“1:1 / pixel-perfect / 像设计稿”只表示高保真视觉关系目标，不表示像素级 100% 承诺，也不表示按设计稿坐标绝对定位复刻
 - 已确认 UI layer map：app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 的 owner、边界、状态归属和 stacking/clipping 风险明确
 - 已确认交付表面：`content-only`、`inside-existing-shell` 或 `full-page-with-shell`

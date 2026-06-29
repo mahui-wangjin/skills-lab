@@ -7,7 +7,7 @@
 - 当前模式已锁定为 `convert-and-polish`
 - 目标端（React / Vue / 静态 HTML-H5 / 小程序 / 同类前端）
 - 基线工件及其标识（例如导出 HTML 包、设计工具代码快照、参考提交号或版本标签）
-- 结构化源检查结果（例如平台 Dev Mode/MCP 上下文、设计工具生成代码、导出 HTML/CSS、tokens、组件映射、参考代码是否可用）
+- 结构化源检查结果（例如平台 Dev Mode/MCP 上下文、设计工具生成代码、导出 HTML/CSS、tokens、组件映射、参考代码是否可用；Figma 必须优先尝试目标 node/selection/frame，不默认下载整张设计图或整页 canvas）
 - 结构事实源（默认 HTML/设计工具代码）
 - 工程目录约定：路由/页面入口、feature/module、components、mock/fixtures、styles/tokens、assets、tests/stories 的现有归属
 - UI 层级归属：app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 的 owner 和边界
@@ -19,7 +19,7 @@
 - 复刻范围与非目标项
 - 是否保留宿主壳层（Header/Footer/Layout/Router）
 
-若输入来自设计平台链接、插件、MCP、设计导出或生成代码，必须先按 `source-priority` 执行 Structured Source Gate。能获得结构、样式属性、tokens、组件映射、参考代码或导出 HTML/CSS 时，不得降级为按截图复刻。
+若输入来自设计平台链接、插件、MCP、设计导出或生成代码，必须先按 `source-priority` 执行 Structured Source Gate。能获得结构、样式属性、tokens、组件映射、参考代码或导出 HTML/CSS 时，不得降级为按截图复刻。Figma 场景优先读取目标节点/当前选择的 Dev Mode/MCP 结构化上下文；整张文件/页面/canvas 图片只能在用户明确要总览图，或节点级结构源真实不可访问并已记录原因后降级使用。结构源已读取后的视觉核对或位图资产提取，应优先使用目标节点、局部选择、节点级截图或节点导出资产，不下载整图。
 
 若结构化源不可用且只剩视觉稿，先走 `source-priority` 的仅视觉降级确认，不直接开工。
 

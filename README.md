@@ -78,7 +78,7 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 覆盖从设计输入解析、基线选择、工程转换到还原验收与精修交付的完整前端设计落地流程。
 
-该 skill 现在采用“结构化源优先”原则：当 Figma、Stitch、Framer、Webflow 或其他设计/原型平台能够提供 Dev Mode 类属性、MCP design context、Code Connect/组件映射、tokens、样式变量、生成代码、导出 HTML/CSS 或参考实现时，必须先读取这些强事实源。截图、下载图和静态渲染图只能用于视觉验收、差异检查或位图资产提取，不能在强事实源可用时降级为按图复刻。
+该 skill 现在采用“结构化源优先”原则：当 Figma、Stitch、Framer、Webflow 或其他设计/原型平台能够提供 Dev Mode 类属性、MCP design context、Code Connect/组件映射、tokens、样式变量、生成代码、导出 HTML/CSS 或参考实现时，必须先读取这些强事实源。Figma 场景优先读取目标 node/selection/frame 的 Dev Mode/MCP/Code Connect 上下文，不默认下载或渲染整张设计文件、整页 canvas 或整图截图。截图、下载图和静态渲染图只能用于视觉验收、差异检查或位图资产提取，不能在强事实源可用时降级为按图复刻。
 
 该 skill 同时采用“专业布局保真”原则：用户说“1:1”“pixel-perfect”“像设计稿”时，应理解为高保真视觉关系目标，而不是像素级 100% 承诺，也不是按设计稿 `x/y` 坐标复刻。响应式、多浏览器、多系统字体渲染和动态内容前提下，像素级完全一致是伪命题；验收应看间距、对齐、字体层级、颜色、层次与密度、状态和断点行为是否接近设计意图。普通页面的主布局区域、重复卡片/行、响应式列、表单、仪表盘和内容流必须优先使用语义结构、组件化、设计 tokens、Flexbox、CSS Grid、正常文档流和响应式约束；`position:absolute`、`left/top`、固定像素坐标只能用于浮层、badge、装饰叠层、canvas/diagram 或稳定容器内的小型锚定元素，并需要记录例外原因和响应式风险。
 
@@ -264,7 +264,7 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 ### Manual Smoke Checks
 
 - `设计稿 + 导出 HTML -> React`：应进入 `convert-and-polish`。
-- `Figma/其他设计平台链接 + 已安装插件或 MCP`：应先读取平台可提供的结构、样式、tokens、组件映射或 reference code；能拿到结构化源时不得下载图当主基线。
+- `Figma/其他设计平台链接 + 已安装插件或 MCP`：应先读取平台可提供的结构、样式、tokens、组件映射或 reference code。Figma 要优先用目标 node/selection/frame 的 Dev Mode/MCP/Code Connect 上下文；不得把下载整张设计图、整页 canvas 截图或全文件 raster 当作第一步或主基线。
 - `请 1:1 还原这个设计稿`：应理解为高保真视觉关系目标，不承诺像素级 100%；优先用 Flex/Grid/flow、tokens 和响应式约束实现间距、对齐、字体、颜色和状态，不得用大量 absolute/left/top 坐标复刻普通页面布局。
 - `怎么调都不像，后来发现本机没有设计字体`：应立即进入字体/资源门禁，确认设计所需字体 family、字重、样式和版本是否作为项目资源、批准 provider 或系统 fallback 可加载；缺失时先补字体文件/授权来源或记录 fallback，不继续盲目微调。
 - `远端设计里明明有图标，但实现里自己画了一个`：应判定为图标事实源错误，回到结构化源、导出 assets、项目图标库或组件映射中找 exact icon；找不到时反馈缺失并等待资产或批准 fallback，不得静默自绘或换相似图标。

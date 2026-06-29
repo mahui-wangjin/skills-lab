@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use when delivering frontend from design artifacts, polishing an existing frontend project, or continuing after design delivery with API/BFF wiring, functional changes, bug fixes, regression fixes, interactions, validation, states, modals, animation, or acceptance quality. Use when fidelity depends on source-of-truth choice, structured design/platform context, accepted shell/common surfaces, exact icons/assets/tokens, UI layer ownership, framework/project structure, mock/BFF/API separation, clickable affordances, real-browser acceptance as the primary frontend quality gate, smoke-only limitations, maintainable smoke/E2E/browser automation, or presentation-ready React/Vue/static HTML/mini-program output.
+description: Use when delivering frontend from design artifacts, polishing an existing frontend project, or continuing after design delivery with API/BFF wiring, functional changes, bug fixes, regression fixes, interactions, validation, states, modals, animation, or acceptance quality. Use when fidelity depends on Figma/Dev Mode/MCP/Code Connect source context, source-of-truth choice, structured design/platform context, accepted shell/common surfaces, exact icons/assets/tokens, UI layer ownership, framework/project structure, mock/BFF/API separation, clickable affordances, real-browser acceptance as the primary frontend quality gate, smoke-only limitations, maintainable smoke/E2E/browser automation, or presentation-ready React/Vue/static HTML/mini-program output.
 ---
 
 # Design to Frontend Delivery
@@ -12,7 +12,7 @@ One run must produce one target frontend result. Do not produce multiple target 
 Route by [mode-routing.md](./references/mode-routing.md):
 
 - Auto enter `convert-and-polish` when design artifacts are the main input (design + exported HTML, or design-tool generated code) and the task is to deliver a target frontend implementation.
-- Treat design-platform URLs or connected plugins/MCPs that can expose structure, styles, tokens, component mappings, or reference code as design-tool context, not as image-only inputs.
+- Treat design-platform URLs or connected plugins/MCPs that can expose structure, styles, tokens, component mappings, or reference code as design-tool context, not as image-only inputs. For Figma specifically, prefer Dev Mode / MCP design context for the specific node or selection; do not download or render the whole design file/canvas as a default first step.
 - Auto enter `polish-existing-project` when an accepted existing frontend project is the main baseline and the task is to keep polishing visual fidelity, interactions, validation, states, modals, animation, or acceptance quality.
 - Auto enter `frontend-continuation` when an accepted frontend implementation already exists and the task is follow-up API/BFF wiring, functional changes, bug fixes, regression fixes, or incremental feature work that must preserve unrelated pages and accepted design behavior.
 - If both existing project and new design/HTML are present but intent is unclear, stop and ask which path is primary before implementation.
@@ -193,7 +193,7 @@ Before changing an accepted frontend implementation:
 
 Reference loading is required, not optional:
 
-- When the input is a design-platform URL, connected plugin/MCP, design export, generated code, Dev Mode context, Code Connect/component mapping, or any artifact that may contain structure/style metadata, you must read [source-priority.md](./references/source-priority.md) before deciding whether the task is visual-only.
+- When the input is a design-platform URL, connected plugin/MCP, design export, generated code, Dev Mode context, Code Connect/component mapping, or any artifact that may contain structure/style metadata, you must read [source-priority.md](./references/source-priority.md) before deciding whether the task is visual-only. For Figma URLs, parse or use the file/node context and attempt node-level Dev Mode/MCP structured data first; whole-file screenshots or full-canvas downloads are not a valid first source attempt.
 - When there are multiple fact sources, source conflicts, or visual-only inputs, you must read [source-priority.md](./references/source-priority.md) before implementation decisions.
 - When the task involves high-fidelity visual match, typography, icons, images, media, design tokens, browser screenshots, or repeated "make it closer" polish, you must read [assets-and-visual-fidelity.md](./references/assets-and-visual-fidelity.md) before Gate 2 or any final fidelity claim.
 - After mode is locked, you must read exactly one mode reference before implementation details:
@@ -241,7 +241,7 @@ Must ask:
 
 Can decide without asking:
 
-- A design-platform URL or plugin/MCP returns structured design context, Dev Mode-style metadata, component mappings, tokens, generated code, exported HTML/CSS, or reference code: use that as the structure/style source and use screenshots only for visual validation.
+- A design-platform URL or plugin/MCP returns structured design context, Dev Mode-style metadata, component mappings, tokens, generated code, exported HTML/CSS, or reference code: use that as the structure/style source and use screenshots only for visual validation. For Figma, use the target node/selection context before screenshots; avoid whole-canvas image fetches unless the user explicitly asks for an overview image or structured access is unavailable after a real attempt.
 - Design plus exported HTML with clear target stack: go `convert-and-polish`.
 - Explicit request to continue polishing current project: go `polish-existing-project`.
 - Explicit request to wire API/BFF, modify behavior, fix bugs, or protect unrelated pages in an accepted frontend implementation: go `frontend-continuation`.

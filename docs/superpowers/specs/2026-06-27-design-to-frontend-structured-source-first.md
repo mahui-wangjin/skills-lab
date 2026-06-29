@@ -33,6 +33,17 @@
 
 不得用于替代可读的结构化源。
 
+## 2026-06-29 追加细化
+
+用户反馈：模型虽然参考了本 skill，但在 Figma 场景中仍会先下载或渲染整张设计图，导致不必要的工具错误和错误基线选择。
+
+补充规则：
+
+- Figma URL / fileKey / nodeId / selection 可用时，优先读取目标 node、selection 或 frame 的 Dev Mode / MCP design context / Code Connect / variables / tokens / generated reference code。
+- 默认禁止把整张 Figma 文件、整页 canvas、全文件 raster 或整图截图作为第一步或主实现基线。
+- 整图只允许在两种情况下使用：用户明确要求总览图；目标节点结构化源真实不可访问且已记录原因。已读取结构化源后的小范围视觉核对或位图资产提取，应优先使用目标节点、局部选择、节点级截图或节点导出资产，不下载整图。
+- Gate 1 的结构化源记录必须写明 target scope，避免只写“Figma attempted”但实际下载了整图。
+
 ## 修改范围
 
 - `skills/design-to-frontend-delivery/SKILL.md`
