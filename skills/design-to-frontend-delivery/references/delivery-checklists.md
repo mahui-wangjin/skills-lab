@@ -27,6 +27,7 @@
 - 已确认没有把整张 Figma 文件/页面/canvas 图片下载或渲染作为默认第一步；如使用整图，已记录用户明确要求或结构化源不可访问的原因
 - 已确认“1:1 / pixel-perfect / 像设计稿”只表示高保真视觉关系目标，不表示像素级 100% 承诺，也不表示按设计稿坐标绝对定位复刻
 - 已确认 framework layout discovery：现有 app shell、route layout、page wrapper、content slot、scroll container、sticky/fixed 区域、page title/breadcrumbs/tabs、toolbar/action area、filter/search region、overlay roots、grid/spacing/breakpoints、loading/empty/error surfaces 和同类 page pattern samples 已盘点
+- 已确认 responsive foundation：固定设计画布、多页面 UI、dashboard/workbench、shell/page-frame 或响应式缺陷已记录 viewport/container 口径、canvas policy、layout primitives、query policy、tokenized spacing/gaps、任意值策略、固定值例外和验收矩阵；具体屏幕尺寸只作代表样本，不作通用规则
 - 已确认页面范式与布局实现方案：list/detail/create-edit/dashboard-workbench/wizard/settings-configuration/approval-workflow/graph-canvas/monitoring-logs/report-analytics/search-selection 或项目已有 archetype；已记录 pattern seed/reuse/variant/new reusable primitive/approved exception
 - 已确认 layout primitive reuse：已有 route layout/page container/content slot/scroll root/toolbar/tabs/breadcrumbs/overlay root/table-list-form shell 能承载时，不自造 page-local 替代物
 - 已确认 component system mapping：button/card/tabs/table/list/modal/drawer/popover/tooltip/toast/confirm/form/field/menu/filter/search/status/chart/icon 等设计元素已映射到项目组件、组件 variant、headless primitive、token 或 approved exception
@@ -63,6 +64,7 @@
 - `convert-and-polish` 路径：
 - 结构映射完成，关键页面区块无错位
 - framework layout/page archetype pass 已完成，页面运行位置、page wrapper、content slot、scroll container、toolbar/tabs/breadcrumbs、overlay roots、grid/spacing/breakpoints 归属清晰
+- responsive foundation pass 已完成；页面未散写新的私有断点、固定列宽、固定高度补丁、任意像素 utility、整页缩放或 spacing scale，例外已记录 owner、范围和风险；重复出现的值已上收为 token、variant、layout primitive 或 framework config
 - 已记录 pattern seed/reuse 决策；同类页面不再各自自造 layout 方案，必要 variant/new primitive/exception 有理由
 - 未使用 page-local shell/container/grid/spacing scale/scroll root/toolbar/tabs/breadcrumb/table-list-form shell/overlay root 替代已有项目或框架 primitive
 - component-system pass 已完成；通用 UI、table/list、form/validation、overlay/feedback 和 chart/canvas 没有被页面级自造为并行体系
@@ -130,6 +132,7 @@
 - 主流程可演示（能看、能点、能识别哪里可点、能键盘/触控基本操作、能校验、有反馈、有状态、能关闭弹层并返回）
 - 公共面与交付表面符合 Gate 1：content-only 不冒充 full page；inside-existing-shell 复用已接受 shell；full-page-with-shell 覆盖必要导航、反馈和 overlay roots
 - 框架布局方案符合 Gate 1：页面在选定 app shell/route layout/page wrapper/content slot/scroll container 中运行；toolbar/tabs/breadcrumbs/filters/overlays/grid/spacing/breakpoints 与选定 page archetype 一致；没有未经记录的 parallel page-local layout
+- 响应式基座符合 Gate 1：代表性 viewport/container 下无非预期横向溢出、重叠、错层、不可关闭 overlay 或不可读文本；任意值、固定值和比例缩放例外与记录一致，且没有用每元素高度补丁掩盖缺失的布局规则
 - 组件与 token 体系符合 Gate 1：通用组件、表格/列表、表单/校验、弹层/反馈、图表/画布和 token/theme 复用项目 pattern 或 approved exception；没有未经记录的 page-local 并行体系
 - route/menu/permission、状态矩阵、真实数据压力和性能策略符合 Gate 1：长文本、空值、长列表、真实格式化字段、loading/empty/error/permission denied/submitting/failure、分页/虚拟列表/懒加载或图表/canvas 成本已在浏览器或等效路径核对
 - UI layer ownership 符合 Gate 1：组件属于正确层级，状态 owner 清晰，page frame/content/repeated item/overlay/decoration/data-state 不错位，z-index/portal/overflow 没有掩盖错层
@@ -169,6 +172,7 @@
 - 本轮范围：<页面/模块 + 完成层级>
 - 事实源：<结构化源/参考代码/导出 HTML/已接受实现/视觉降级 + 是否做过结构化源检查>
 - 框架布局方案：<framework layout discovery + chosen layout implementation + page archetype + seed/reuse/variant/exception decision + browser fit result>
+- 响应式基座：<viewport/container model + canvas policy + layout primitives + query/token/arbitrary-value policy + fixed-value exceptions + representative browser fit result>
 - 组件体系映射：<design elements -> project components/variants/tokens/headless primitives/exceptions + no parallel local systems>
 - Token/theme：<theme/CSS variables/design tokens/utility config/component variants + fallback/blocked + no page-local scale>
 - 路由/菜单/权限：<route meta/menu/breadcrumb/title/return path/permission/action visibility owner>

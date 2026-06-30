@@ -28,6 +28,7 @@ For Figma or other design platforms, prefer target node/selection/frame Dev Mode
 Load references only when their condition applies, but do not skip required ones:
 
 - Read [frontend-foundation-gate.md](./references/frontend-foundation-gate.md) before implementing or modifying real project pages, flows, route frames, reusable UI, table/list/form surfaces, route/menu/permission behavior, or token/theme usage.
+- Read [responsive-foundation-gate.md](./references/responsive-foundation-gate.md) before implementing from a fixed design canvas, building multi-page/dashboard/workbench UI, changing shell/page-frame layout, or fixing viewport/container/overflow/breakpoint/zoom responsive issues.
 - Read [frontend-quality-contracts.md](./references/frontend-quality-contracts.md) before visual polish, interaction work, browser acceptance, or final frontend closeout.
 - Read [source-priority.md](./references/source-priority.md) for design-platform URLs, plugin/MCP input, design exports, generated code, Dev Mode context, Code Connect mapping, or conflicting sources.
 - Read [assets-and-visual-fidelity.md](./references/assets-and-visual-fidelity.md) before high-fidelity visual match, typography, icons, images, media, design tokens, screenshots, or repeated "make it closer" polish.
@@ -42,6 +43,12 @@ Load references only when their condition applies, but do not skip required ones
 Before coding pages, flows, or reusable UI in a real project, lock the framework/project foundation: layout architecture, page archetype, component mapping, token/theme system, state/data boundary, route/menu/permission ownership, table/list pattern, form/validation pattern, scroll/responsive strategy, long-data cases, data volume, and performance assumptions.
 
 If a likely foundation exists but has not been checked, stop. Do not create page-local shells, grids, scroll roots, toolbars, breadcrumbs, overlay roots, table/list/form shells, component ecosystems, token scales, validation systems, permission/navigation logic, or breakpoint schemes.
+
+### Responsive Foundation Before Page Styling
+
+A fixed design frame is a baseline, not the viewport contract. Before translating fixed-frame geometry into page classes, lock the responsive foundation: CSS viewport model, canvas policy, shell/content ownership, reusable layout primitives, tokenized spacing/width/density rules, container-query vs viewport-breakpoint policy, fixed-value exceptions, and browser acceptance matrix.
+
+Do not treat a named viewport, device, or pixel width as the method. Do not scatter arbitrary page-local breakpoints, fixed grid tracks, fixed-height patches, arbitrary pixel utilities, one-off spacing scales, or whole-page proportional scaling to make individual screens fit. If proportional scaling is intentionally used, record it as an explicit exception with its scope, accessibility trade-off, and browser evidence.
 
 ### Source-Backed Fidelity
 

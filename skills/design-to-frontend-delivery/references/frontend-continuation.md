@@ -13,7 +13,7 @@ Continuation contract:
 - Scope: <pages/components/flows to change>
 - Non-goals: <visual redesign / shell replacement / unrelated pages / domain policy changes>
 - API or behavior contract source: <OpenAPI/schema/docs/code/current BFF/mock/user decision>
-- Impact surface: <routes, layout primitives, page archetypes, shared components, table/list patterns, form/validation patterns, hooks, store/cache, API clients, route/menu/permission, tokens/assets, tests/stories>
+- Impact surface: <routes, layout primitives, responsive foundation, page archetypes, shared components, table/list patterns, form/validation patterns, hooks, store/cache, API clients, route/menu/permission, tokens/assets, tests/stories>
 - Regression surface: <known consumers, page patterns, states, viewports, and flows that must not change>
 - Self-test path: <real-browser acceptance path; smoke/unit/component checks only as supporting evidence; high-cost AI exploratory E2E budget/stop condition if needed>
 - Blocking question: <none or one question that changes scope/acceptance>

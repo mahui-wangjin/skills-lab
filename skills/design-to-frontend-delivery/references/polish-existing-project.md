@@ -10,6 +10,7 @@
 - 页面范式一致性：当前实现属于 list、detail、create/edit、dashboard/workbench、wizard、settings/configuration、approval/workflow、graph/canvas、monitoring/logs、report/analytics、search/selection 或其他项目已有 page archetype；是否复用同类 pattern 或形成了未经记录的 page-local variant
 - 组件体系一致性：button/card/tabs/table/list/modal/drawer/popover/tooltip/toast/confirm/form/field/menu/filter/search/status/chart/icon 是否复用项目组件、组件 variant、headless primitive 或已记录 exception；是否页面级自造通用组件
 - token/theme 一致性：颜色、字体、间距、圆角、阴影、密度、动效、断点、component variants 是否来自项目 theme、CSS variables、design tokens、utility config 或 approved fallback；是否存在 page-local spacing/radius/color scale
+- responsive foundation 一致性：当前实现是否有项目级 viewport/container/canvas/layout primitive/query/token/arbitrary-value/exception/acceptance 规则，还是每页散写断点、固定列宽、固定高度补丁、任意像素 utility、缩放或 spacing scale
 - 路由/菜单/权限/面包屑一致性：page title、breadcrumbs、menu active、return path、route guard、permission-driven actions、hidden/disabled behavior 是否接入项目体系，还是硬编码在页面里
 - 表格/列表 pattern 健康度：筛选区、工具栏、列设置、分页、排序、批量操作、行操作、详情入口、loading/empty/error 和窄屏策略是否复用项目 pattern
 - 表单/校验 pattern 健康度：form state、field binding、schema/validation、错误提示、提交中、禁用态、接口错误映射、成功/失败反馈和返回/重置路径是否复用项目 pattern
@@ -39,6 +40,7 @@ Minimum polish contract:
 - Deliverable surface: <content-only | inside-existing-shell | full-page-with-shell>
 - Framework layout gap: <existing layout primitives/page archetype expected vs current implementation; reuse/variant/new primitive/exception decision>
 - Component/token gap: <project component mapping + token/theme mapping + missing/parallel local systems>
+- Responsive foundation gap: <project-level responsive contract vs page-local breakpoints/fixed tracks/fixed height patches/arbitrary pixel utilities/scale/spacing exceptions>
 - Route/list/form/state-data gap: <route/menu/permission + table/list + form/validation + state matrix + data/performance risks>
 - UI layer map: <owners and boundary risks for shell / page frame / content / repeated items / local controls / overlays / decoration / data-state>
 - Common surfaces: <reuse / repair / out of scope>

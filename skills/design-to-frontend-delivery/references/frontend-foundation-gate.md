@@ -14,6 +14,8 @@ Before page-level implementation, record these five decisions:
 4. Token/theme system: color, typography, spacing, radius, shadow, density, motion, breakpoints, and component variants.
 5. State/data boundary: state matrix, mock/API/BFF/domain split, route/menu/permission ownership, realistic data shape, and performance assumptions.
 
+If a fixed design canvas, multi-page layout family, dashboard/workbench, shell/page-frame change, or responsive defect is involved, also read `responsive-foundation-gate.md` and record the responsive foundation contract before page styling.
+
 If any likely existing foundation has not been checked, stop. Do not create page-local shells, grids, scroll roots, toolbars, breadcrumbs, overlay roots, table/list/form shells, component ecosystems, token scales, validation systems, permission/navigation logic, or breakpoint schemes until discovery is complete.
 
 Adapters are allowed. Parallel Button/Card/Tabs/Table/List/Modal/Drawer/Form/Toast/Confirm/Tooltip or validation ecosystems are not.

@@ -90,6 +90,8 @@ npx skills add mahui-wangjin/skills-lab --skill documentation-governance -g -y
 
 该 skill 现在新增“框架布局与页面范式先定版”门禁：真实项目、多页面交付、前端开发或精修前，必须先锁定目标框架/项目的 frontend foundation，包括 app shell、route layout、page wrapper、content slot、scroll container、toolbar/tabs/breadcrumbs、overlay roots、grid/spacing/breakpoints、页面 archetype、组件体系映射、token/theme、route/menu/permission、table/list、form/validation、状态矩阵、真实数据压力和性能假设。已有 layout primitive、组件、token、表格/表单/弹层/路由权限 pattern 能承载时，不得自造 page-local shell/container/grid/scroll/toolbar/table/list/form shell、组件体系、校验体系、权限导航逻辑或 spacing/radius/color scale；第一个同类页面是 pattern seed，第二个同类页面开始必须复用或记录例外。
 
+该 skill 现在补充“响应式基座先于页面样式”门禁：固定设计画布只是 baseline，不是 viewport contract。固定画布、多页面 UI、dashboard/workbench、shell/page-frame 或响应式缺陷场景，必须先记录 viewport/container 口径、canvas policy、shell/content ownership、layout primitives、tokenized spacing/gaps、container query vs viewport breakpoint 策略、任意值策略、固定值例外和代表性浏览器验收矩阵；具体屏幕尺寸只作为产品上下文里的样本，不得写成通用规则。默认反对每页散写私有断点、固定列宽、固定高度补丁、整页缩放或 spacing scale；Tailwind/CSS 任意像素值只作为有 owner 的例外，重复出现时必须上收为 token、variant、layout primitive 或 framework config。
+
 该 skill 还要求默认具备工程目录思维：页面实现或修改前先识别目标框架和当前工程的路由、页面、feature/module、components、mock/fixtures、selectors/formatters、styles/tokens、assets、tests/stories 约定。页面入口只做接入和编排，组件、mock 数据、展示选择器、样式、资源和测试按职责归位；不得把整页实现、mock、状态、样式和测试堆到一个文件夹或一个大文件。若当前仓库没有约定，才按对应框架的官方或事实标准选择最小目录结构并记录原因。
 
 该 skill 现在要求先做 UI 层级归属判断：不能只看视觉上挨得近就把组件放在一起。设计或现有页面要先映射为 app shell、page frame、content sections、collection items、local controls、overlay/feedback、decoration/media、data/state 这些 owner 层，并说明状态、portal/root、z-index/stacking、overflow clipping 和复用范围。页面标题、面包屑、页签、筛选和页面操作不能误放到卡片或列表项里；全局弹框/toast/drawer 不应在 feature card 内部自建；装饰层不能遮挡交互层。
@@ -276,6 +278,7 @@ Windows 下中文 skill 需要启用 UTF-8 模式，否则 Python 可能按 GBK 
 - `Figma 页面高保真还原总漏图标、按钮、边线或状态标签`：应先建立可见元素清单，按 source -> implementation 映射图标、按钮、tabs、chips、progress、列表/表格行、分割线、边框容器、关键文案/数字/状态 variants，再在真实浏览器逐项对账；没有清单或没有浏览器对账时不能声称高保真完成。
 - `按设计稿做一个 React/Vue 页面`：应先识别当前工程路由、feature、components、fixtures、styles/assets 和测试约定；页面入口、组件、mock 数据、展示选择器、样式和测试按职责归位，不得全部堆进一个页面文件或随机新建的 mock/components 文件夹。
 - `按 Figma 连续做多个页面，后来发现框架已有现成布局/页面容器`：应先做 framework foundation discovery，锁定 route layout、page wrapper、content slot、scroll container、toolbar/tabs/breadcrumbs、overlay roots、grid/spacing/breakpoints、页面 archetype、组件映射、token/theme、route/menu/permission、table/list、form/validation、状态矩阵、真实数据压力和性能策略，再写第一个页面；第一个同类页面形成 pattern seed，后续同类页面复用或记录 variant/exception，不得每页自造一套 layout、组件、样式 scale 或状态体系。
+- `固定设计稿在高 DPI 小屏、系统缩放或不同浏览器视口下错位`：应进入 responsive foundation gate，先判断 CSS viewport/container 尺寸、canvas policy、shell/content ownership、layout primitives、query policy、tokenized spacing/gaps、任意值策略和固定值例外；不要把物理分辨率或某个具体断点当成通用规则，也不要靠每页补私有断点、固定高度补丁、任意像素 utility 或整页缩放掩盖基座缺失。
 - `没有设计稿，只是新增或修改一个前端页面/功能`：仍应先进入前端基础门禁，锁定页面范式、组件体系、token/theme、route/menu/permission、table/list、form/validation、状态矩阵、真实数据压力、性能策略和真实浏览器验收路径；不能因为没有 Figma 就每页自造布局和组件。
 - `设计图里页面标题、筛选、列表卡片、弹框和装饰背景混在一起`：应先输出 UI layer map，判断哪些属于 page frame、content section、repeated item、overlay/feedback、decoration/media、data/state；不能因为视觉邻近就把页面级组件塞进卡片或把全局弹框放进列表项。
 - `设计稿只画了业务内容区，但目标是现有后台/应用工程`：应先确认交付表面并复用现有 shell、顶部栏、侧边栏/导航、面包屑、工具栏、modal/drawer/toast/confirm roots；不能把孤立内容区当作完整产品页面交付。
