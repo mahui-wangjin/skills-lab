@@ -6,6 +6,8 @@
 
 - 页面与路由覆盖：哪些页面已存在、哪些流程未串通
 - 八层覆盖度：结构、布局、内容、交互、数据边界、校验、状态、表现
+- 项目交付画像一致性：当前实现是否符合目标 stack/runtime、route/shell owner、component system、token/theme、styling policy、copy/i18n、assets、mock/API、directory/test/story 和 browser acceptance 约定；是否混入生成代码或一次性实现带来的并行工程体系
+- 设计语义图健康度：当前实现是否能追溯到 semantic regions、source components/variants、重复组、交互状态和数据角色；是否只是把生成代码或截图结构硬塞进页面
 - 框架布局一致性：当前页面是否复用项目/框架已有 app shell、route layout、page wrapper、content slot、scroll container、page title/breadcrumbs/tabs、toolbar/action area、filter/search region、overlay roots、grid/spacing/breakpoints 和 loading/empty/error surfaces
 - 页面范式一致性：当前实现属于 list、detail、create/edit、dashboard/workbench、wizard、settings/configuration、approval/workflow、graph/canvas、monitoring/logs、report/analytics、search/selection 或其他项目已有 page archetype；是否复用同类 pattern 或形成了未经记录的 page-local variant
 - 组件体系一致性：button/card/tabs/table/list/modal/drawer/popover/tooltip/toast/confirm/form/field/menu/filter/search/status/chart/icon 是否复用项目组件、组件 variant、headless primitive 或已记录 exception；是否页面级自造通用组件
@@ -38,6 +40,8 @@
 Minimum polish contract:
 - Accepted baseline: <current implementation evidence>
 - Deliverable surface: <content-only | inside-existing-shell | full-page-with-shell>
+- Project delivery profile gap: <target stack/runtime/shell/components/tokens/i18n/assets/data/directory/tests/browser conventions expected vs current implementation>
+- Design intent map gap: <semantic regions/source components/repeated groups/interactions/data roles expected vs current implementation>
 - Framework layout gap: <existing layout primitives/page archetype expected vs current implementation; reuse/variant/new primitive/exception decision>
 - Component/token gap: <project component mapping + token/theme mapping + missing/parallel local systems>
 - Responsive foundation gap: <project-level responsive contract vs page-local breakpoints/fixed tracks/fixed height patches/arbitrary pixel utilities/scale/spacing exceptions>
@@ -76,6 +80,7 @@ Minimum polish contract:
 - 缺失层级是什么
 - 这些缺失会导致什么演示问题
 - 只做点名范围后的预计完成度
+- 若当前实现来自生成代码、导出 HTML 或一次性原型，说明哪些架构性选择必须丢弃或重映射到项目交付画像：UI library、route shell、token scale、locale shape、fixture/API client、directory/test/story 体系
 - 若存在所有内容堆在一个文件或一个目录，说明页面入口、feature-private 组件、fixtures、展示选择器、样式/assets、测试应如何按当前框架约定拆开
 - 若存在布局体系未复用，说明当前实现偏离了哪些项目/框架 layout primitives 或 page archetypes，以及继续保留 page-local shell/container/grid/scroll/toolbar/tabs/table/list/form shell 会带来的迁移、复用、响应式、测试和后续多页面一致性成本
 - 若存在组件体系未复用，说明哪些通用组件、表格/列表、表单/校验、弹层/反馈或图表控件被页面级自造，以及继续保留会造成的交互、状态、a11y、测试和视觉一致性成本

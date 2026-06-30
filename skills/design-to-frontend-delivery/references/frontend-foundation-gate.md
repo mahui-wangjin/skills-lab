@@ -6,15 +6,18 @@ Use this reference before implementing or modifying real project pages, flows, o
 
 Do not code a page from an isolated screenshot or one-off local structure when the host project or framework already has frontend foundation primitives.
 
-Before page-level implementation, record these five decisions:
+Before page-level implementation, record these six decisions:
 
-1. Layout architecture: app shell, route layout, page wrapper, content slot, scroll container, sticky/fixed regions, toolbar, tabs, breadcrumbs, overlay roots, grid, spacing, and breakpoints.
-2. Page archetype: list, detail, create/edit, dashboard/workbench, wizard, settings/configuration, approval/workflow, graph/canvas, monitoring/logs, report/analytics, search/selection, or a project-specific family.
-3. Component mapping: design elements to project components, variants, headless primitives, tokens, or approved exceptions.
-4. Token/theme system: color, typography, spacing, radius, shadow, density, motion, breakpoints, and component variants.
-5. State/data boundary: state matrix, mock/API/BFF/domain split, route/menu/permission ownership, realistic data shape, and performance assumptions.
+1. Project delivery profile: target stack/runtime, route and shell ownership, component system, token/theme source, styling policy, copy/i18n, assets, data boundary, directory conventions, tests, and browser acceptance path.
+2. Layout architecture: app shell, route layout, page wrapper, content slot, scroll container, sticky/fixed regions, toolbar, tabs, breadcrumbs, overlay roots, grid, spacing, and breakpoints.
+3. Page archetype: list, detail, create/edit, dashboard/workbench, wizard, settings/configuration, approval/workflow, graph/canvas, monitoring/logs, report/analytics, search/selection, or a project-specific family.
+4. Component mapping: design elements to project components, variants, headless primitives, tokens, or approved exceptions.
+5. Token/theme system: color, typography, spacing, radius, shadow, density, motion, breakpoints, and component variants.
+6. State/data boundary: state matrix, mock/API/BFF/domain split, route/menu/permission ownership, realistic data shape, and performance assumptions.
 
 If a fixed design canvas, multi-page layout family, dashboard/workbench, shell/page-frame change, or responsive defect is involved, also read `responsive-foundation-gate.md` and record the responsive foundation contract before page styling.
+
+If design-platform context, generated code, exported HTML/CSS, or codegen/tool output is involved, also read `project-delivery-profile.md` and record the project profile plus design intent map before copying code into the host project.
 
 If any likely existing foundation has not been checked, stop. Do not create page-local shells, grids, scroll roots, toolbars, breadcrumbs, overlay roots, table/list/form shells, component ecosystems, token scales, validation systems, permission/navigation logic, or breakpoint schemes until discovery is complete.
 

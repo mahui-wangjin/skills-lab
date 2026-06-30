@@ -4,7 +4,7 @@
 
 所有页面按八层检查，不得只修样式：
 
-1. 结构层：页面分区、DOM 层级、UI layer ownership、框架布局发现、页面范式选择、组件体系映射、壳层接入、公共面复用、路由串联
+1. 结构层：项目交付画像、设计语义图、页面分区、DOM 层级、UI layer ownership、框架布局发现、页面范式选择、组件体系映射、壳层接入、公共面复用、路由串联
 2. 布局层：app shell/route layout/page wrapper/content slot/scroll container 复用、Flex/Grid/正常文档流、响应式约束、间距节奏、对齐关系、绝对定位例外、无 parallel page-local layout、无 page-local token scale
 3. 内容层：文案、图片、图标、媒体、按钮归属、标题标签、可见元素清单、资源来源、长文本/空值/格式化字段、不得自造已有远端/项目资产
 4. 交互层：语义控件、cursor/hover/active/focus-visible、点击反馈、展开收起、弹框/抽屉/toast/confirm 开合、表格/列表 pattern、表单/校验 pattern、键盘/触控、联动与返回路径、状态细节来源
@@ -25,6 +25,8 @@
 - 若输入来自设计平台、插件/MCP、导出包或生成代码，已执行结构化源检查：结构/样式属性、tokens、组件映射、参考代码、导出 HTML/CSS 是否可用；Figma 场景已优先尝试目标 node/selection/frame 的 Dev Mode/MCP/Code Connect 上下文
 - 已确认未把可读结构化源降级为截图、下载图或纯视觉猜测
 - 已确认没有把整张 Figma 文件/页面/canvas 图片下载或渲染作为默认第一步；如使用整图，已记录用户明确要求或结构化源不可访问的原因
+- 已确认 project delivery profile：目标 stack/runtime、route/shell owner、component system、token/theme、styling policy、copy/i18n、asset/icon/font、mock/API/BFF、directory/test/story 约定和 browser acceptance path 已记录或引用现有项目画像
+- 已确认 design intent map：结构化源、生成代码或导出 HTML 已被翻译为 semantic regions、source components/variants、重复组、交互状态、数据角色和 missing facts；生成代码仅作参考，不作为项目架构合同
 - 已确认“1:1 / pixel-perfect / 像设计稿”只表示高保真视觉关系目标，不表示像素级 100% 承诺，也不表示按设计稿坐标绝对定位复刻
 - 已确认 framework layout discovery：现有 app shell、route layout、page wrapper、content slot、scroll container、sticky/fixed 区域、page title/breadcrumbs/tabs、toolbar/action area、filter/search region、overlay roots、grid/spacing/breakpoints、loading/empty/error surfaces 和同类 page pattern samples 已盘点
 - 已确认 responsive foundation：固定设计画布、多页面 UI、dashboard/workbench、shell/page-frame 或响应式缺陷已记录 viewport/container 口径、canvas policy、layout primitives、query policy、tokenized spacing/gaps、任意值策略、固定值例外和验收矩阵；具体屏幕尺寸只作代表样本，不作通用规则
@@ -63,6 +65,7 @@
 
 - `convert-and-polish` 路径：
 - 结构映射完成，关键页面区块无错位
+- project delivery profile 和 design intent map pass 已完成；没有从设计转代码工具或生成代码中复制项目外 stack、UI library、route shell、token scale、locale shape、fixture/API client 或测试体系
 - framework layout/page archetype pass 已完成，页面运行位置、page wrapper、content slot、scroll container、toolbar/tabs/breadcrumbs、overlay roots、grid/spacing/breakpoints 归属清晰
 - responsive foundation pass 已完成；页面未散写新的私有断点、固定列宽、固定高度补丁、任意像素 utility、整页缩放或 spacing scale，例外已记录 owner、范围和风险；重复出现的值已上收为 token、variant、layout primitive 或 framework config
 - 已记录 pattern seed/reuse 决策；同类页面不再各自自造 layout 方案，必要 variant/new primitive/exception 有理由
@@ -131,6 +134,7 @@
 - 八层精修覆盖达到本轮目标
 - 主流程可演示（能看、能点、能识别哪里可点、能键盘/触控基本操作、能校验、有反馈、有状态、能关闭弹层并返回）
 - 公共面与交付表面符合 Gate 1：content-only 不冒充 full page；inside-existing-shell 复用已接受 shell；full-page-with-shell 覆盖必要导航、反馈和 overlay roots
+- project delivery profile 符合 Gate 1：实现运行在目标 stack/runtime、route shell、component system、token/theme、i18n/copy、asset/data/directory/test 约定中；没有保留未批准的生成代码架构选择
 - 框架布局方案符合 Gate 1：页面在选定 app shell/route layout/page wrapper/content slot/scroll container 中运行；toolbar/tabs/breadcrumbs/filters/overlays/grid/spacing/breakpoints 与选定 page archetype 一致；没有未经记录的 parallel page-local layout
 - 响应式基座符合 Gate 1：代表性 viewport/container 下无非预期横向溢出、重叠、错层、不可关闭 overlay 或不可读文本；任意值、固定值和比例缩放例外与记录一致，且没有用每元素高度补丁掩盖缺失的布局规则
 - 组件与 token 体系符合 Gate 1：通用组件、表格/列表、表单/校验、弹层/反馈、图表/画布和 token/theme 复用项目 pattern 或 approved exception；没有未经记录的 page-local 并行体系
@@ -171,6 +175,8 @@
 - 目标端：<React | Vue | 静态 HTML-H5 | 小程序 | 其他>
 - 本轮范围：<页面/模块 + 完成层级>
 - 事实源：<结构化源/参考代码/导出 HTML/已接受实现/视觉降级 + 是否做过结构化源检查>
+- 项目交付画像：<target stack/runtime + shell/route/component/token/i18n/assets/data/directory/test/browser conventions + reused/introduced decisions>
+- 设计语义图：<source artifacts + semantic regions + component candidates + repeated groups + interaction/state/data roles + missing facts>
 - 框架布局方案：<framework layout discovery + chosen layout implementation + page archetype + seed/reuse/variant/exception decision + browser fit result>
 - 响应式基座：<viewport/container model + canvas policy + layout primitives + query/token/arbitrary-value policy + fixed-value exceptions + representative browser fit result>
 - 组件体系映射：<design elements -> project components/variants/tokens/headless primitives/exceptions + no parallel local systems>

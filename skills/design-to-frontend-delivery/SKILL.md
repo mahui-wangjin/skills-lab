@@ -1,6 +1,6 @@
 ---
 name: design-to-frontend-delivery
-description: Use for frontend delivery, development, polish, or modification from designs, accepted UI, or requirements. Triggers include Figma/Dev Mode/MCP/Code Connect, source-of-truth, framework foundation/page archetype, component/token mapping, UI layers, assets, visible inventories, mock/BFF/API boundaries, API/feature/bugfix continuation, real-browser acceptance, E2E/smoke automation, or frontend output.
+description: Use for frontend delivery, development, polish, or modification from designs, accepted UI, or requirements. Triggers include Figma/Dev Mode/MCP/Code Connect, source-of-truth, project delivery profiles, design intent maps, framework foundation/page archetype, component/token mapping, UI layers, assets, visible inventories, mock/BFF/API boundaries, API/feature/bugfix continuation, real-browser acceptance, E2E/smoke automation, or frontend output.
 ---
 
 # Design to Frontend Delivery
@@ -31,6 +31,7 @@ Load references only when their condition applies, but do not skip required ones
 - Read [responsive-foundation-gate.md](./references/responsive-foundation-gate.md) before implementing from a fixed design canvas, building multi-page/dashboard/workbench UI, changing shell/page-frame layout, or fixing viewport/container/overflow/breakpoint/zoom responsive issues.
 - Read [frontend-quality-contracts.md](./references/frontend-quality-contracts.md) before visual polish, interaction work, browser acceptance, or final frontend closeout.
 - Read [source-priority.md](./references/source-priority.md) for design-platform URLs, plugin/MCP input, design exports, generated code, Dev Mode context, Code Connect mapping, or conflicting sources.
+- Read [project-delivery-profile.md](./references/project-delivery-profile.md) when design-platform context, generated code, exported HTML, or codegen/tool output must become code inside a real project, or when target stack, component mapping, token source, i18n, assets, mock/API ownership, directory conventions, or tests are unclear.
 - Read [assets-and-visual-fidelity.md](./references/assets-and-visual-fidelity.md) before high-fidelity visual match, typography, icons, images, media, design tokens, screenshots, or repeated "make it closer" polish.
 - After routing, read exactly one mode reference: [convert-and-polish.md](./references/convert-and-polish.md), [polish-existing-project.md](./references/polish-existing-project.md), or [frontend-continuation.md](./references/frontend-continuation.md).
 - Read [decision-and-scope-rules.md](./references/decision-and-scope-rules.md) when routing, source precedence, foundation ownership, shell preservation, API scope, browser budget, or scope gaps are unclear.
@@ -43,6 +44,12 @@ Load references only when their condition applies, but do not skip required ones
 Before coding pages, flows, or reusable UI in a real project, lock the framework/project foundation: layout architecture, page archetype, component mapping, token/theme system, state/data boundary, route/menu/permission ownership, table/list pattern, form/validation pattern, scroll/responsive strategy, long-data cases, data volume, and performance assumptions.
 
 If a likely foundation exists but has not been checked, stop. Do not create page-local shells, grids, scroll roots, toolbars, breadcrumbs, overlay roots, table/list/form shells, component ecosystems, token scales, validation systems, permission/navigation logic, or breakpoint schemes.
+
+### Project Delivery Profile Before Codegen
+
+Design-platform output, generated React/Vue/HTML, and Figma-to-code-style tool output are reference material, not final project code. Before turning them into implementation, lock the project delivery profile: target stack/runtime, route and shell ownership, component and token mappings, styling conventions, i18n/copy policy, asset/icon/font policy, mock/API boundary, directory/test conventions, and browser acceptance path.
+
+Also extract a design intent map before coding: semantic regions, UI layer owners, component variants, repeated collections, interaction/state variants, content/data roles, and missing source facts. Do not create a parallel stack, component family, token scale, locale system, fixture layout, or API client because generated code happened to contain one.
 
 ### Responsive Foundation Before Page Styling
 
@@ -84,10 +91,10 @@ Ask before high-cost exploratory E2E. If real-browser verification or browser de
 
 Use [delivery-checklists.md](./references/delivery-checklists.md) as the canonical field list.
 
-- Gate 1: lock mode, target stack, baseline, source of truth, frontend foundation, visible inventory, surface boundary, scope, non-goals, and browser acceptance path.
-- Gate 2: settle the mode-specific middle gate before polish or broad implementation. Foundation, component/token mapping, UI ownership, common surfaces, state/data boundary, interaction affordance, visible-element mapping, and regression surface must be clear.
-- Gate 3: verify in a real browser or browser engine. Include fonts/assets, visible inventory reconciliation, layout/page-pattern fit, component/token reuse, state/data resilience, UI ownership, interactions, public surfaces, and affected regressions.
+- Gate 1: lock mode, target stack, baseline, source of truth, project delivery profile, design intent map, frontend foundation, visible inventory, surface boundary, scope, non-goals, and browser acceptance path.
+- Gate 2: settle the mode-specific middle gate before polish or broad implementation. Foundation, project profile, design-to-code mapping, component/token mapping, UI ownership, common surfaces, state/data boundary, interaction affordance, visible-element mapping, and regression surface must be clear.
+- Gate 3: verify in a real browser or browser engine. Include fonts/assets, visible inventory reconciliation, layout/page-pattern fit, project profile conformance, component/token reuse, state/data resilience, UI ownership, interactions, public surfaces, and affected regressions.
 
 ## Closeout Standard
 
-Final frontend closeout must state the mode, foundation/page-pattern decision, source status, component/token reuse, visible inventory reconciliation, browser evidence, smoke/unit/component evidence if used, unresolved missing assets/details, browser-debugging gaps, and remaining risks. Do not call the result accepted, demo-ready, fixed, or complete from smoke-only evidence.
+Final frontend closeout must state the mode, project delivery profile, design intent mapping, foundation/page-pattern decision, source status, component/token reuse, visible inventory reconciliation, browser evidence, smoke/unit/component evidence if used, unresolved missing assets/details, browser-debugging gaps, and remaining risks. Do not call the result accepted, demo-ready, fixed, or complete from smoke-only evidence.

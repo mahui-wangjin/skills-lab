@@ -1,4 +1,4 @@
 interface:
   display_name: "Design to Frontend Delivery"
   short_description: "Frontend delivery and quality gates."
-  default_prompt: "Use $design-to-frontend-delivery for frontend delivery, development, modification, or polish; before coding, lock structured source, frontend foundation, responsive foundation, visible-element inventory, and real-browser acceptance."
+  default_prompt: "Use $design-to-frontend-delivery for frontend delivery, development, modification, or polish; before coding, lock structured source, project delivery profile, design intent map, frontend foundation, responsive foundation, visible-element inventory, and real-browser acceptance."
